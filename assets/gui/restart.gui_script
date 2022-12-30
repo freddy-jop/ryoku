@@ -1,0 +1,124 @@
+local ryoku_path = sys.get_save_file("ryoku", "data_level")
+local config = sys.load(ryoku_path)
+local list = require("ressources.listLevel")
+local currentLevel = list[config.level].path
+
+function initializeGrid(self)
+	for a = 1, #currentLevel.refBlock do
+		currentLevel.refBlock[a].isActive = true
+		currentLevel.refBlock[a].isdisplaying = true
+		currentLevel.refBlock[a].isPending = false
+	end
+	for b = 1, #currentLevel.blocks do
+		for z = 1, #currentLevel.blocks[b] do
+			currentLevel.blocks[b][z].isPlaned = false
+			currentLevel.blocks[b][z].isLocked = false
+			currentLevel.blocks[b][z].isMatch = false
+			currentLevel.blocks[b][z].isColored = false
+			currentLevel.blocks[b][z].positionTileBlock = vmath.vector3(0, 0, 1)
+			currentLevel.blocks[b][z].positionPlaned = vmath.vector3(0, 0, 1)
+			currentLevel.blocks[b][z].positionReturn = vmath.vector3(0, 0, 1)
+		end
+	end
+	for c = 1, #currentLevel.groupProgress do
+		currentLevel.groupProgress[c].isCompleted = false
+		currentLevel.groupProgress[c].processGroup = false
+		currentLevel.groupProgress[c].number = 0
+		currentLevel.groupProgress[c].color = 0
+	end
+	for d = 1, #currentLevel.groups do
+		currentLevel.groups[d].ispopulate = false
+		currentLevel.groups[d].groupTarget = false
+		currentLevel.groups[d].isDisplayGroup = false
+		currentLevel.groups[d].animateGroup = false
+		--currentLevel.groups[d].colorBrique.w = 1
+	end
+	for e = 1, #currentLevel.grid do
+		for g = 1, #currentLevel.grid[e] do
+			currentLevel.grid[e][g].isGrey = false
+			currentLevel.grid[e][g].ispopulate = false
+			currentLevel.grid[e][g].isGood = false
+			currentLevel.grid[e][g].isPendingGood = false
+			currentLevel.grid[e][g].target = false
+			currentLevel.grid[e][g].revealed = false
+			currentLevel.grid[e][g].groupLocked = false
+			currentLevel.grid[e][g].isPendingGood = false
+			currentLevel.grid[e][g].animateGroup = false
+			currentLevel.grid[e][g].revelatedAdjacentBonus = false
+			currentLevel.grid[e][g].blockEntryInTile = false
+			currentLevel.grid[e][g].isCollisionable = false
+			currentLevel.grid[e][g].conformationName = "SIMPLE"
+			currentLevel.grid[e][g].gridId = ""
+			currentLevel.grid[e][g].instanceSquareId = ""
+		end
+	end
+	currentLevel.platform.slider.isTouchSlide = false
+	currentLevel.platform.slider.isSlideLeftRight = false
+	currentLevel.platform.slider.dragBlock = false
+	currentLevel.platform.slider.whenPoseAndReplacingBlockIsDone = false
+	currentLevel.platform.slider.isBlockMatch = false
+	currentLevel.platform.isDragUp = false
+	currentLevel.platform.isStartSlid = false
+	currentLevel.platform.initialManageTarget = false
+	currentLevel.platform.actionLostLevel = false
+	currentLevel.platform.indexLeftAvailable = 0
+	currentLevel.platform.indexRightAvailable = 0
+	currentLevel.selectionBlock[1].selectionFactoryBlockId = ""
+	currentLevel.selectionBlock[2].selectionFactoryBlockId = ""
+	currentLevel.selectionBlock[3].selectionFactoryBlockId = ""
+	currentLevel.platform.isCollisionable = false
+end
+
+function init(self)
+	--currentLevel.blocks = {}
+	msg.post("@render:", "clear_color", { color = vmath.vector4(0.949, 0.952, 0.956, 0) })
+	msg.post(".", "acquire_input_focus")
+	initializeGrid(self)
+	-- Add initialization code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function final(self)
+	-- Add finalization code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function update(self, dt)
+	-- Add update code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function on_message(self, message_id, message, sender)
+	-- Add message-handling code here
+	-- Learn more: https://defold.com/manuals/message-passing/
+	-- Remove this function if not needed
+end
+
+function on_input(self, action_id, action)
+	if action_id == hash("touch") and action.pressed then
+		if gui.pick_node(gui.get_node(hash("home")), action.x, action.y) then
+			msg.post("controller:/loader#controller", "changeScene", { newScene = "clickOnLevel" })
+		end
+		if gui.pick_node(gui.get_node(hash("restart")), action.x, action.y) then
+			msg.post("controller:/loader#controller", "changeScene", { newScene = "playLevel" })
+		end
+	end
+	-- Add input-handling code here. The game object this script is attached to
+	-- must have acquired input focus:
+	--
+	--    msg.post(".", "acquire_input_focus")
+	--
+	-- All mapped input bindings will be received. Mouse and touch input will
+	-- be received regardless of where on the screen it happened.
+	-- Learn more: https://defold.com/manuals/input/
+	-- Remove this function if not needed
+end
+
+function on_reload(self)
+	-- Add reload-handling code here
+	-- Learn more: https://defold.com/manuals/hot-reload/
+	-- Remove this function if not needed
+end

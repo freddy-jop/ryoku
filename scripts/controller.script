@@ -1,0 +1,88 @@
+function changeScene(self, pCurrentScene)
+	if pCurrentScene ~= self.currentScene then
+		if self.currentScene ~= "" then
+			msg.post("/loader#"..self.currentScene, "disable")
+			msg.post("/loader#"..self.currentScene, "final")
+			msg.post("/loader#"..self.currentScene, "unload")
+			-- if pCurrentScene == "playLevel" then
+			-- 	msg.post("/loader#loader", "async_load")
+			-- end
+		end
+		msg.post("/loader#"..pCurrentScene, "async_load")
+	end
+	self.currentScene = pCurrentScene
+end
+
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	self.currentScene = ""
+	changeScene(self, "corporate")
+	--msg.post("/loader#playLevel", "async_load")
+	-- Add initialization code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function final(self)
+	-- Add finalization code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function update(self, dt)
+	-- Add update code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("changeScene") then
+		print("===> message.newScene ::: ", message.newScene)
+		changeScene(self, message.newScene)
+	end
+	if message_id == hash("proxy_loaded") then
+		msg.post(sender, "init")
+		msg.post(sender, "enable")
+		-- if sender.fragment == hash("playLevel") then
+		-- 	msg.post("/loader#loader", "disable")
+		-- 	msg.post("/loader#loader", "final")
+		-- 	msg.post("/loader#loader", "unload")
+		-- 	timer.delay(1, false, function()
+		-- 		msg.post(sender, "init")
+		-- 		msg.post(sender, "enable")
+		-- 	end)
+		-- else
+		-- 	msg.post(sender, "init")
+		-- 	msg.post(sender, "enable")
+		-- end
+		
+		print("sender === > ", sender)
+		-- if sender.fragment == hash("corporate") then
+		-- 	msg.post("/logo_corporate/gui#corporate", "corporate_to_start")
+		-- end
+	end
+	if message_id == hash("stopGame") then
+		msg.post("/loader#playLevel", "set_time_step", {factor = 0, mode = 1})
+	end
+	-- Add message-handling code here
+	-- Learn more: https://defold.com/manuals/message-passing/
+	-- Remove this function if not needed
+end
+
+function on_input(self, action_id, action)
+	-- Add input-handling code here. The game object this script is attached to
+	-- must have acquired input focus:
+	--
+	--    msg.post(".", "acquire_input_focus")
+	--
+	-- All mapped input bindings will be received. Mouse and touch input will
+	-- be received regardless of where on the screen it happened.
+	-- Learn more: https://defold.com/manuals/input/
+	-- Remove this function if not needed
+end
+
+function on_reload(self)
+	-- Add reload-handling code here
+	-- Learn more: https://defold.com/manuals/hot-reload/
+	-- Remove this function if not needed
+end

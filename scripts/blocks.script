@@ -1,0 +1,912 @@
+local ryoku_path = sys.get_save_file("ryoku", "data_level")
+local config = sys.load(ryoku_path)
+local list = require("ressources.listLevel")
+local currentLevel = list[config.level].path
+local puzzles = require("construct.puzzles")
+local groupColor = require("construct.groupsColors")
+go.property("blockNumber", 0)
+go.property("factoryLink", hash(""))
+go.property("sliderPosition", vmath.vector3())
+
+function disableTetrisBlock(self)
+	for s = 1, #currentLevel.blocks[self.blockNumber] do
+		if currentLevel.blocks[self.blockNumber][s].blockId ~= "" then
+			go.delete(currentLevel.blocks[self.blockNumber][s].blockId)
+			currentLevel.blocks[self.blockNumber][s].blockId = ""
+		end
+	end
+end
+
+function defineDimensionNumber(currentBlock)
+	local dimX = 0
+	local dimY = 0
+
+	for j = 1, #currentBlock do
+		
+		if currentBlock[j].blockX > dimX then
+			dimX = currentBlock[j].blockX
+		end
+		if currentBlock[j].blockY > dimY then
+			dimY = currentBlock[j].blockY
+		end
+		
+		if #currentBlock == j then
+			for k = 1, #puzzles do
+				if puzzles[k].elevationX == dimX + 1 and puzzles[k].elevationY == dimY + 1 then
+					return puzzles[k].number
+				end
+			end
+		end
+	end
+end
+
+function enableTetrisBlock(self)
+	local blockOriginX = 0
+	if currentLevel.refBlock[self.blockNumber].factoryBlockId == currentLevel.selectionBlock[1].selectionFactoryBlockId then
+		blockOriginX = currentLevel.selectionBlock[1].selectionOriginX
+	end
+	if currentLevel.refBlock[self.blockNumber].factoryBlockId == currentLevel.selectionBlock[2].selectionFactoryBlockId then
+		blockOriginX = currentLevel.selectionBlock[2].selectionOriginX
+	end
+	if currentLevel.refBlock[self.blockNumber].factoryBlockId == currentLevel.selectionBlock[3].selectionFactoryBlockId then
+		blockOriginX = currentLevel.selectionBlock[3].selectionOriginX
+	end
+
+	for s = 1, #currentLevel.blocks[self.blockNumber] do
+		local sizeBlock = currentLevel.refBlock[self.blockNumber].x1 - currentLevel.refBlock[self.blockNumber].x0
+		if currentLevel.refBlock[self.blockNumber].selectDimension == nil then
+			currentLevel.refBlock[self.blockNumber].selectDimension = defineDimensionNumber(currentLevel.blocks[self.blockNumber])
+		end
+
+		currentLevel.blocks[self.blockNumber][s].positionTileBlock.y = (currentLevel.refBlock[self.blockNumber].originXY.y - (sizeBlock * puzzles[currentLevel.refBlock[self.blockNumber].selectDimension].selectY) - ((currentLevel.platform.sizeSquare * currentLevel.platform.scaleSlid) * currentLevel.blocks[self.blockNumber][s].blockY))
+		--currentLevel.blocks[self.blockNumber][s].positionTileBlock.x = currentLevel.refBlock[self.blockNumber].originXY.x + (sizeBlock * puzzles[currentLevel.refBlock[self.blockNumber].selectDimension].selectX) + ((currentLevel.platform.sizeSquare * currentLevel.platform.scaleSlid) * currentLevel.blocks[self.blockNumber][s].blockX)
+		currentLevel.blocks[self.blockNumber][s].positionTileBlock.x = blockOriginX + (sizeBlock * puzzles[currentLevel.refBlock[self.blockNumber].selectDimension].selectX) + ((currentLevel.platform.sizeSquare * currentLevel.platform.scaleSlid) * currentLevel.blocks[self.blockNumber][s].blockX)
+
+		currentLevel.blocks[self.blockNumber][s].positionReturn.x = currentLevel.blocks[self.blockNumber][s].positionTileBlock.x
+		currentLevel.blocks[self.blockNumber][s].positionReturn.y = currentLevel.blocks[self.blockNumber][s].positionTileBlock.y
+		currentLevel.blocks[self.blockNumber][s].positionTileBlock.z = 0.7
+		
+		local blockFactory = factory.create("#number", nil, nil, { block = self.blockNumber, tileNumber = s, positionTileBlock = currentLevel.blocks[self.blockNumber][s].positionTileBlock }, currentLevel.platform.scaleSlid)
+		currentLevel.blocks[self.blockNumber][s].blockId = blockFactory
+		currentLevel.grid[currentLevel.blocks[self.blockNumber][s].result.tileY + 1][currentLevel.blocks[self.blockNumber][s].result.tileX + 1].instanceSquareId = blockFactory
+
+		if currentLevel.blocks[self.blockNumber][s].isColored then
+			local back = msg.url(nil, blockFactory, "back")
+			msg.post(back, "enable")
+			msg.post(back, "play_animation", {id = hash("SIMPLE")})
+			go.set(back, "tint", groupColor[currentLevel.groups[currentLevel.grid[currentLevel.blocks[self.blockNumber][s].result.tileY + 1][currentLevel.blocks[self.blockNumber][s].result.tileX + 1].groupId].groupColorId].colorBrique)
+		end
+
+		local front = msg.url(nil, blockFactory, "front")
+		if currentLevel.grid[currentLevel.blocks[self.blockNumber][s].result.tileY + 1][currentLevel.blocks[self.blockNumber][s].result.tileX + 1].revealed then
+			msg.post(front, "enable")
+			msg.post(front, "play_animation", {id = hash(string.upper(currentLevel.grid[currentLevel.blocks[self.blockNumber][s].result.tileY + 1][currentLevel.blocks[self.blockNumber][s].result.tileX + 1].number))})
+			if currentLevel.blocks[self.blockNumber][s].isColored then
+				go.set(front, "tint", groupColor[currentLevel.groups[currentLevel.grid[currentLevel.blocks[self.blockNumber][s].result.tileY + 1][currentLevel.blocks[self.blockNumber][s].result.tileX + 1].groupId].groupColorId].colorBrique)
+			end
+		end
+		if not currentLevel.grid[currentLevel.blocks[self.blockNumber][s].result.tileY + 1][currentLevel.blocks[self.blockNumber][s].result.tileX + 1].revealed then
+			msg.post(front, "disable")
+		end
+	end
+end
+
+function generateBlockTetris(self)
+	for s = 1, #currentLevel.blocks[self.blockNumber] do
+		if currentLevel.refBlock[self.blockNumber].selectDimension == nil then
+			currentLevel.refBlock[self.blockNumber].selectDimension = defineDimensionNumber(currentLevel.blocks[self.blockNumber])
+		end
+		local sizeBlock = currentLevel.refBlock[self.blockNumber].x1 - currentLevel.refBlock[self.blockNumber].x0
+		currentLevel.blocks[self.blockNumber][s].positionTileBlock.x = currentLevel.refBlock[self.blockNumber].originXY.x + (sizeBlock * puzzles[currentLevel.refBlock[self.blockNumber].selectDimension].selectX) + ((currentLevel.platform.sizeSquare * currentLevel.platform.scaleSlid) * currentLevel.blocks[self.blockNumber][s].blockX)
+		currentLevel.blocks[self.blockNumber][s].positionTileBlock.y = (currentLevel.refBlock[self.blockNumber].originXY.y - (sizeBlock * puzzles[currentLevel.refBlock[self.blockNumber].selectDimension].selectY) - ((currentLevel.platform.sizeSquare * currentLevel.platform.scaleSlid) * currentLevel.blocks[self.blockNumber][s].blockY))
+		currentLevel.blocks[self.blockNumber][s].positionReturn.x = currentLevel.blocks[self.blockNumber][s].positionTileBlock.x
+		currentLevel.blocks[self.blockNumber][s].positionReturn.y = currentLevel.blocks[self.blockNumber][s].positionTileBlock.y
+		currentLevel.blocks[self.blockNumber][s].positionTileBlock.z = 0.7
+		local positionTileBlock = currentLevel.blocks[self.blockNumber][s].positionTileBlock
+
+		local blockFactory = factory.create("#number", nil, nil, { block = self.blockNumber, tileNumber = s, positionTileBlock = positionTileBlock }, currentLevel.platform.scaleSlid)
+		currentLevel.blocks[self.blockNumber][s].blockId = blockFactory
+		currentLevel.grid[currentLevel.blocks[self.blockNumber][s].result.tileY + 1][currentLevel.blocks[self.blockNumber][s].result.tileX + 1].instanceSquareId = blockFactory
+
+		local front = msg.url(nil, blockFactory, "front")
+		if currentLevel.grid[currentLevel.blocks[self.blockNumber][s].result.tileY + 1][currentLevel.blocks[self.blockNumber][s].result.tileX + 1].revealed then
+			msg.post(front, "enable")
+			msg.post(front, "play_animation", {id = hash(string.upper(currentLevel.grid[currentLevel.blocks[self.blockNumber][s].result.tileY + 1][currentLevel.blocks[self.blockNumber][s].result.tileX + 1].number))})
+			if currentLevel.blocks[self.blockNumber][s].isColored then
+				go.set(front, "tint", groupColor[currentLevel.groups[currentLevel.grid[currentLevel.blocks[self.blockNumber][s].result.tileY + 1][currentLevel.blocks[self.blockNumber][s].result.tileX + 1].groupId].groupColorId].colorBrique)
+			end
+		end
+		if not currentLevel.grid[currentLevel.blocks[self.blockNumber][s].result.tileY + 1][currentLevel.blocks[self.blockNumber][s].result.tileX + 1].revealed then
+			msg.post(front, "disable")
+			if currentLevel.blocks[self.blockNumber][s].isColored then
+				local back = msg.url(nil, blockFactory, "back")
+				msg.post(back, "enable")
+				msg.post(back, "play_animation", {id = hash("SIMPLE")})
+				go.set(back, "tint", groupColor[currentLevel.groups[currentLevel.grid[currentLevel.blocks[self.blockNumber][s].result.tileY + 1][currentLevel.blocks[self.blockNumber][s].result.tileX + 1].groupId].groupColorId].colorBrique)
+			end
+		end
+		
+		-- factory.load("#number", function(self, url, result)
+		-- 	if result then
+		-- 		
+		-- 	end
+		-- end)
+	end
+end
+
+function enableCollision(self, url, property)
+	currentLevel.platform.isCollisionable = true
+	for c = 1, #currentLevel.grid do
+		for o = 1, #currentLevel.grid[c] do
+			if not currentLevel.grid[c][o].isGood then
+				currentLevel.grid[c][o].isCollisionable = true
+			end
+		end
+	end
+end
+
+function disableCollision(self, url, property)
+	currentLevel.platform.isCollisionable = false
+	currentLevel.platform.slider.whenPoseAndReplacingBlockIsDone = false
+	--currentLevel.platform.processing = false
+	for c = 1, #currentLevel.grid do
+		for o = 1, #currentLevel.grid[c] do
+			if not currentLevel.grid[c][o].isGood then
+				currentLevel.grid[c][o].isCollisionable = false
+			end
+		end
+	end
+end
+
+function generateScaleIn(self)
+	for t = 1, #currentLevel.blocks[currentLevel.platform.numberBlock] do
+		go.animate(currentLevel.blocks[currentLevel.platform.numberBlock][t].blockId, "scale", go.PLAYBACK_ONCE_FORWARD, currentLevel.platform.scaleGrid, go.EASING_OUTEXPO, 0.5, 0, enableCollision)
+	end
+end
+
+function generateScaleOut(self)
+	--currentLevel.platform.slider.whenPoseAndReplacingBlockIsDone = true
+	for w = 1, #currentLevel.blocks[currentLevel.platform.numberBlock] do
+		go.animate(currentLevel.blocks[currentLevel.platform.numberBlock][w].blockId, "scale", go.PLAYBACK_ONCE_FORWARD, currentLevel.platform.scaleSlid, go.EASING_OUTEXPO, 0.5, 0, disableCollision)
+	end
+end
+
+function isPlannedPosition(self)
+	for f = 1, #currentLevel.blocks[currentLevel.platform.numberBlock] do
+		if not currentLevel.blocks[currentLevel.platform.numberBlock][f].isPlaned then
+			self.isOut = -1
+		end
+	end
+end
+
+function placedBlock(self)
+	for e = 1, #currentLevel.blocks[currentLevel.platform.numberBlock] do
+		msg.post(currentLevel.blocks[currentLevel.platform.numberBlock][e].blockId, "placed_part_block", {managedBlockId = currentLevel.blocks[currentLevel.platform.numberBlock][e].blockId})
+	end
+end
+
+function returnBlock(self)
+	for e = 1, #currentLevel.blocks[currentLevel.platform.numberBlock] do
+		msg.post(currentLevel.blocks[currentLevel.platform.numberBlock][e].blockId, "return_in_placed", {returnBlockId = currentLevel.blocks[currentLevel.platform.numberBlock][e].blockId})
+	end
+end
+
+function replaceBlockOrigin(self)
+	local sizeTetrisSlid = ((currentLevel.platform.sizeSquare * currentLevel.platform.scaleSlid)* 3)
+	currentLevel.refBlock[self.blockNumber].x0 = self.positionFactory.x - (sizeTetrisSlid/2)
+	currentLevel.refBlock[self.blockNumber].x1 = self.positionFactory.x + (sizeTetrisSlid/2)
+	currentLevel.refBlock[self.blockNumber].y0 = self.positionFactory.y + (sizeTetrisSlid/2)
+	currentLevel.refBlock[self.blockNumber].y1 = self.positionFactory.y - (sizeTetrisSlid/2)
+	currentLevel.refBlock[self.blockNumber].originXY.x = currentLevel.refBlock[self.blockNumber].x0
+	currentLevel.refBlock[self.blockNumber].originXY.y = currentLevel.refBlock[self.blockNumber].y0
+end
+
+function setNumberBlock(self)
+	local countBlocksAvailable = 0
+	for a = 1, #currentLevel.refBlock do
+		if currentLevel.refBlock[a].isActive then
+			countBlocksAvailable = countBlocksAvailable + 1
+			currentLevel.refBlock[a].index = countBlocksAvailable
+		end
+	end
+	currentLevel.platform.totalBlockAvailable = countBlocksAvailable
+end
+
+function setConformation()
+	for c = 1, #currentLevel.grid do
+		for o = 1, #currentLevel.grid[c] do
+			currentLevel.grid[c][o].isPendingGood = true
+		end
+	end
+end
+
+function putAnimationInPlaceToLeft(self, dir, avg, index)
+	for u = 1, #currentLevel.blocks do
+		if currentLevel.refBlock[u].isActive and currentLevel.refBlock[u].index > index then
+			msg.post(currentLevel.refBlock[u].factoryBlockId, "animate_slide_origin", { direction = dir, average = avg, duration = 0.5 })
+			for b = 1, #currentLevel.blocks[u] do
+				msg.post(currentLevel.blocks[u][b].blockId, "animate_slide", {direction = dir, average = avg, duration = 0.4 })
+			end
+		end
+	end
+end
+
+function putAnimationInPlaceToRight(self, dir, avg, index)
+	for u = 1, #currentLevel.blocks do
+		if currentLevel.refBlock[u].isActive and currentLevel.refBlock[u].index < index then
+			msg.post(currentLevel.refBlock[u].factoryBlockId, "animate_slide_origin", { direction = dir, average = avg, duration = 0.5 })
+			for b = 1, #currentLevel.blocks[u] do
+				msg.post(currentLevel.blocks[u][b].blockId, "animate_slide", {direction = dir, average = avg, duration = 0.4 })
+			end
+		end
+	end
+end
+
+function manageReplacingTotalBlocks(self)
+	if currentLevel.platform.indexBlockSelection == 1 and currentLevel.platform.totalBlockAvailable > 1 then
+		if currentLevel.platform.indexBlock == 1 then
+			return putAnimationInPlaceToLeft(self, "TO_LEFT", currentLevel.platform.intervalBlockSlid, currentLevel.platform.indexBlock)
+		end
+		if currentLevel.platform.indexBlock > 1 then
+			return putAnimationInPlaceToRight(self, "TO_RIGHT",currentLevel.platform.intervalBlockSlid, currentLevel.platform.indexBlock)
+		end
+	end
+	if currentLevel.platform.indexBlockSelection == 2 and currentLevel.platform.totalBlockAvailable > 2 then
+		if (currentLevel.platform.indexBlock == 2 and currentLevel.platform.totalBlockAvailable - currentLevel.platform.indexBlock > 1) or 
+		(currentLevel.platform.indexBlock == 2 and currentLevel.platform.totalBlockAvailable - currentLevel.platform.indexBlock == 1) then
+			return putAnimationInPlaceToLeft(self, "TO_LEFT",currentLevel.platform.intervalBlockSlid, currentLevel.platform.indexBlock)
+		end
+		if currentLevel.platform.indexBlock > 2 and currentLevel.platform.totalBlockAvailable - currentLevel.platform.indexBlock >= 1 then
+			return putAnimationInPlaceToRight(self, "TO_RIGHT",currentLevel.platform.intervalBlockSlid, currentLevel.platform.indexBlock)
+		end
+	end
+	if currentLevel.platform.indexBlockSelection == 3 and currentLevel.platform.totalBlockAvailable > 3 then
+		if currentLevel.platform.indexBlock == currentLevel.platform.totalBlockAvailable then
+			return putAnimationInPlaceToRight(self, "TO_RIGHT",currentLevel.platform.intervalBlockSlid, currentLevel.platform.indexBlock)
+		end
+		if currentLevel.platform.indexBlock >= 3 and currentLevel.platform.totalBlockAvailable - currentLevel.platform.indexBlock >= 1 then
+			return putAnimationInPlaceToLeft(self, "TO_LEFT",currentLevel.platform.intervalBlockSlid, currentLevel.platform.indexBlock)
+		end
+	end
+end
+
+function putAnimationInPlace(self, dir, avg)
+	for u = 1, #currentLevel.blocks do
+		if currentLevel.refBlock[u].isActive then
+			msg.post(currentLevel.refBlock[u].factoryBlockId, "animate_slide_origin", { direction = dir, average = avg, duration = 0.2 })
+			for b = 1, #currentLevel.blocks[u] do
+				msg.post(currentLevel.blocks[u][b].blockId, "animate_slide", {direction = dir, average = avg, duration = 0.1 })
+			end
+		end
+	end
+end
+
+function goToGoodPosition(self)
+	local averagePosition = 0
+	local direction = nil
+	local totalSelection = 0
+	if currentLevel.platform.totalBlockAvailable >= 3 then
+		totalSelection = 3
+	end
+	if currentLevel.platform.totalBlockAvailable == 2 then
+		totalSelection = 2
+	end
+	if currentLevel.platform.totalBlockAvailable == 1 then
+		totalSelection = 1
+	end
+	for h=1, totalSelection do
+		local originX = currentLevel.selectionBlock[h].positionSelectionBlock.x
+		local attachedBlockPosition = go.get_position(currentLevel.selectionBlock[h].selectionFactoryBlockId)
+
+		if attachedBlockPosition.x - originX > 0 then
+			direction = "TO_LEFT"
+		end
+		if attachedBlockPosition.x - originX < 0 then
+			direction = "TO_RIGHT"
+		end
+		
+		averagePosition = averagePosition + math.abs(attachedBlockPosition.x - originX)
+		if h == totalSelection then
+			averagePosition = averagePosition / totalSelection
+			putAnimationInPlace(self, direction, averagePosition)
+		end
+	end
+end
+
+function replaceSelectionOrigin(self)
+	for sd = 1, #currentLevel.refBlock do
+		if currentLevel.refBlock[sd].factoryBlockId == currentLevel.selectionBlock[currentLevel.platform.indexBlockSelection].selectionFactoryBlockId then
+			self.positionFactory.x = currentLevel.selectionBlock[currentLevel.platform.indexBlockSelection].positionSelectionBlock.x
+			self.positionFactory.y = currentLevel.platform.slider.sliderY
+			msg.post(currentLevel.refBlock[sd].factoryBlockId, "return_origin_refBlock", {factoryX = self.positionFactory.x, factoryY = self.positionFactory.y })
+		end
+	end
+end
+
+function applyIsGood(self)
+	for g = 1, #currentLevel.blocks[currentLevel.platform.numberBlock] do
+		currentLevel.blocks[currentLevel.platform.numberBlock][g].isColored = true
+		currentLevel.grid[currentLevel.blocks[currentLevel.platform.numberBlock][g].result.tileY + 1][currentLevel.blocks[currentLevel.platform.numberBlock][g].result.tileX + 1].isGood = true
+		currentLevel.grid[currentLevel.blocks[currentLevel.platform.numberBlock][g].result.tileY + 1][currentLevel.blocks[currentLevel.platform.numberBlock][g].result.tileX + 1].isGrey = false
+	end
+end
+
+function decrementTarget(self)
+	for tz = 1, #currentLevel.grid do
+		for gt = 1, #currentLevel.grid[tz] do
+			if currentLevel.grid[tz][gt].isGrey and not currentLevel.grid[tz][gt].isGood then
+				local targetInitializeInstance = msg.url(nil, currentLevel.grid[tz][gt].instanceId, "tiles")
+				if currentLevel.grid[tz][gt].revealed then
+					msg.post(targetInitializeInstance, "initialize_target", { initializeObject = currentLevel.grid[tz][gt] })
+				end
+			end
+			if not currentLevel.grid[tz][gt].isGrey and not currentLevel.grid[tz][gt].isGood then
+				local targetInstance = msg.url(nil, currentLevel.grid[tz][gt].instanceId, "tiles")
+				if currentLevel.grid[tz][gt].target and not currentLevel.grid[tz][gt].revelatedAdjacentBonus then
+
+					local currentTargetTile = currentLevel.grid[tz][gt]
+					local limitGrid = currentLevel.platform.column
+					
+					local checkadjacentTarget = false
+					
+					if currentTargetTile.gdXY.y - 1 > 0 then
+						if currentLevel.grid[currentTargetTile.gdXY.y - 1][currentTargetTile.gdXY.x].groupId == currentTargetTile.groupId and currentLevel.grid[currentTargetTile.gdXY.y - 1][currentTargetTile.gdXY.x].blockNumber == currentLevel.platform.numberBlock and currentLevel.grid[currentTargetTile.gdXY.y - 1][currentTargetTile.gdXY.x].isGood then
+							checkadjacentTarget = true
+						end
+					end
+					if currentTargetTile.gdXY.y + 1 <= limitGrid then
+						if currentLevel.grid[currentTargetTile.gdXY.y + 1][currentTargetTile.gdXY.x].groupId == currentTargetTile.groupId and currentLevel.grid[currentTargetTile.gdXY.y + 1][currentTargetTile.gdXY.x].blockNumber == currentLevel.platform.numberBlock and currentLevel.grid[currentTargetTile.gdXY.y + 1][currentTargetTile.gdXY.x].isGood then
+							checkadjacentTarget = true
+						end
+					end
+					if currentTargetTile.gdXY.x - 1 > 0 then
+						if currentLevel.grid[currentTargetTile.gdXY.y][currentTargetTile.gdXY.x - 1].groupId == currentTargetTile.groupId and currentLevel.grid[currentTargetTile.gdXY.y][currentTargetTile.gdXY.x - 1].blockNumber == currentLevel.platform.numberBlock and currentLevel.grid[currentTargetTile.gdXY.y][currentTargetTile.gdXY.x - 1].isGood then
+							checkadjacentTarget = true
+						end
+					end
+					if currentTargetTile.gdXY.x + 1 <= limitGrid then
+						if currentLevel.grid[currentTargetTile.gdXY.y][currentTargetTile.gdXY.x + 1].groupId == currentTargetTile.groupId and currentLevel.grid[currentTargetTile.gdXY.y][currentTargetTile.gdXY.x + 1].blockNumber == currentLevel.platform.numberBlock and currentLevel.grid[currentTargetTile.gdXY.y][currentTargetTile.gdXY.x + 1].isGood then
+							checkadjacentTarget = true
+						end
+					end
+					
+					if not checkadjacentTarget then
+						currentLevel.grid[tz][gt].target = false
+						msg.post(targetInstance, "decrement_target", { tileObject = currentLevel.grid[tz][gt] })
+					end
+				end
+			end
+		end
+	end
+end
+
+function selectGroupsByBlockSelected(self)
+	for gp = 1, #currentLevel.blocks[currentLevel.platform.numberBlock] do
+		currentLevel.blocks[currentLevel.platform.numberBlock][gp].isLocked = true
+		if not currentLevel.grid[currentLevel.blocks[currentLevel.platform.numberBlock][gp].result.tileY + 1][currentLevel.blocks[currentLevel.platform.numberBlock][gp].result.tileX + 1].isGrey then
+			currentLevel.groups[currentLevel.grid[currentLevel.blocks[currentLevel.platform.numberBlock][gp].result.tileY + 1][currentLevel.blocks[currentLevel.platform.numberBlock][gp].result.tileX + 1].groupId].groupTarget = true
+		end
+	end
+end
+
+function initializeGroupTarget()
+	for gpt = 1, #currentLevel.groups do
+		currentLevel.groups[gpt].groupTarget = false
+	end
+end
+
+function displayNumberToSquare(self)
+	for caca = 1, #currentLevel.grid do
+		for pipi = 1, #currentLevel.grid[caca] do
+			if currentLevel.grid[caca][pipi].groupId == currentLevel.groups[currentLevel.grid[caca][pipi].groupId].number and currentLevel.groups[currentLevel.grid[caca][pipi].groupId].isDisplayGroup and not currentLevel.grid[caca][pipi].animateGroup then
+				local urlblockGroup = msg.url(nil, currentLevel.grid[caca][pipi].instanceSquareId, "square")
+				msg.post(urlblockGroup, "display_group_number", {tileMatch = currentLevel.grid[caca][pipi] })
+				currentLevel.grid[caca][pipi].animateGroup = true
+			end	
+		end
+	end
+end
+
+function groupLockedToSquare()
+	for toto = 1, #currentLevel.grid do
+		for zaza = 1, #currentLevel.grid[toto] do
+			if currentLevel.grid[toto][zaza].groupId == currentLevel.groups[currentLevel.grid[toto][zaza].groupId].number and currentLevel.groups[currentLevel.grid[toto][zaza].groupId].isDisplayGroup then
+				currentLevel.grid[toto][zaza].groupLocked = true
+			end	
+		end
+	end
+end
+
+function checkGroupExist(numberGroup)
+	local check = false
+	for p = 1, #currentLevel.groupProgress do
+		if currentLevel.groupProgress[p].number == numberGroup then
+			check = true
+			return check
+		end
+	end
+	return check
+end
+
+function putGroupProgress(completGroup)
+	for b = 1, #currentLevel.groupProgress do
+		if currentLevel.groupProgress[b].isCompleted == false then
+			currentLevel.groupProgress[b].isCompleted = true
+			currentLevel.groupProgress[b].number = completGroup.number
+			currentLevel.groupProgress[b].color = groupColor[currentLevel.groups[completGroup.number].groupColorId].colorBrique
+			return
+		end
+	end
+end
+
+function countTotalGroup(self)
+	local totalGroup = 0
+	for gp = 1, #currentLevel.groups do
+		if currentLevel.groups[gp].isDisplayGroup then
+			local check = checkGroupExist(currentLevel.groups[gp].number)
+			if not check then
+				putGroupProgress(currentLevel.groups[gp])
+			end
+			totalGroup = totalGroup + 1
+		end
+		currentLevel.platform.totalGroupDisplaying = totalGroup
+	end
+end
+
+function checkGroupPopulated(self)
+	for gp = 1, #currentLevel.groups do
+		currentLevel.groups[gp].counterSquares = 0
+		for cc = 1, #currentLevel.grid do
+			for pp = 1, #currentLevel.grid[cc] do
+				if currentLevel.grid[cc][pp].isGood and currentLevel.grid[cc][pp].groupId == currentLevel.groups[gp].number then
+					currentLevel.groups[gp].counterSquares = currentLevel.groups[gp].counterSquares + 1
+				end
+				if #currentLevel.grid == cc  and #currentLevel.grid[cc] == pp then
+					if currentLevel.groups[gp].counterSquares == currentLevel.platform.column then
+						currentLevel.groups[gp].isDisplayGroup = true
+						displayNumberToSquare(self)
+						countTotalGroup(self)
+					end
+				end
+			end
+		end
+	end
+end
+
+function setStopConformation()
+	for c = 1, #currentLevel.grid do
+		for o = 1, #currentLevel.grid[c] do
+			currentLevel.grid[c][o].isPendingGood = false
+		end
+	end
+end
+
+function selectObjectTile(blockId)
+	for c = 1, #currentLevel.grid do
+		for o = 1, #currentLevel.grid[c] do
+			if currentLevel.grid[c][o].instanceSquareId == blockId then
+				return currentLevel.grid[c][o].revealed
+			end
+		end
+	end
+end
+
+function manageMatchHover(self)
+	if currentLevel.platform.numberDrag ~= 0 and currentLevel.platform.numberDrag == self.blockNumber and currentLevel.platform.numberBlock > 0 and currentLevel.platform.isCollisionable then
+		local countOut = 0
+		for t = 1, #currentLevel.grid do
+			for g = 1, #currentLevel.grid[t] do
+				for k = 1, #currentLevel.blocks[currentLevel.platform.numberBlock] do
+					local positionSquare = go.get_position(currentLevel.blocks[currentLevel.platform.numberBlock][k].blockId)
+					if positionSquare.y - ((currentLevel.platform.sizeSquare * currentLevel.platform.scaleGrid)/2) > currentLevel.platform.limitGrid.gridY1 or
+					positionSquare.y - ((currentLevel.platform.sizeSquare * currentLevel.platform.scaleGrid)/2) < currentLevel.platform.limitGrid.gridY0 or
+					positionSquare.x < currentLevel.platform.limitGrid.gridX0 or
+					positionSquare.x > currentLevel.platform.limitGrid.gridX1 then
+						currentLevel.platform.isBlockMatch = false
+						countOut = 0
+						for j = 1, #currentLevel.blocks[currentLevel.platform.numberBlock] do
+							currentLevel.blocks[currentLevel.platform.numberBlock][j].isMatch = false
+							currentLevel.blocks[currentLevel.platform.numberBlock][j].isPlaned = false
+							currentLevel.blocks[currentLevel.platform.numberBlock][j].positionPlaned.x = 0
+							currentLevel.blocks[currentLevel.platform.numberBlock][j].positionPlaned.y = 0
+							if currentLevel.blocks[currentLevel.platform.numberBlock][j].instanceId ~= "" then
+								local hoverDiseableOutGrid = msg.url(nil, currentLevel.blocks[currentLevel.platform.numberBlock][j].instanceId, "hover")
+								msg.post(hoverDiseableOutGrid, "disable")
+								currentLevel.blocks[currentLevel.platform.numberBlock][j].instanceId = ""
+							end
+						end
+					end
+					if currentLevel.grid[t][g].isGood and not currentLevel.blocks[currentLevel.platform.numberBlock][k].isLocked then
+						if positionSquare.x > currentLevel.grid[t][g].x0 and 
+						positionSquare.x < currentLevel.grid[t][g].x1 and
+						positionSquare.y < currentLevel.grid[t][g].y0 and 
+						positionSquare.y > currentLevel.grid[t][g].y1 then
+							currentLevel.platform.isBlockMatch = false
+							countOut = 0
+							for e = 1, #currentLevel.blocks[currentLevel.platform.numberBlock] do
+								currentLevel.blocks[currentLevel.platform.numberBlock][e].isMatch = false
+								currentLevel.blocks[currentLevel.platform.numberBlock][e].isPlaned = false
+								currentLevel.blocks[currentLevel.platform.numberBlock][e].positionPlaned.x = 0
+								currentLevel.blocks[currentLevel.platform.numberBlock][e].positionPlaned.y = 0
+								if currentLevel.blocks[currentLevel.platform.numberBlock][e].instanceId ~= "" then
+									local hoverDiseableIsGood = msg.url(nil, currentLevel.blocks[currentLevel.platform.numberBlock][e].instanceId, "hover")
+									msg.post(hoverDiseableIsGood, "disable")
+									currentLevel.blocks[currentLevel.platform.numberBlock][e].instanceId = ""
+								end
+							end
+						end
+					end
+					if not currentLevel.grid[t][g].isGood then
+						if positionSquare.x > currentLevel.grid[t][g].x0 and 
+						positionSquare.x < currentLevel.grid[t][g].x1 and
+						positionSquare.y < currentLevel.grid[t][g].y0 and 
+						positionSquare.y > currentLevel.grid[t][g].y1 then
+							if currentLevel.blocks[currentLevel.platform.numberBlock][k].instanceId ~= currentLevel.grid[t][g].instanceId then
+								countOut = countOut + 1
+								if currentLevel.blocks[currentLevel.platform.numberBlock][k].instanceId ~= "" then
+									local hoverDiseable = msg.url(nil, currentLevel.blocks[currentLevel.platform.numberBlock][k].instanceId, "hover")
+									msg.post(hoverDiseable, "disable")
+								end
+								currentLevel.blocks[currentLevel.platform.numberBlock][k].instanceId = currentLevel.grid[t][g].instanceId
+							end
+						end
+					end
+					if #currentLevel.blocks[currentLevel.platform.numberBlock] == countOut then
+						for i = 1, #currentLevel.blocks[currentLevel.platform.numberBlock] do
+							if currentLevel.blocks[currentLevel.platform.numberBlock][i].instanceId == "" then
+								currentLevel.platform.isBlockMatch = false
+								for z = 1, #currentLevel.blocks[currentLevel.platform.numberBlock] do
+									currentLevel.blocks[currentLevel.platform.numberBlock][z].isMatch = false
+									currentLevel.blocks[currentLevel.platform.numberBlock][z].isPlaned = false
+									currentLevel.blocks[currentLevel.platform.numberBlock][z].positionPlaned.x = 0
+									currentLevel.blocks[currentLevel.platform.numberBlock][z].positionPlaned.y = 0
+									if currentLevel.blocks[currentLevel.platform.numberBlock][z].instanceId ~= "" then
+										local hoverDiseableIsGood = msg.url(nil, currentLevel.blocks[currentLevel.platform.numberBlock][z].instanceId, "hover")
+										msg.post(hoverDiseableIsGood, "disable")
+										currentLevel.blocks[currentLevel.platform.numberBlock][z].instanceId = ""
+									end
+								end
+							end
+							if currentLevel.blocks[currentLevel.platform.numberBlock][i].instanceId ~= "" then
+								currentLevel.platform.isBlockMatch = currentLevel.grid[currentLevel.blocks[currentLevel.platform.numberBlock][i].result.tileY + 1][currentLevel.blocks[currentLevel.platform.numberBlock][i].result.tileX + 1].instanceId == currentLevel.blocks[currentLevel.platform.numberBlock][i].instanceId
+								currentLevel.blocks[currentLevel.platform.numberBlock][i].isMatch = currentLevel.grid[currentLevel.blocks[currentLevel.platform.numberBlock][i].result.tileY + 1][currentLevel.blocks[currentLevel.platform.numberBlock][i].result.tileX + 1].instanceId == currentLevel.blocks[currentLevel.platform.numberBlock][i].instanceId
+								currentLevel.blocks[currentLevel.platform.numberBlock][i].isPlaned = true
+
+								local hoverUrl = msg.url(nil, currentLevel.blocks[currentLevel.platform.numberBlock][i].instanceId, "hover")
+								go.set(hoverUrl, "tint", vmath.vector4(220/255, 220/255, 220/255, 0.7))
+								msg.post(hoverUrl, "enable")
+
+								local position = go.get_position(currentLevel.blocks[currentLevel.platform.numberBlock][i].instanceId)
+								currentLevel.blocks[currentLevel.platform.numberBlock][i].positionPlaned.x = position.x
+								currentLevel.blocks[currentLevel.platform.numberBlock][i].positionPlaned.y = position.y
+
+								
+								local hoverColorTile = vmath.vector4(groupColor[currentLevel.groups[currentLevel.grid[currentLevel.blocks[currentLevel.platform.numberBlock][i].result.tileY + 1][currentLevel.blocks[currentLevel.platform.numberBlock][i].result.tileX + 1].groupId].groupColorId].colorBrique.x, groupColor[currentLevel.groups[currentLevel.grid[currentLevel.blocks[currentLevel.platform.numberBlock][i].result.tileY + 1][currentLevel.blocks[currentLevel.platform.numberBlock][i].result.tileX + 1].groupId].groupColorId].colorBrique.y, groupColor[currentLevel.groups[currentLevel.grid[currentLevel.blocks[currentLevel.platform.numberBlock][i].result.tileY + 1][currentLevel.blocks[currentLevel.platform.numberBlock][i].result.tileX + 1].groupId].groupColorId].colorBrique.z, 0.7)
+								if currentLevel.blocks[currentLevel.platform.numberBlock][i].isColored then
+									go.set(hoverUrl, "tint", hoverColorTile)
+								end
+							end
+						end
+					end
+				end
+			end
+		end
+	end
+end
+
+function selectionZone(positionTouchSlide, refBlock)
+	for g=1, #currentLevel.selectionBlock do
+		if currentLevel.selectionBlock[g].selectionFactoryBlockId == refBlock.factoryBlockId and 
+		currentLevel.selectionBlock[g].l1.x > positionTouchSlide.x and 
+		currentLevel.selectionBlock[g].l0.x < positionTouchSlide.x then
+			return true
+		end
+	end
+end
+
+function getFirstLastInstanceSliding(self)
+	local tableSlid = {}
+	for h=1, #currentLevel.refBlock do
+		if currentLevel.refBlock[h].isActive then
+			table.insert(tableSlid, currentLevel.refBlock[h].factoryBlockId)
+		end
+	end
+	currentLevel.platform.isLast = tableSlid[table.getn(tableSlid)]
+	currentLevel.platform.isFirst = tableSlid[1]
+end
+
+
+function init(self)
+	self.position = vmath.vector3(0,0,1)
+	self.positionFactory = vmath.vector3(0,0,1)
+	self.positionDrag = vmath.vector3(0,0,1)
+	self.tetrisSelection = nil
+	self.factoryTetrisId = nil
+	self.blockNumberFactory = nil
+	self.isOut = 0
+	self.selectedBlockParent = nil
+	self.factoryBlockTetrisChidren = nil
+	go.set_position(currentLevel.refBlock[self.blockNumber].positionBlock)
+	self.elevation = 40
+	self.tickPlaced = 0
+	self.tickRoundedPlaced = 0
+	self.actionPositionX = 0
+	self.actionPositionY = 0
+	self.actionDx = 0
+	self.isTickRoundedPlaced25 = false
+	self.isTickRoundedPlaced50 = false
+	msg.post(".", "acquire_input_focus")
+end
+
+function final(self)
+end
+
+function update(self, dt)
+	manageMatchHover(self)
+	if currentLevel.platform.handleManageTarget then
+		currentLevel.platform.tickPlaced = currentLevel.platform.tickPlaced + dt
+		currentLevel.platform.tickRoundedPlaced = math.floor(currentLevel.platform.tickPlaced * 100)
+	end
+	if currentLevel.platform.tickRoundedPlaced >= 250 and self.isTickRoundedPlaced25 then
+		self.isTickRoundedPlaced25 = false
+		getFirstLastInstanceSliding(self)
+		placedBlock(self)
+		if currentLevel.platform.isBlockMatch then
+			manageReplacingTotalBlocks(self)
+			setNumberBlock(self)
+			setConformation()
+			checkGroupPopulated(self)
+			currentLevel.platform.isDragUp = false
+		end
+	end
+	if currentLevel.platform.tickRoundedPlaced >= 600 and self.isTickRoundedPlaced50 then
+		self.isTickRoundedPlaced50 = false
+		currentLevel.platform.tickRoundedPlaced = 0
+		currentLevel.platform.tickPlaced = 0
+		currentLevel.platform.handleManageTarget = false
+		currentLevel.platform.isCollisionable = false
+		setStopConformation()
+		groupLockedToSquare()
+		--msg.post("controller:/loader#controller", "stopGame")
+	end
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("createBlockFactory") then
+		self.selectedBlockParent = message.selectedBlockParent
+		self.factoryBlockTetrisChidren = message.factoryBlockTetrisChidren
+		generateBlockTetris(self)
+	end
+	if message_id == hash("notDisplayblock") then
+		currentLevel.refBlock[message.blockNumber].isdisplaying = false
+		if currentLevel.blocks[message.blockNumber][1] ~= "" then
+			disableTetrisBlock(self)
+		end
+		-- for k = 1, #currentLevel.blocks[message.blockNumber] do
+		-- 	local backSquare = msg.url(nil, currentLevel.blocks[message.blockNumber][k].blockId, "back")
+		-- 	go.animate(backSquare, "tint.w", go.PLAYBACK_ONCE_FORWARD, 0, go.EASING_INSINE, 0, 0)
+		-- 	local frontSquare = msg.url(nil, currentLevel.blocks[message.blockNumber][k].blockId, "front")
+		-- 	--if selectObjectTile(currentLevel.blocks[message.blockNumber][k].blockId) then
+		-- 	if currentLevel.grid[currentLevel.blocks[message.blockNumber][k].result.tileY + 1][currentLevel.blocks[message.blockNumber][k].result.tileX + 1].revealed then
+		-- 		go.animate(frontSquare, "tint.w", go.PLAYBACK_ONCE_FORWARD, 0, go.EASING_INSINE, 0, 0)
+		-- 	end
+		-- end
+	end
+	if message_id == hash("displayblock") then
+		currentLevel.refBlock[message.blockNumber].isdisplaying = true
+			enableTetrisBlock(self)
+		
+		-- for k = 1, #currentLevel.blocks[message.blockNumber] do
+		-- 	local backSquare = msg.url(nil, currentLevel.blocks[message.blockNumber][k].blockId, "back")
+		-- 	go.animate(backSquare, "tint.w", go.PLAYBACK_ONCE_FORWARD, 1, go.EASING_INSINE, 0, 0)
+		-- 	local frontSquare = msg.url(nil, currentLevel.blocks[message.blockNumber][k].blockId, "front")
+		-- 	--if selectObjectTile(currentLevel.blocks[message.blockNumber][k].blockId) then
+		-- 	if currentLevel.grid[currentLevel.blocks[message.blockNumber][k].result.tileY + 1][currentLevel.blocks[message.blockNumber][k].result.tileX + 1].revealed then
+		-- 		go.animate(frontSquare, "tint.w", go.PLAYBACK_ONCE_FORWARD, 1, go.EASING_INSINE, 0, 0)
+		-- 	end
+		-- end
+	end
+end
+
+function on_input(self, action_id, action)
+	if action.pressed and not currentLevel.platform.slider.whenPoseAndReplacingBlockIsDone and not currentLevel.platform.stopGame then
+		currentLevel.platform.actionDx = 0
+		if currentLevel.platform.slider.y0 > action.y 
+		and currentLevel.platform.slider.y1 < action.y 
+		and not currentLevel.platform.slider.isTouchSlide 
+		and not currentLevel.platform.isCollisionable 
+		and not currentLevel.platform.isDragUp then
+		--and not currentLevel.platform.processing then
+			currentLevel.platform.slider.positionTouchSlide = vmath.vector3(action.x, action.y, 0)
+			currentLevel.platform.slider.isTouchSlide = true
+			currentLevel.platform.processing = true
+			currentLevel.platform.slider.isSlideLeftRight = false
+		end
+	end
+	if action_id == hash("touch") and not currentLevel.platform.slider.whenPoseAndReplacingBlockIsDone and not currentLevel.platform.stopGame then
+		if math.abs(action.dx) ~= 0 then
+			currentLevel.platform.actionDx = action.dx
+		end
+
+		if math.abs(action.dy) ~= 0 then
+			currentLevel.platform.actionDy = action.dy
+		end
+		
+		if currentLevel.platform.slider.isTouchSlide
+		and currentLevel.platform.totalBlockAvailable > 3
+		and not currentLevel.platform.slider.isSlideLeftRight
+		and not currentLevel.platform.slidToLeft
+		and action.x < currentLevel.platform.slider.positionTouchSlide.x
+		and currentLevel.platform.slider.positionTouchSlide.x - action.x > 10
+		and math.abs(currentLevel.platform.actionDx) > math.abs(currentLevel.platform.actionDy) then
+			currentLevel.platform.slider.positionStartLeftRight = vmath.vector3(action.x, action.y, 0)
+			currentLevel.platform.slider.isSlideLeftRight = true
+			currentLevel.platform.slider.directionSlider = -1
+		end
+
+		-- RIGHT DIRECTION
+		if currentLevel.platform.slider.isTouchSlide
+		and currentLevel.platform.totalBlockAvailable > 3
+		and not currentLevel.platform.slider.isSlideLeftRight
+		and not currentLevel.platform.slidToRight
+		and action.x > currentLevel.platform.slider.positionTouchSlide.x
+		and action.x - currentLevel.platform.slider.positionTouchSlide.x > 10 
+		and math.abs(currentLevel.platform.actionDx) > math.abs(currentLevel.platform.actionDy) then
+			currentLevel.platform.slider.positionStartLeftRight = vmath.vector3(action.x, action.y, 0)
+			currentLevel.platform.slider.isSlideLeftRight = true
+			currentLevel.platform.slider.directionSlider = 1
+		end
+
+		-- UP DIRECTION
+		if currentLevel.platform.slider.isTouchSlide
+		and not currentLevel.platform.slider.isSlideLeftRight
+		and not currentLevel.platform.isDragUp
+		and action.y > currentLevel.platform.slider.positionTouchSlide.y
+		and action.y - currentLevel.platform.slider.positionTouchSlide.y > 5 
+		and math.abs(currentLevel.platform.actionDy) > math.abs(currentLevel.platform.actionDx) then
+			currentLevel.platform.slider.isSlideLeftRight = true
+			currentLevel.platform.isDragUp = true
+			initializeGroupTarget()
+		end
+			
+		if currentLevel.platform.isDragUp and currentLevel.platform.slider.isSlideLeftRight and not currentLevel.platform.slider.dragBlock then
+			self.isOut = 0
+			for i=1, #currentLevel.refBlock do
+				if currentLevel.refBlock[i].isActive and 
+				selectionZone(currentLevel.platform.slider.positionTouchSlide, currentLevel.refBlock[i]) and
+				currentLevel.refBlock[i].y0 > currentLevel.platform.slider.positionTouchSlide.y and 
+				currentLevel.refBlock[i].y1 < currentLevel.platform.slider.positionTouchSlide.y and
+				currentLevel.refBlock[i].factoryBlockId == currentLevel.refBlock[self.blockNumber].factoryBlockId then
+				---currentLevel.refBlock[i].factoryBlockId == self.selectedBlockParent then
+					currentLevel.platform.slider.dragBlock = true
+					self.tetrisSelection = currentLevel.refBlock[i].factoryBlockId
+					self.factoryTetrisId = currentLevel.refBlock[i].factoryTetrisId
+					self.position.x = action.x
+					self.position.y = action.y
+					
+					local factory = go.get_position(self.tetrisSelection)
+
+					self.positionFactory.x = factory.x
+					self.positionFactory.y = factory.y
+					currentLevel.platform.numberBlock = currentLevel.refBlock[i].blockNumber
+					currentLevel.platform.indexBlock = currentLevel.refBlock[i].index
+
+					currentLevel.platform.numberDrag = currentLevel.refBlock[i].blockNumber
+					
+					for k = 1, #currentLevel.blocks[currentLevel.platform.numberBlock] do
+						local positionBlock = go.get_position(currentLevel.blocks[currentLevel.platform.numberBlock][k].blockId)
+						currentLevel.blocks[currentLevel.platform.numberBlock][k].positionReturn.x = positionBlock.x
+						currentLevel.blocks[currentLevel.platform.numberBlock][k].positionReturn.y = positionBlock.y
+					end
+					for h = 1, #currentLevel.selectionBlock do
+						if currentLevel.selectionBlock[h].selectionFactoryBlockId == self.tetrisSelection then
+							currentLevel.platform.indexBlockSelection = currentLevel.selectionBlock[h].blockNumber
+						end
+					end
+					
+					-- for k = 1, #currentLevel.blocks[currentLevel.platform.numberBlock] do
+					-- 	local sizeBlock = currentLevel.refBlock[currentLevel.platform.numberBlock].x1 - currentLevel.refBlock[currentLevel.platform.numberBlock].x0
+					-- 	currentLevel.blocks[currentLevel.platform.numberBlock][k].positionReturn.x = currentLevel.refBlock[currentLevel.platform.numberBlock].originXY.x + (sizeBlock * puzzles[currentLevel.refBlock[self.blockNumber].selectDimension].selectX) + ((currentLevel.platform.sizeSquare * currentLevel.platform.scaleSlid) * currentLevel.blocks[currentLevel.platform.numberBlock][k].blockX)
+					-- 	currentLevel.blocks[currentLevel.platform.numberBlock][k].positionReturn.y = currentLevel.refBlock[currentLevel.platform.numberBlock].originXY.y - (sizeBlock * puzzles[currentLevel.refBlock[self.blockNumber].selectDimension].selectY) - ((currentLevel.platform.sizeSquare * currentLevel.platform.scaleSlid) * currentLevel.blocks[currentLevel.platform.numberBlock][k].blockY)
+					-- end
+					generateScaleIn(self)
+				end 
+			end
+		end
+		-- PENDING MODIFY --
+		if currentLevel.platform.slider.dragBlock and self.tetrisSelection then
+			local dragX = action.x - (((currentLevel.platform.sizeSquare * currentLevel.platform.scaleGrid) * puzzles[currentLevel.refBlock[self.blockNumber].selectDimension].elevationX)/3)
+
+			local dragY = action.y + self.elevation + ((currentLevel.platform.sizeSquare * currentLevel.platform.scaleGrid) * puzzles[currentLevel.refBlock[self.blockNumber].selectDimension].elevationY)
+
+			local dragPosition = vmath.vector3(dragX, dragY, 1)
+
+			local sizeTetrisSlid = ((currentLevel.platform.sizeSquare * currentLevel.platform.scaleSlid)* 3)
+
+			currentLevel.refBlock[currentLevel.platform.numberBlock].positionBlock.x = dragPosition.x
+			currentLevel.refBlock[currentLevel.platform.numberBlock].x0 = dragPosition.x - (sizeTetrisSlid/2)
+			currentLevel.refBlock[currentLevel.platform.numberBlock].x1 = dragPosition.x + (sizeTetrisSlid/2)
+			currentLevel.refBlock[currentLevel.platform.numberBlock].originXY.x = currentLevel.refBlock[currentLevel.platform.numberBlock].x0
+			currentLevel.refBlock[currentLevel.platform.numberBlock].positionBlock.y = dragPosition.y
+			currentLevel.refBlock[currentLevel.platform.numberBlock].y0 = dragPosition.y + (sizeTetrisSlid/2)
+			currentLevel.refBlock[currentLevel.platform.numberBlock].y1 = dragPosition.y - (sizeTetrisSlid/2)
+			currentLevel.refBlock[currentLevel.platform.numberBlock].originXY.y = currentLevel.refBlock[currentLevel.platform.numberBlock].y0
+			go.set(self.tetrisSelection, "position", dragPosition)
+		end
+
+		if action.released and not currentLevel.platform.slider.whenPoseAndReplacingBlockIsDone and not currentLevel.platform.stopGame then
+			if not currentLevel.platform.slider.dragBlock and currentLevel.platform.slider.isSlideLeftRight then
+				if currentLevel.platform.leftAvailable == 0 and currentLevel.platform.slider.directionSlider == 1 then
+					currentLevel.platform.averageSlid = 0
+				end
+				if currentLevel.platform.rightAvailable == 0 and currentLevel.platform.slider.directionSlider == -1 then
+					currentLevel.platform.averageSlid = 0
+				end
+				if currentLevel.platform.rightAvailable == 1 and currentLevel.platform.slider.directionSlider == -1 then
+					currentLevel.platform.distance = 400
+					currentLevel.platform.averageSlid = (((currentLevel.selectionBlock[2].l1.x + currentLevel.selectionBlock[2].l0.x) / 2) - ((currentLevel.selectionBlock[1].l1.x + currentLevel.selectionBlock[1].l0.x) / 2))
+				end
+				if currentLevel.platform.leftAvailable == 1 and currentLevel.platform.slider.directionSlider == 1 then
+					currentLevel.platform.distance = 400
+					currentLevel.platform.averageSlid = (((currentLevel.selectionBlock[2].l1.x + currentLevel.selectionBlock[2].l0.x) / 2) - ((currentLevel.selectionBlock[1].l1.x + currentLevel.selectionBlock[1].l0.x) / 2))
+				end
+				if (currentLevel.platform.rightAvailable > 1 and currentLevel.platform.slider.directionSlider == -1) or
+				(currentLevel.platform.leftAvailable > 1 and currentLevel.platform.slider.directionSlider == 1) then
+					currentLevel.platform.distance = 800
+					currentLevel.platform.averageSlid = (((currentLevel.selectionBlock[3].l1.x + currentLevel.selectionBlock[3].l0.x) / 2) - ((currentLevel.selectionBlock[1].l1.x + currentLevel.selectionBlock[1].l0.x) / 2))
+				end
+				currentLevel.platform.slider.whenPoseAndReplacingBlockIsDone = true
+			end
+			
+			currentLevel.platform.processing = false
+			currentLevel.platform.actionReleased = action.released
+			currentLevel.platform.actionDx = 0
+			currentLevel.platform.actionDy = 0
+			if self.tetrisSelection then
+				currentLevel.platform.slider.isSlideLeftRight = false
+				currentLevel.platform.slider.dragBlock = false
+				isPlannedPosition(self)
+				
+				currentLevel.platform.numberDrag = 0
+				
+				if self.isOut == -1 then
+					generateScaleOut(self)
+					self.positionFactory.z = 0.6
+					returnBlock(self)
+					replaceBlockOrigin(self)
+					replaceSelectionOrigin(self)
+					currentLevel.platform.isBlockMatch = false
+					currentLevel.platform.isDragUp = false
+					currentLevel.platform.slider.isSlideLeftRight = false
+				end
+				if self.isOut == 0 then
+					currentLevel.refBlock[currentLevel.platform.numberBlock].isActive = false
+					self.positionFactory.z = 0.6
+					if currentLevel.platform.isBlockMatch then 
+						selectGroupsByBlockSelected(self)
+						applyIsGood(self)
+						decrementTarget(self)
+					end
+					if not currentLevel.platform.isBlockMatch then
+						currentLevel.platform.actionLostLevel = action.released
+					end
+					self.isTickRoundedPlaced25 = true
+					self.isTickRoundedPlaced50 = true
+					currentLevel.platform.handleManageTarget = true
+				end
+			end
+			
+			currentLevel.platform.slider.isTouchSlide = false
+			currentLevel.platform.isDragUp = false
+			currentLevel.platform.slider.positionStartLeftRight = vmath.vector3(0, 0, 0)
+			currentLevel.platform.slider.positionTouchSlide = vmath.vector3(0, 0, 0)
+			currentLevel.platform.slider.gapLeftRight = 0
+			self.tetrisSelection = nil
+			self.positionFactory = vmath.vector3(0,0,1)
+			self.actionDx = 0
+		end
+	end
+end
+
+function on_reload(self)
+end

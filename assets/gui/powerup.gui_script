@@ -1,0 +1,224 @@
+local ryoku_path = sys.get_save_file("ryoku", "data_level")
+local config = sys.load(ryoku_path)
+local list = require("ressources.listLevel")
+local currentLevel = list[config.level].path
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	if config.enable_adjacent then
+		gui.set_texture(gui.get_node("adjacent"), hash("powersup"))
+		gui.play_flipbook(gui.get_node("adjacent"), hash("adjacentes"))
+		if config.adjacent == 0 then
+			gui.set_enabled(gui.get_node("ads_zone"), true)
+			gui.set_enabled(gui.get_node("txt_zone"), false)
+		end
+		if config.adjacent > 0 then
+			gui.set_enabled(gui.get_node("ads_zone"), false)
+			gui.set_enabled(gui.get_node("txt_zone"), true)
+			gui.set_text(gui.get_node("txt_zone"), config.adjacent)
+		end
+	end
+	if not config.enable_adjacent then
+		gui.set_texture(gui.get_node("adjacent"), hash("powersup"))
+		gui.play_flipbook(gui.get_node("adjacent"), hash("adjacentes_dark"))
+		gui.set_enabled(gui.get_node("ads_zone"), true)
+		gui.set_enabled(gui.get_node("txt_zone"), false)
+	end
+
+	if config.enable_target then
+		gui.set_texture(gui.get_node("target"), hash("powersup"))
+		gui.play_flipbook(gui.get_node("target"), hash("target"))
+		if config.target == 0 then
+			gui.set_enabled(gui.get_node("ads_target"), true)
+			gui.set_enabled(gui.get_node("txt_target"), false)
+		end
+		if config.target > 0 then
+			gui.set_enabled(gui.get_node("ads_target"), false)
+			gui.set_enabled(gui.get_node("txt_target"), true)
+			gui.set_text(gui.get_node("txt_target"), config.target)
+		end
+	end
+	if not config.enable_target then
+		gui.set_texture(gui.get_node("target"), hash("powersup"))
+		gui.play_flipbook(gui.get_node("target"), hash("target_dark"))
+		gui.set_enabled(gui.get_node("ads_target"), true)
+		gui.set_enabled(gui.get_node("txt_target"), false)
+	end
+
+	if config.enable_group then
+		gui.set_texture(gui.get_node("group"), hash("powersup"))
+		gui.play_flipbook(gui.get_node("group"), hash("group"))
+		if config.group == 0 then
+			gui.set_enabled(gui.get_node("ads_group"), true)
+			gui.set_enabled(gui.get_node("txt_group"), false)
+		end
+		if config.group > 0 then
+			gui.set_enabled(gui.get_node("ads_group"), false)
+			gui.set_enabled(gui.get_node("txt_group"), true)
+			gui.set_text(gui.get_node("txt_group"), config.group)
+		end
+	end
+	if not config.enable_group then
+		gui.set_texture(gui.get_node("group"), hash("powersup"))
+		gui.play_flipbook(gui.get_node("group"), hash("group_dark"))
+		gui.set_enabled(gui.get_node("ads_group"), true)
+		gui.set_enabled(gui.get_node("txt_group"), false)
+	end
+	if currentLevel.platform.stopGame and config.level == 3 and not config.enable_adjacent then
+		local saveEnableAdjacent = sys.load(ryoku_path)
+		saveEnableAdjacent.enable_adjacent = true
+		if sys.save(ryoku_path, saveEnableAdjacent) then
+			timer.delay(1, false, function() 
+				gui.animate(gui.get_node("adjacent"), gui.PROP_SCALE, vmath.vector3(1.4), gui.EASING_INOUTQUAD, 0.5, 0.5, function(self, node) 
+					gui.set_texture(gui.get_node("adjacent"), hash("powersup"))
+					gui.play_flipbook(gui.get_node("adjacent"), hash("adjacentes"))
+				end, gui.PLAYBACK_ONCE_PINGPONG)
+			end)
+		end
+	end
+
+	if currentLevel.platform.stopGame and config.level == 4 and not config.enable_target then
+		local saveEnableTarget = sys.load(ryoku_path)
+		saveEnableTarget.enable_target = true
+		if sys.save(ryoku_path, saveEnableTarget) then
+			timer.delay(1, false, function() 
+				gui.animate(gui.get_node("target"), gui.PROP_SCALE, vmath.vector3(1.4), gui.EASING_INOUTQUAD, 0.5, 0.5, function(self, node) 
+					gui.set_texture(gui.get_node("target"), hash("powersup"))
+					gui.play_flipbook(gui.get_node("target"), hash("target"))
+				end, gui.PLAYBACK_ONCE_PINGPONG)
+			end)
+		end
+	end
+
+	if currentLevel.platform.stopGame and config.level == 5 and not config.enable_group then
+		local saveEnableGroup = sys.load(ryoku_path)
+		saveEnableGroup.enable_group = true
+		if sys.save(ryoku_path, saveEnableGroup) then
+			timer.delay(1, false, function() 
+				gui.animate(gui.get_node("group"), gui.PROP_SCALE, vmath.vector3(1.4), gui.EASING_INOUTQUAD, 0.5, 0.5, function(self, node) 
+					gui.set_texture(gui.get_node("group"), hash("powersup"))
+					gui.play_flipbook(gui.get_node("group"), hash("group"))
+				end, gui.PLAYBACK_ONCE_PINGPONG)
+			end)
+		end
+	end
+end
+
+function final(self)
+	-- Add finalization code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function update(self, dt)
+	
+	-- if self.adjacentNumber ~= config.adjacent then
+	-- 	if config.adjacent == 0 then
+	-- 		gui.set_enabled(gui.get_node("ads_zone"), true)
+	-- 		gui.set_enabled(gui.get_node("txt_zone"), false)
+	-- 	end
+	-- 	if config.adjacent > 0 then
+	-- 		gui.set_enabled(gui.get_node("ads_zone"), false)
+	-- 		gui.set_enabled(gui.get_node("txt_zone"), true)
+	-- 		gui.set_text(gui.get_node("txt_zone"), config.adjacent)
+	-- 		self.adjacentNumber = config.adjacent
+	-- 	end
+	-- end
+	-- Add update code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("increment_zone") then
+		local zoneNumber = sys.load(ryoku_path)
+		if zoneNumber.adjacent == 0 then
+			--zoneNumber.enable_adjacent = false
+			--if sys.save(ryoku_path, zoneNumber) then
+				gui.set_enabled(gui.get_node("ads_zone"), true)
+				gui.set_enabled(gui.get_node("txt_zone"), false)
+			--end
+		end
+		if zoneNumber.adjacent > 0 then
+			gui.set_enabled(gui.get_node("ads_zone"), false)
+			gui.set_enabled(gui.get_node("txt_zone"), true)
+			gui.set_text(gui.get_node("txt_zone"), zoneNumber.adjacent)
+		end
+	end
+
+	if message_id == hash("increment_target") then
+		local targetNumber = sys.load(ryoku_path)
+		if targetNumber.target == 0 then
+			--targetNumber.enable_target = false
+			--if sys.save(ryoku_path, targetNumber) then
+				gui.set_enabled(gui.get_node("ads_target"), true)
+				gui.set_enabled(gui.get_node("txt_target"), false)
+			--end
+		end
+		if targetNumber.target > 0 then
+			gui.set_enabled(gui.get_node("ads_target"), false)
+			gui.set_enabled(gui.get_node("txt_target"), true)
+			gui.set_text(gui.get_node("txt_target"), targetNumber.target)
+		end
+	end
+
+	if message_id == hash("increment_group") then
+		local groupNumber = sys.load(ryoku_path)
+		if groupNumber.group == 0 then
+			--groupNumber.enable_group = false
+			--if sys.save(ryoku_path, groupNumber) then
+				gui.set_enabled(gui.get_node("ads_group"), true)
+				gui.set_enabled(gui.get_node("txt_group"), false)
+			--end
+		end
+		if groupNumber.group > 0 then
+			gui.set_enabled(gui.get_node("ads_group"), false)
+			gui.set_enabled(gui.get_node("txt_group"), true)
+			gui.set_text(gui.get_node("txt_group"), groupNumber.group)
+		end
+	end
+	-- Add message-handling code here
+	-- Learn more: https://defold.com/manuals/message-passing/
+	-- Remove this function if not needed
+end
+
+function on_input(self, action_id, action)
+	if action.pressed and currentLevel.platform.bonusName == "" then
+		local clickIfEnable = sys.load(ryoku_path)
+		if gui.pick_node(gui.get_node("adjacent"), action.x, action.y) and clickIfEnable.enable_adjacent and not currentLevel.platform.stopGame and clickIfEnable.adjacent > 0 then
+			msg.post("/level#main", "initialize_bonus", { bonusName = "adjacent_bonus" });
+			--msg.post("@system:", "exit", {code = 0})
+		end
+		if gui.pick_node(gui.get_node("adjacent"), action.x, action.y) and clickIfEnable.enable_adjacent and not currentLevel.platform.stopGame and clickIfEnable.adjacent == 0 then
+			currentLevel.platform.stopGame = false
+			msg.post("/popup#popup", "zone_popup_pay")
+		end
+		if gui.pick_node(gui.get_node("target"), action.x, action.y) and clickIfEnable.enable_target and not currentLevel.platform.stopGame and clickIfEnable.target > 0 then
+			msg.post("/level#main", "initialize_bonus", { bonusName = "target_bonus" });
+		end
+		if gui.pick_node(gui.get_node("target"), action.x, action.y) and clickIfEnable.enable_target and not currentLevel.platform.stopGame and clickIfEnable.target == 0 then
+			currentLevel.platform.stopGame = false
+			msg.post("/popup#popup", "target_popup_pay")
+		end
+		if gui.pick_node(gui.get_node("group"), action.x, action.y) and clickIfEnable.enable_group and not currentLevel.platform.stopGame and clickIfEnable.group > 0 then
+			msg.post("/level#main", "initialize_bonus", { bonusName = "group_bonus" });
+		end
+		if gui.pick_node(gui.get_node("group"), action.x, action.y) and clickIfEnable.enable_group and not currentLevel.platform.stopGame and clickIfEnable.group == 0 then
+			msg.post("/popup#popup", "group_popup_pay")
+		end
+	end
+	-- Add input-handling code here. The game object this script is attached to
+	-- must have acquired input focus:
+	--
+	--    msg.post(".", "acquire_input_focus")
+	--
+	-- All mapped input bindings will be received. Mouse and touch input will
+	-- be received regardless of where on the screen it happened.
+	-- Learn more: https://defold.com/manuals/input/
+	-- Remove this function if not needed
+end
+
+function on_reload(self)
+	-- Add reload-handling code here
+	-- Learn more: https://defold.com/manuals/hot-reload/
+	-- Remove this function if not needed
+end

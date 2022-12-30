@@ -1,0 +1,69 @@
+[project]
+title = Ryoku
+custom_resources = ressources/data_level.lua, levels/
+
+[bootstrap]
+main_collection = /main/controller.collectionc
+render = /render/custom.renderc
+
+[input]
+game_binding = /input/game.input_bindingc
+use_accelerometer = 0
+
+[display]
+width = 640
+height = 1136
+display_profiles = /render/custom.display_profilesc
+
+[ios]
+app_icon_120x120 = /assets/app_icons/icon_120.png
+app_icon_180x180 = /assets/app_icons/icon_180.png
+app_icon_76x76 = /assets/app_icons/icon_76.png
+app_icon_152x152 = /assets/app_icons/icon_152.png
+app_icon_57x57 = /assets/app_icons/icon_57.png
+app_icon_114x114 = /assets/app_icons/icon_114.png
+app_icon_72x72 = /assets/app_icons/icon_72.png
+app_icon_144x144 = /assets/app_icons/icon_144.png
+app_icon_167x167 = /assets/app_icons/icon_167.png
+bundle_identifier = com.example.todo
+icons_asset = /assets/Assets.car
+
+[osx]
+bundle_identifier = com.example.todo
+
+[android]
+app_icon_36x36 = 
+app_icon_48x48 = 
+app_icon_72x72 = 
+app_icon_96x96 = 
+app_icon_144x144 = 
+app_icon_192x192 = 
+input_method = HiddenInputField
+manifest = /manifests/android/AndroidManifest.xml
+
+[script]
+shared_state = 1
+
+[physics]
+gravity_y = -1000.0
+scale = 0.01
+
+[graphics]
+texture_profiles = /graphics/custom.texture_profiles
+
+[sprite]
+max_count = 1050
+
+[collection_proxy]
+max_count = 15
+
+[collection]
+max_input_stack_entries = 200
+
+[factory]
+max_count = 2000
+
+[particle_fx]
+max_count = 160
+max_emitter_count = 160
+

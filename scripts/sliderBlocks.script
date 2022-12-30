@@ -1,0 +1,321 @@
+local ryoku_path = sys.get_save_file("ryoku", "data_level")
+local config = sys.load(ryoku_path)
+local list = require("ressources.listLevel")
+local currentLevel = list[config.level].path
+
+function generateArea(self)
+	local sliderPosition = go.get_position("/slider#sprite")
+	local sliderSize = go.get("/slider#sprite", "size")
+	local slidery0 = sliderPosition.y + (sliderSize.y / 2) - 75
+
+	local sizeTetrisSlid = ((currentLevel.platform.sizeSquare * currentLevel.platform.scaleSlid)* 3)
+	
+	currentLevel.platform.slider.y0 = slidery0
+	currentLevel.platform.slider.y1 = slidery0 - sizeTetrisSlid
+
+	--local widthScreen = sys.get_config("display.width")
+	local widthScreen = sliderSize.x
+	currentLevel.platform.startSlider = (widthScreen - ((currentLevel.platform.sizeSquare * currentLevel.platform.scaleSlid) * 13)) / 2
+	currentLevel.platform.intervalBlockSlid = ((currentLevel.platform.sizeSquare * currentLevel.platform.scaleSlid) * 13) / 3
+
+	currentLevel.platform.slider.sliderY = (currentLevel.platform.slider.y0 + currentLevel.platform.slider.y1) / 2
+	for f = 1, #currentLevel.refBlock do
+		local limitAreaX1 = (f * currentLevel.platform.intervalBlockSlid) + currentLevel.platform.startSlider
+		local limitAreaX0 = limitAreaX1 - currentLevel.platform.intervalBlockSlid
+		local originAreaX = limitAreaX0 + ((limitAreaX1 - limitAreaX0) / 2)
+		
+		currentLevel.refBlock[f].positionBlock.x = originAreaX
+		currentLevel.refBlock[f].positionBlock.y = currentLevel.platform.slider.sliderY
+		currentLevel.refBlock[f].positionBlock.z = 0.4
+
+		currentLevel.refBlock[f].l1.x = limitAreaX1
+		currentLevel.refBlock[f].l0.x = limitAreaX0
+
+		currentLevel.refBlock[f].l0.y = currentLevel.platform.slider.y0
+		currentLevel.refBlock[f].l1.y = currentLevel.platform.slider.y1
+
+		currentLevel.refBlock[f].x0 = originAreaX - (sizeTetrisSlid / 2)
+		currentLevel.refBlock[f].x1 = originAreaX + (sizeTetrisSlid / 2)
+		currentLevel.refBlock[f].y0 = currentLevel.platform.slider.sliderY + (sizeTetrisSlid / 2)
+		currentLevel.refBlock[f].y1 = currentLevel.platform.slider.sliderY - (sizeTetrisSlid / 2)
+
+		currentLevel.refBlock[f].originXY.x = currentLevel.refBlock[f].x0
+		currentLevel.refBlock[f].originXY.y = currentLevel.refBlock[f].y0
+		
+		if currentLevel.selectionBlock[f] and f < 4 then
+			currentLevel.selectionBlock[f].selectionOriginX = currentLevel.refBlock[f].originXY.x
+			currentLevel.selectionBlock[f].l1.x = limitAreaX1
+			currentLevel.selectionBlock[f].l0.x = limitAreaX0
+
+			local positionPointArea = vmath.vector3(originAreaX, currentLevel.platform.slider.sliderY, 0)
+			currentLevel.selectionBlock[f].positionSelectionBlock = positionPointArea
+
+			currentLevel.selectionBlock[f].l0.y = currentLevel.platform.slider.y0
+			currentLevel.selectionBlock[f].l1.y = currentLevel.platform.slider.y1
+			currentLevel.refBlock[f].isdisplaying = true
+		end
+		currentLevel.refBlock[f].factoryBlockId = factory.create("/square#block", nil, nil, { blockNumber = f, sliderPosition = sliderPosition }, nil)
+		msg.post(currentLevel.refBlock[f].factoryBlockId, "initGenerateBlocks", { blockNumber = f, sliderPosition = sliderPosition })
+	end
+end
+
+function attachedSelectionBlock(self, handle, time_elapsed)
+	for g=1, #currentLevel.selectionBlock do
+		for h=1, #currentLevel.refBlock do
+			if currentLevel.selectionBlock[g].l1.x > currentLevel.refBlock[h].positionBlock.x 
+			and currentLevel.selectionBlock[g].l0.x < currentLevel.refBlock[h].positionBlock.x 
+			and currentLevel.refBlock[h].isActive
+			and currentLevel.selectionBlock[g].selectionFactoryBlockId ~= currentLevel.refBlock[h].factoryBlockId then
+				currentLevel.refBlock[h].isdisplaying = true
+				currentLevel.selectionBlock[g].selectionFactoryBlockId = currentLevel.refBlock[h].factoryBlockId
+				if g == 1 then
+					currentLevel.platform.slidToRight = true
+				end
+			end
+			if currentLevel.selectionBlock[3].l1.x < currentLevel.refBlock[h].positionBlock.x
+			and currentLevel.refBlock[h].isdisplaying
+			and currentLevel.refBlock[h].isActive then
+				msg.post(currentLevel.refBlock[h].factoryTetrisId, "notDisplayblock", {blockNumber = currentLevel.refBlock[h].blockNumber})
+			end
+		end
+	end
+end
+
+function getFirstLastInstanceSliding(self)
+	local tableSlid = {}
+	for h=1, #currentLevel.refBlock do
+		if currentLevel.refBlock[h].isActive then
+			table.insert(tableSlid, currentLevel.refBlock[h].factoryBlockId)
+		end
+	end
+	currentLevel.platform.isLast = tableSlid[table.getn(tableSlid)]
+	currentLevel.platform.isFirst = tableSlid[1]
+end
+
+function putAnimationInPlace(self, dir, avg)
+	for u = 1, #currentLevel.blocks do
+		if currentLevel.refBlock[u].isActive then
+			msg.post(currentLevel.refBlock[u].factoryBlockId, "animate_slide_origin", { direction = dir, average = avg, duration = 0.5 })
+			for b = 1, #currentLevel.blocks[u] do
+				msg.post(currentLevel.blocks[u][b].blockId, "animate_slide", {direction = dir, average = avg, duration = 0.4 })
+			end
+		end
+	end
+end
+
+function goToGoodPosition(self)
+	local averagePosition = 0
+	local direction = nil
+	local totalSelection = 0
+
+	local originX = nil
+	local attachedBlockPosition = nil
+	if currentLevel.platform.totalBlockAvailable >= 3 then
+		totalSelection = 3
+	end
+	if currentLevel.platform.totalBlockAvailable == 2 then
+		totalSelection = 2
+	end
+	if currentLevel.platform.totalBlockAvailable == 1 then
+		totalSelection = 1
+	end
+	--if (currentLevel.platform.slidToRight and currentLevel.platform.slider.directionSlider == -1) or
+	--(currentLevel.platform.slidToLeft and currentLevel.platform.slider.directionSlider == 1) then
+	for h=1, totalSelection do
+		-- 	print("===> currentLevel.selectionBlock[g].l1.x :: ", currentLevel.selectionBlock[1].l1.x)
+		-- 	print("===> currentLevel.selectionBlock[g].l0.x :: ", currentLevel.selectionBlock[1].l0.x)
+		--originX = currentLevel.selectionBlock[h].positionSelectionBlock.x
+		originX = (currentLevel.selectionBlock[h].l1.x + currentLevel.selectionBlock[h].l0.x) / 2
+		attachedBlockPosition = go.get_position(currentLevel.selectionBlock[h].selectionFactoryBlockId)
+
+		if attachedBlockPosition.x - originX > 0 then
+			direction = "TO_LEFT"
+		end
+		if attachedBlockPosition.x - originX < 0 then
+			direction = "TO_RIGHT"
+		end
+
+		averagePosition = averagePosition + math.abs(attachedBlockPosition.x - originX)
+		if h == totalSelection then
+			--averagePosition = averagePosition / totalSelection
+			putAnimationInPlace(self, direction, averagePosition)
+		end
+	end
+	--end
+
+-- 	if currentLevel.platform.slidToRight and currentLevel.platform.slider.directionSlider == 1 then
+-- 		originX = currentLevel.selectionBlock[1].positionSelectionBlock.x
+-- 		attachedBlockPosition = go.get_position(currentLevel.selectionBlock[1].selectionFactoryBlockId)
+-- 
+-- 		if attachedBlockPosition.x - originX > 0 then
+-- 			direction = "TO_LEFT"
+-- 		end
+-- 		if attachedBlockPosition.x - originX < 0 then
+-- 			direction = "TO_RIGHT"
+-- 		end
+-- 
+-- 		averagePosition = averagePosition + math.abs(attachedBlockPosition.x - originX)
+-- 		putAnimationInPlace(self, direction, averagePosition)
+-- 	end
+-- 	if currentLevel.platform.slidToLeft and currentLevel.platform.slider.directionSlider == -1 then
+-- 		originX = currentLevel.selectionBlock[3].positionSelectionBlock.x
+-- 		attachedBlockPosition = go.get_position(currentLevel.selectionBlock[3].selectionFactoryBlockId)
+-- 
+-- 		if attachedBlockPosition.x - originX > 0 then
+-- 			direction = "TO_LEFT"
+-- 		end
+-- 		if attachedBlockPosition.x - originX < 0 then
+-- 			direction = "TO_RIGHT"
+-- 		end
+-- 
+-- 		averagePosition = averagePosition + math.abs(attachedBlockPosition.x - originX)
+-- 		putAnimationInPlace(self, direction, averagePosition)
+-- 	end
+	
+end
+
+function init(self)
+	generateArea(self)
+	--getFirstLastInstanceSliding(self)
+	timer.delay(1, false, attachedSelectionBlock)
+	self.testdt = 1500
+	self.postionTest = 0
+	currentLevel.platform.numberBlock = 0
+end
+
+function final(self)
+end
+
+function update(self, dt)
+	if currentLevel.platform.slider.whenPoseAndReplacingBlockIsDone then
+		for g=1, #currentLevel.selectionBlock do
+			for h=1, #currentLevel.refBlock do
+				if currentLevel.selectionBlock[g].l1.x > currentLevel.refBlock[h].positionBlock.x 
+				and currentLevel.selectionBlock[g].l0.x < currentLevel.refBlock[h].positionBlock.x 
+				and currentLevel.refBlock[h].isActive
+				and currentLevel.selectionBlock[g].selectionFactoryBlockId ~= currentLevel.refBlock[h].factoryBlockId then
+					currentLevel.selectionBlock[g].selectionFactoryBlockId = currentLevel.refBlock[h].factoryBlockId
+				end
+			end
+		end
+		getFirstLastInstanceSliding(self)
+	end
+	if currentLevel.platform.slider.whenPoseAndReplacingBlockIsDone and not currentLevel.platform.slider.dragBlock and currentLevel.platform.slider.isSlideLeftRight and not currentLevel.platform.isDragUp then
+		if currentLevel.platform.slider.directionSlider == -1 or currentLevel.platform.slider.directionSlider == 1 or
+		(currentLevel.platform.slidToRight and currentLevel.platform.slider.directionSlider == -1) or
+		(currentLevel.platform.slidToLeft and currentLevel.platform.slider.directionSlider == 1) then
+-- 			if currentLevel.platform.actionReleased then
+-- 				local eqt = (1 - (1 - dt) * (1 - dt))
+-- 				self.testdt = self.testdt - (eqt * 50)
+-- 				local GapX = (eqt * self.testdt) * currentLevel.platform.slider.directionSlider
+-- 				local currentGap = self.postionTest + GapX
+-- 				self.postionTest = currentGap
+-- 
+-- 				for o = 1, #currentLevel.blocks do
+-- 					if currentLevel.refBlock[o].isActive then
+-- 						msg.post(currentLevel.refBlock[o].factoryBlockId, "processing_slide_origin", { currentOriginGapX = GapX })
+-- 						for b = 1, #currentLevel.blocks[o] do
+-- 							msg.post(currentLevel.blocks[o][b].blockId, "processing_slide", {currentGapX = GapX })
+-- 						end
+-- 					end
+-- 				end
+-- 			end
+if currentLevel.platform.actionReleased and currentLevel.platform.averageSlid > 0 then
+	local direction = nil
+	if currentLevel.platform.slider.directionSlider == 1 then
+		direction = "TO_RIGHT"
+	end
+	if currentLevel.platform.slider.directionSlider == -1 then
+		direction = "TO_LEFT"
+	end
+	putAnimationInPlace(self, direction, currentLevel.platform.averageSlid)
+	currentLevel.platform.actionReleased = false
+	currentLevel.platform.slider.isSlideLeftRight = false
+	currentLevel.platform.slider.directionSlider = 0
+end
+			
+-- 			if math.abs(self.postionTest) >= currentLevel.platform.distance and currentLevel.platform.actionReleased then
+-- 				--goToGoodPosition(self)
+-- 				local averagePosition = 0
+-- 				local direction = nil
+-- 				local totalSelection = 0
+-- 
+-- 				local originX = nil
+-- 				local attachedBlockPosition = nil
+-- 				if currentLevel.platform.totalBlockAvailable >= 3 then
+-- 					totalSelection = 3
+-- 				end
+-- 				if currentLevel.platform.totalBlockAvailable == 2 then
+-- 					totalSelection = 2
+-- 				end
+-- 				if currentLevel.platform.totalBlockAvailable == 1 then
+-- 					totalSelection = 1
+-- 				end
+-- 				--if (currentLevel.platform.slidToRight and currentLevel.platform.slider.directionSlider == -1) or
+-- 				--(currentLevel.platform.slidToLeft and currentLevel.platform.slider.directionSlider == 1) then
+-- 				for h=1, totalSelection do
+-- 					-- 	print("===> currentLevel.selectionBlock[g].l1.x :: ", currentLevel.selectionBlock[1].l1.x)
+-- 					-- 	print("===> currentLevel.selectionBlock[g].l0.x :: ", currentLevel.selectionBlock[1].l0.x)
+-- 					--originX = currentLevel.selectionBlock[h].positionSelectionBlock.x
+-- 					originX = (currentLevel.selectionBlock[h].l1.x + currentLevel.selectionBlock[h].l0.x) / 2
+-- 					attachedBlockPosition = go.get_position(currentLevel.selectionBlock[h].selectionFactoryBlockId)
+-- 
+-- 					if attachedBlockPosition.x - originX > 0 then
+-- 						direction = "TO_LEFT"
+-- 					end
+-- 					if attachedBlockPosition.x - originX < 0 then
+-- 						direction = "TO_RIGHT"
+-- 					end
+-- 
+-- 					averagePosition = averagePosition + math.abs(attachedBlockPosition.x - originX)
+-- 					
+-- 					if h == totalSelection then
+-- 						averagePosition = averagePosition / totalSelection
+-- 						print("===> averagePosition :: ", averagePosition)
+-- 						putAnimationInPlace(self, direction, averagePosition)
+-- 					end
+-- 				end
+-- 				self.postionTest = 0
+-- 				currentLevel.platform.actionReleased = false
+-- 				--currentLevel.platform.slider.isSlideLeftRight = false
+-- 				currentLevel.platform.slider.directionSlider = 0
+-- 				self.testdt = 1500
+-- 			end
+
+			-- if (currentLevel.platform.slidToLeft and currentLevel.platform.slider.directionSlider == -1 ) or
+			-- (currentLevel.platform.slidToRight and currentLevel.platform.slider.directionSlider == 1) then
+			-- 	--goToGoodPosition(self)
+			-- 	print("==> selectionFactoryBlockId :: ", currentLevel.selectionBlock[1].selectionFactoryBlockId)
+			-- 	print("===> factoryBlockId ::: ", currentLevel.refBlock[1].factoryBlockId)
+			-- 	print("===> isFirst ::: ", currentLevel.platform.isFirst)
+			-- 	print("===> currentLevel.selectionBlock[g].l1.x :: ", currentLevel.selectionBlock[1].l1.x)
+			-- 	print("===> currentLevel.selectionBlock[g].l0.x :: ", currentLevel.selectionBlock[1].l0.x)
+			-- 	print("==> selectionFactoryBlockId/pos :: ", go.get_position(currentLevel.selectionBlock[1].selectionFactoryBlockId))
+			-- 	print("===> factoryBlockId/pos ::: ", go.get_position(currentLevel.refBlock[1].factoryBlockId))
+			-- 	print("===> isFirst/pos ::: ", go.get_position(currentLevel.platform.isFirst))
+			-- 	print("=== block ::: ", go.get_position(currentLevel.blocks[1][1].blockId))
+			-- 	print("===> currentLevel.refBlock[self.blockNumber].x0 :: ", currentLevel.refBlock[1].x0)
+			-- 	print("===> currentLevel.refBlock[self.blockNumber].x1 :: ", currentLevel.refBlock[1].x1)
+			-- 	print("===> currentLevel.platform.slider.directionSlider :: ",currentLevel.platform.slider.directionSlider)
+			-- 	print("====> currentLevel.platform.slidToLeft ::: ", currentLevel.platform.slidToLeft)
+			-- 	print("====> currentLevel.platform.slidToRight::: ", currentLevel.platform.slidToRight)
+			-- 	goToGoodPosition(self)
+			-- 	self.postionTest = 0
+			-- 	currentLevel.platform.actionReleased = false
+			-- 	--currentLevel.platform.slider.isSlideLeftRight = false
+			-- 	currentLevel.platform.slider.directionSlider = 0
+			-- 	self.testdt = 1500
+			-- end
+		end
+	end
+	
+end
+
+function on_message(self, message_id, message, sender)
+end
+
+function on_input(self, action_id, action)
+end
+
+function on_reload(self)
+end

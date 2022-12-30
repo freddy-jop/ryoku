@@ -1,0 +1,193 @@
+local helper = require("render.helper")
+local msgs = require("render.msgs")
+
+local RT_SIZE = 100
+local MAX_SIZE = 1024
+
+local TARGET = "target"
+
+local function next_pot(num)
+  local result = 1
+  while num > result do
+    result = bit.lshift(result, 1)
+  end
+  return result
+end
+
+local function update_render_targets(self)
+  self.RT_width = helper.win_width > MAX_SIZE and MAX_SIZE or next_pot(helper.win_width)
+  self.RT_width = self.RT_width > MAX_SIZE and MAX_SIZE or self.RT_width
+  self.RT_height = helper.win_height > MAX_SIZE and MAX_SIZE or next_pot(helper.win_height)
+  self.RT_height = self.RT_height > MAX_SIZE and MAX_SIZE or self.RT_height
+
+  if self.prev_RT_width == self.RT_width and self.prev_RT_height == self.RT_height then
+    self.firstFrame = true
+    return
+  end
+  
+  if self.render_target then
+    render.delete_render_target(self.render_target)
+  end
+  
+  self.RT_color_params.width= self.RT_width
+  self.RT_color_params.height = self.RT_height
+
+  self.render_target = render.render_target(TARGET, {
+    [render.BUFFER_COLOR_BIT] = self.RT_color_params
+  })
+
+  self.RT_proj = vmath.matrix4_orthographic(0, RT_SIZE, 0, RT_SIZE, - 1, 1)
+
+  self.firstFrame = true
+
+  self.prev_RT_width = self.RT_width
+  self.prev_RT_height = self.RT_height
+end
+
+local function update_window(self)
+  helper.win_width = render.get_window_width()
+  helper.win_height = render.get_window_height()
+
+  if helper.win_width >= helper.win_height then
+    helper.settings_width = render.get_height()
+    helper.settings_height = render.get_width()
+  else
+    helper.settings_width = render.get_width()
+    helper.settings_height = render.get_height()
+  end
+  
+  helper.zoom_factor = math.min(helper.win_width / helper.settings_width, helper.win_height / helper.settings_height)
+  self.projected_width = helper.win_width / helper.zoom_factor
+  self.projected_height = helper.win_height / helper.zoom_factor
+  helper.xoffset = - (self.projected_width - helper.settings_width) / 2
+  helper.yoffset = - (self.projected_height - helper.settings_height) / 2
+
+  helper.adjust_stretch_x = helper.win_width / helper.settings_width
+  helper.adjust_stretch_y = helper.win_height / helper.settings_height
+  helper.adjust_zoom = math.max(helper.adjust_stretch_x, helper.adjust_stretch_y)
+  helper.adjust_fit = math.min(helper.adjust_stretch_x, helper.adjust_stretch_y)
+  self.full_proj = vmath.matrix4_orthographic(helper.xoffset, helper.xoffset + self.projected_width,
+  helper.yoffset, helper.yoffset + self.projected_height, - 1, 1)
+
+  self.view = vmath.matrix4()
+  self.gui_projection = vmath.matrix4_orthographic(0, helper.win_width, 0, helper.win_height, - 1, 1)
+end
+
+function init(self)
+  self.simple_table_self = {}
+  self = self.simple_table_self
+  
+  self.tile_pred = render.predicate({"tile"})
+  self.gui_pred = render.predicate({"gui"})
+  self.text_pred = render.predicate({"text"})
+  self.render_target_pred = render.predicate({"render_target"})
+  self.particle_pred = render.predicate({"particle"})
+
+  helper.settings_width = render.get_width()
+  helper.settings_height = render.get_height()
+
+  self.clear_color = vmath.vector4(0, 0, 0, 0)
+  self.clear_color.x = sys.get_config("render.clear_color_red", 0)
+  self.clear_color.y = sys.get_config("render.clear_color_green", 0)
+  self.clear_color.z = sys.get_config("render.clear_color_blue", 0)
+  self.clear_color.w = sys.get_config("render.clear_color_alpha", 0)
+
+  self.RT_color_params = {
+    format = render.FORMAT_RGBA,
+    width = render.get_window_width(),
+    height = render.get_window_height(),
+    min_filter = render.FILTER_LINEAR,
+    mag_filter = render.FILTER_LINEAR,
+    u_wrap = render.WRAP_CLAMP_TO_EDGE,
+    v_wrap = render.WRAP_CLAMP_TO_EDGE
+  }
+
+  self.clear_param = {
+    [render.BUFFER_COLOR_BIT] = self.clear_color,
+    [render.BUFFER_DEPTH_BIT] = 1,
+    [render.BUFFER_STENCIL_BIT] = 0
+  }
+  
+  self.view = vmath.matrix4()
+  update_window(self)
+  update_render_targets(self)
+end
+
+function update(self)
+  self = self.simple_table_self
+  
+  render.set_depth_mask(true)
+  render.clear(self.clear_param)
+
+  render.set_viewport(0, 0, helper.win_width, helper.win_height)
+  render.set_view(self.view)
+  render.set_depth_mask(false)
+  render.disable_state(render.STATE_DEPTH_TEST)
+  render.disable_state(render.STATE_STENCIL_TEST)
+  render.enable_state(render.STATE_BLEND)
+  render.set_blend_func(render.BLEND_SRC_ALPHA, render.BLEND_ONE_MINUS_SRC_ALPHA)
+  render.disable_state(render.STATE_CULL_FACE)
+
+  render.set_projection(self.full_proj)
+
+  if self.is_render_target then
+
+    render.set_viewport(0, 0, self.RT_width, self.RT_height)
+    render.enable_render_target(self.render_target)
+    if self.firstFrame then
+      self.firstFrame = false
+      render.clear(self.clear_param)
+    end
+
+    render.draw(self.tile_pred)
+    render.disable_render_target(self.render_target)
+
+    render.set_viewport(0, 0, helper.win_width, helper.win_height)
+    render.set_view(self.view)
+    render.set_projection(self.RT_proj)
+    render.enable_texture(0, self.render_target, render.BUFFER_COLOR_BIT)
+    render.draw(self.render_target_pred)
+    render.disable_texture(0, self.render_target)
+    render.draw(self.particle_pred)
+    render.draw_debug3d()
+  else
+    render.draw(self.tile_pred)
+    render.draw(self.particle_pred)
+  end
+
+  render.set_view(self.view)
+  render.set_projection(self.gui_projection)
+
+  render.enable_state(render.STATE_STENCIL_TEST)
+  render.draw(self.gui_pred)
+  render.draw(self.text_pred)
+  render.disable_state(render.STATE_STENCIL_TEST)
+
+  render.set_depth_mask(false)
+end
+
+function on_message(self, message_id, message)
+  self = self.simple_table_self
+  
+  if message_id == msgs.CLEAR_COLOR then
+    self.clear_color = message.color
+    self.clear_param[render.BUFFER_COLOR_BIT] = self.clear_color
+  elseif message_id == msgs.SET_VIEW_PROJECTION then
+    self.view = message.view
+  elseif message_id == msgs.REGISTER_TO_ON_RESIZE then
+    self.interested_in_resize = message.path
+  elseif message_id == msgs.WINDOW_RESIZED then
+    update_window(self)
+    update_render_targets(self)
+    if self.interested_in_resize then
+      msg.post(self.interested_in_resize, msgs.WINDOW_RESIZED, message)
+    end
+  elseif message_id == msgs.R_TARGET then
+    self.is_render_target = message.isOn
+    if self.is_render_target then
+      update_render_targets(self)
+    else
+      update_window(self)
+    end
+  end
+end

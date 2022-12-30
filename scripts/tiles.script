@@ -1,0 +1,491 @@
+local ryoku_path = sys.get_save_file("ryoku", "data_level")
+local config = sys.load(ryoku_path)
+local list = require("ressources.listLevel")
+local currentLevel = list[config.level].path
+local squares = require("construct.conformation")
+local groupColor = require("construct.groupsColors")
+
+go.property("tileposition", vmath.vector3())
+go.property("fullPosition", vmath.vector3())
+
+function colorTileBlock(self)
+	for a = 1, #currentLevel.blocks do
+		for b = 1, #currentLevel.blocks[a] do
+			if currentLevel.blocks[a][b].result.tileX + 1 == self.currentTile.gdXY.x and currentLevel.blocks[a][b].result.tileY + 1 == self.currentTile.gdXY.y then
+				currentLevel.blocks[a][b].isColored = true
+				if currentLevel.refBlock[a].isdisplaying then
+					local urlblock = msg.url(nil, currentLevel.blocks[a][b].blockId, "square")
+					msg.post(urlblock, "revelation_block_with_tile", {currentBlock = currentLevel.blocks[a][b], tileAssocied = self.currentTile })
+				end
+			end
+		end
+	end
+end
+
+function initializeColorTileBlock(self)
+	for a = 1, #currentLevel.blocks do
+		for b = 1, #currentLevel.blocks[a] do
+			if currentLevel.blocks[a][b].result.tileX + 1 == self.currentTile.gdXY.x and currentLevel.blocks[a][b].result.tileY + 1 == self.currentTile.gdXY.y then
+				currentLevel.blocks[a][b].isColored = true
+				if currentLevel.refBlock[a].isdisplaying then
+					local urlblock = msg.url(nil, currentLevel.blocks[a][b].blockId, "square")
+					msg.post(urlblock, "initialize_revelation_block_with_tile", {initializeCurrentBlock = currentLevel.blocks[a][b], initializeTileAssocied = self.currentTile })
+				end
+			end
+		end
+	end
+end
+
+function loadConformationSquare(self, playConformation)
+	if currentLevel.grid[self.tileposition.y][self.tileposition.x].conformationName ~= playConformation then
+		currentLevel.grid[self.tileposition.y][self.tileposition.x].conformationName = playConformation
+		local targetConformation = msg.url(nil, currentLevel.grid[self.tileposition.y][self.tileposition.x].instanceSquareId, "back")
+		msg.post(targetConformation, "play_animation", {id = hash(playConformation)})
+		if currentLevel.grid[self.tileposition.y][self.tileposition.x].blockNumber ~= currentLevel.platform.numberBlock and not currentLevel.grid[self.tileposition.y][self.tileposition.x].revealed then
+			currentLevel.grid[self.tileposition.y][self.tileposition.x].revealed = true
+			local front = msg.url(nil, currentLevel.grid[self.tileposition.y][self.tileposition.x].instanceSquareId, "front")
+			msg.post(front, "enable")
+			go.set(front, "tint.w", 0)
+			go.set(front, "scale", vmath.vector3(0.2))
+			msg.post(front, "play_animation", {id = hash(string.upper(currentLevel.grid[self.tileposition.y][self.tileposition.x].number))})
+			go.animate(front, "scale", go.PLAYBACK_ONCE_FORWARD, vmath.vector3(1), go.EASING_OUTBOUNCE, 0.4, 0)
+			go.animate(front, "tint", go.PLAYBACK_ONCE_FORWARD, groupColor[currentLevel.groups[currentLevel.grid[self.tileposition.y][self.tileposition.x].groupId].groupColorId].colorBrique, go.EASING_INOUTQUART, 0.2, 0)
+			--go.set(front, "tint", currentLevel.groups[currentLevel.grid[self.tileposition.y][self.tileposition.x].groupId].colorBrique)
+
+			--local targetParticule = msg.url(nil, currentLevel.grid[self.tileposition.y][self.tileposition.x].instanceSquareId, "conforFx")
+			--particlefx.set_constant(targetParticule, "emitter", "tint", currentLevel.groups[currentLevel.grid[self.tileposition.y][self.tileposition.x].groupId].colorBrique)
+			--particlefx.play(targetParticule)
+		end
+	end
+end
+
+function getAvailableGroupById(self, targetlist)
+	local groupList = {}
+	for q, coor in ipairs(targetlist) do
+		if currentLevel.grid[self.tileposition.y+coor[1]][self.tileposition.x+coor[2]].groupId == currentLevel.grid[self.tileposition.y][self.tileposition.x].groupId then
+			local coorSquare = {coor[1], coor[2]}
+			table.insert(groupList, coorSquare)
+		end
+	end
+	return groupList
+end
+
+function availableSquareByGroup(self, groupSelected)
+	local squareList = {}
+	for sq, good in ipairs(groupSelected) do
+		if currentLevel.grid[self.tileposition.y+good[1]][self.tileposition.x+good[2]].isGood then
+			local goodSquare = {good[1], good[2]}
+			table.insert(squareList, goodSquare)
+		end
+	end
+	return squareList
+end
+
+function selectConformation(squareSelected)
+	local conformationList = squares.conformations
+	for sc=1, #conformationList do
+		local patternList = conformationList[sc].pattern
+		for pt=1, #patternList do
+			local conformationSelected = patternList[pt][1]
+			local countSquare = 0
+			if #squareSelected == 0 then
+				return squares.default
+			end
+			for fix=1, #conformationSelected do
+				for slot=1, #squareSelected do
+					if squareSelected[slot][1] == conformationSelected[fix][1] and squareSelected[slot][2] == conformationSelected[fix][2] then
+						countSquare = countSquare + 1
+					end
+				end
+				if #conformationSelected == countSquare and #conformationSelected == #squareSelected and #squareSelected == countSquare then
+					return conformationList[sc].name
+				end
+			end
+		end
+	end
+end
+
+function startTargetBonus(self, url, property)
+	msg.post(self.targetGrid.gridSpriteId, "play_animation", {id = hash("PLAIN_TARGET")})
+	currentLevel.grid[self.targetGrid.gdXY.y][self.targetGrid.gdXY.x].isGrey = false
+
+	if (currentLevel.grid[self.targetGrid.gdXY.y][self.targetGrid.gdXY.x].positionX + currentLevel.grid[self.targetGrid.gdXY.y][self.targetGrid.gdXY.x].positionY)%2 == 0 then
+		currentLevel.grid[self.targetGrid.gdXY.y][self.targetGrid.gdXY.x].color = groupColor[currentLevel.groups[currentLevel.grid[self.targetGrid.gdXY.y][self.targetGrid.gdXY.x].groupId].groupColorId].firstColor
+	else
+		currentLevel.grid[self.targetGrid.gdXY.y][self.targetGrid.gdXY.x].color = groupColor[currentLevel.groups[currentLevel.grid[self.targetGrid.gdXY.y][self.targetGrid.gdXY.x].groupId].groupColorId].secondColor
+	end
+
+	go.animate(currentLevel.grid[self.targetGrid.gdXY.y][self.targetGrid.gdXY.x].gridSpriteId, "tint", go.PLAYBACK_ONCE_FORWARD, currentLevel.grid[self.targetGrid.gdXY.y][self.targetGrid.gdXY.x].color, go.EASING_INSINE, 0.4, 0)
+	go.animate(currentLevel.grid[self.targetGrid.gdXY.y][self.targetGrid.gdXY.x].gridSpriteId, "scale", go.PLAYBACK_ONCE_PINGPONG, currentLevel.platform.scaleGrid*0.7, go.EASING_INOUTQUART, 0.4, 0)
+	colorTileBlock(self)
+end
+
+function startTargetBonusNotDisplaying(self)
+	msg.post(self.targetGrid.gridSpriteId, "play_animation", {id = hash("PLAIN_TARGET")})
+	currentLevel.grid[self.targetGrid.gdXY.y][self.targetGrid.gdXY.x].isGrey = false
+
+	if (currentLevel.grid[self.targetGrid.gdXY.y][self.targetGrid.gdXY.x].positionX + currentLevel.grid[self.targetGrid.gdXY.y][self.targetGrid.gdXY.x].positionY)%2 == 0 then
+		currentLevel.grid[self.targetGrid.gdXY.y][self.targetGrid.gdXY.x].color = groupColor[currentLevel.groups[currentLevel.grid[self.targetGrid.gdXY.y][self.targetGrid.gdXY.x].groupId].groupColorId].firstColor
+	else
+		currentLevel.grid[self.targetGrid.gdXY.y][self.targetGrid.gdXY.x].color = groupColor[currentLevel.groups[currentLevel.grid[self.targetGrid.gdXY.y][self.targetGrid.gdXY.x].groupId].groupColorId].secondColor
+	end
+
+	go.animate(currentLevel.grid[self.targetGrid.gdXY.y][self.targetGrid.gdXY.x].gridSpriteId, "tint", go.PLAYBACK_ONCE_FORWARD, currentLevel.grid[self.targetGrid.gdXY.y][self.targetGrid.gdXY.x].color, go.EASING_INSINE, 0.4, 0)
+	go.animate(currentLevel.grid[self.targetGrid.gdXY.y][self.targetGrid.gdXY.x].gridSpriteId, "scale", go.PLAYBACK_ONCE_PINGPONG, currentLevel.platform.scaleGrid*0.7, go.EASING_INOUTQUART, 0.4, 0)
+	colorTileBlock(self)
+end
+
+function startAdjacentBonus(self, url, property)
+	local limitGrid = currentLevel.platform.column
+	if self.currentTile.gdXY.y - 1 > 0 then
+		if currentLevel.grid[self.currentTile.gdXY.y - 1][self.currentTile.gdXY.x].isGrey and not currentLevel.grid[self.currentTile.gdXY.y - 1][self.currentTile.gdXY.x].revelatedAdjacentBonus then
+			currentLevel.grid[self.currentTile.gdXY.y - 1][self.currentTile.gdXY.x].revelatedAdjacentBonus = true
+			msg.post(currentLevel.grid[self.currentTile.gdXY.y - 1][self.currentTile.gdXY.x].gridSpriteId, "play_animation", {id = hash("PLAIN_ADJACENT")})
+			local urlY1 = msg.url(nil, currentLevel.grid[self.currentTile.gdXY.y - 1][self.currentTile.gdXY.x].instanceId, "tiles")
+			msg.post(urlY1, "adjacent_tile_locked", { tileObject = currentLevel.grid[self.currentTile.gdXY.y - 1][self.currentTile.gdXY.x] })
+		end
+	end
+	if self.currentTile.gdXY.y + 1 <= limitGrid then
+		if currentLevel.grid[self.currentTile.gdXY.y + 1][self.currentTile.gdXY.x].isGrey and not currentLevel.grid[self.currentTile.gdXY.y + 1][self.currentTile.gdXY.x].revelatedAdjacentBonus then
+			currentLevel.grid[self.currentTile.gdXY.y + 1][self.currentTile.gdXY.x].revelatedAdjacentBonus = true
+			msg.post(currentLevel.grid[self.currentTile.gdXY.y + 1][self.currentTile.gdXY.x].gridSpriteId, "play_animation", {id = hash("PLAIN_ADJACENT")})
+			local urlY2 = msg.url(nil, currentLevel.grid[self.currentTile.gdXY.y + 1][self.currentTile.gdXY.x].instanceId, "tiles")
+			msg.post(urlY2, "adjacent_tile_locked", { tileObject = currentLevel.grid[self.currentTile.gdXY.y + 1][self.currentTile.gdXY.x] })
+		end
+	end
+	if self.currentTile.gdXY.x - 1 > 0 then
+		if currentLevel.grid[self.currentTile.gdXY.y][self.currentTile.gdXY.x - 1].isGrey and not currentLevel.grid[self.currentTile.gdXY.y][self.currentTile.gdXY.x - 1].revelatedAdjacentBonus then
+			currentLevel.grid[self.currentTile.gdXY.y][self.currentTile.gdXY.x - 1].revelatedAdjacentBonus = true
+			msg.post(currentLevel.grid[self.currentTile.gdXY.y][self.currentTile.gdXY.x - 1].gridSpriteId, "play_animation", {id = hash("PLAIN_ADJACENT")})
+			local urlX1 = msg.url(nil, currentLevel.grid[self.currentTile.gdXY.y][self.currentTile.gdXY.x - 1].instanceId, "tiles")
+			msg.post(urlX1, "adjacent_tile_locked", { tileObject = currentLevel.grid[self.currentTile.gdXY.y][self.currentTile.gdXY.x - 1] })
+		end
+	end
+	if self.currentTile.gdXY.x + 1 <= limitGrid then
+		if currentLevel.grid[self.currentTile.gdXY.y][self.currentTile.gdXY.x + 1].isGrey and not currentLevel.grid[self.currentTile.gdXY.y][self.currentTile.gdXY.x + 1].revelatedAdjacentBonus then
+			currentLevel.grid[self.currentTile.gdXY.y][self.currentTile.gdXY.x + 1].revelatedAdjacentBonus = true
+			msg.post(currentLevel.grid[self.currentTile.gdXY.y][self.currentTile.gdXY.x + 1].gridSpriteId, "play_animation", {id = hash("PLAIN_ADJACENT")})
+			local urlX2 = msg.url(nil, currentLevel.grid[self.currentTile.gdXY.y][self.currentTile.gdXY.x + 1].instanceId, "tiles")
+			msg.post(urlX2, "adjacent_tile_locked", { tileObject = currentLevel.grid[self.currentTile.gdXY.y][self.currentTile.gdXY.x + 1] })
+		end
+	end
+end
+
+function getAvailableBonusGroupById(self, targetlist, currentTile)
+	local groupList = {}
+	for q, coor in ipairs(targetlist) do
+		if currentLevel.grid[currentTile.gdXY.y+coor[1]][currentTile.gdXY.x+coor[2]].groupId == currentLevel.grid[currentTile.gdXY.y][currentTile.gdXY.x].groupId then
+			local coorSquare = {coor[1], coor[2]}
+			table.insert(groupList, coorSquare)
+		end
+	end
+	return groupList
+end
+
+function loadConformationBonusGroup(self, currentTile)
+	if currentTile.gdXY.y == 1 and currentTile.gdXY.x == 1 then
+		local topLeft = selectConformation(getAvailableBonusGroupById(self, squares.targets[1].topLeft, currentTile))
+		return topLeft 
+	end
+	if currentTile.gdXY.y == 1 and currentTile.gdXY.x > 1 and currentTile.gdXY.x < currentLevel.platform.column then
+		local topBorder = selectConformation(getAvailableBonusGroupById(self, squares.targets[5].topBorder, currentTile))
+		return topBorder
+	end
+	if currentTile.gdXY.y > 1 and currentTile.gdXY.x == 1 and currentTile.gdXY.y < currentLevel.platform.column then
+		local leftBorder = selectConformation(getAvailableBonusGroupById(self, squares.targets[8].leftBorder, currentTile))
+		return leftBorder
+	end
+	if currentTile.gdXY.y == currentLevel.platform.column and currentTile.gdXY.x == 1 then
+		local bottomLeft = selectConformation(getAvailableBonusGroupById(self, squares.targets[4].bottomLeft, currentTile))
+		return bottomLeft
+	end
+	if currentTile.gdXY.y == 1 and currentTile.gdXY.x == currentLevel.platform.column then
+		local topRight = selectConformation(getAvailableBonusGroupById(self, squares.targets[2].topRight, currentTile))
+		return topRight
+	end
+	if currentTile.gdXY.y == currentLevel.platform.column and currentTile.gdXY.x > 1 and currentTile.gdXY.x < currentLevel.platform.column then
+		local bottomBorder = selectConformation(getAvailableBonusGroupById(self, squares.targets[7].bottomBorder, currentTile))
+		return bottomBorder
+	end
+	if currentTile.gdXY.y > 1 and currentTile.gdXY.x == currentLevel.platform.column and currentTile.gdXY.y < currentLevel.platform.column then
+		local rightBorder = selectConformation(getAvailableBonusGroupById(self, squares.targets[6].rightBorder, currentTile))
+		return rightBorder
+	end
+	if currentTile.gdXY.y == currentLevel.platform.column and currentTile.gdXY.x == currentLevel.platform.column then
+		local bottomRight = selectConformation(getAvailableBonusGroupById(self, squares.targets[3].bottomRight, currentTile))
+		return bottomRight
+	end
+	if currentTile.gdXY.y > 1 and currentTile.gdXY.x > 1 and currentTile.gdXY.x < currentLevel.platform.column and currentTile.gdXY.y < currentLevel.platform.column then
+		local plain = selectConformation(getAvailableBonusGroupById(self, squares.targets[9].plain, currentTile))
+		return plain
+	end
+end
+
+function startGroupBonus(self, url, property)
+	for m = 1, #currentLevel.grid do
+		for i = 1, #currentLevel.grid[m] do
+			if not currentLevel.grid[m][i].revealed 
+			and not currentLevel.grid[m][i].revelatedAdjacentBonus then
+				if self.currentTile.groupId ==  currentLevel.grid[m][i].groupId then
+
+					if currentLevel.grid[m][i].isGrey then
+						currentLevel.grid[m][i].revelatedAdjacentBonus = true
+						msg.post(currentLevel.grid[m][i].gridSpriteId, "play_animation", {id = hash("PLAIN_GROUP")})
+						currentLevel.grid[m][i].isGrey = false
+
+						local groupTile = msg.url(nil, currentLevel.grid[m][i].instanceId, "tiles")
+						msg.post(groupTile, "adjacent_tile_locked", { tileObject = currentLevel.grid[m][i] })
+					end
+					
+				end
+			end
+		end
+	end
+end
+
+function init(self)
+	local tile = currentLevel.grid[self.tileposition.y][self.tileposition.x]
+	msg.post("#hover", "disable")
+	self.entred = nil
+	self.exit = nil
+	self.block = nil
+	self.tile = nil
+	self.isIn = 0
+	self.isOut = 0
+	self.currentTile = nil
+	self.currentSubBlock = nil
+	self.pendingGood = true
+	self.toggleUpdate = true
+	go.set_position(self.fullPosition)
+	local gridId = factory.create("#grid", self.fullPosition, nil, { gridPosition = currentLevel.grid[self.tileposition.y][self.tileposition.x].gdXY, fullGrid = currentLevel.grid[self.tileposition.y][self.tileposition.x].xy }, nil)
+	currentLevel.grid[self.tileposition.y][self.tileposition.x].gridId = gridId
+	
+	if currentLevel.grid[self.tileposition.y][self.tileposition.x].gridId ~= "" then
+		local linkGrid = msg.url(nil, currentLevel.grid[self.tileposition.y][self.tileposition.x].gridId, "grid")
+		currentLevel.grid[self.tileposition.y][self.tileposition.x].gridSpriteId = linkGrid
+		go.set(linkGrid, "tint", tile.color)
+	end
+	
+end
+
+function final(self)
+end
+
+function update(self, dt)
+if currentLevel.platform.handleManageTarget then
+	if currentLevel.grid[self.tileposition.y][self.tileposition.x].isGood == true and 
+	currentLevel.grid[self.tileposition.y][self.tileposition.x].isPendingGood == true and 
+	not currentLevel.grid[self.tileposition.y][self.tileposition.x].groupLocked then
+		if self.tileposition.y == 1 and self.tileposition.x == 1 then
+			currentLevel.grid[self.tileposition.y][self.tileposition.x].isPendingGood = false
+			local topLeft = selectConformation(availableSquareByGroup(self, getAvailableGroupById(self, squares.targets[1].topLeft)))
+			if topLeft then
+				return loadConformationSquare(self, topLeft)
+			end
+		end
+		if self.tileposition.y == 1 and self.tileposition.x > 1 and self.tileposition.x < currentLevel.platform.column then
+			currentLevel.grid[self.tileposition.y][self.tileposition.x].isPendingGood = false
+			local topBorder = selectConformation(availableSquareByGroup(self, getAvailableGroupById(self, squares.targets[5].topBorder)))
+			if topBorder then
+				return loadConformationSquare(self, topBorder)
+			end
+		end
+		if self.tileposition.y > 1 and self.tileposition.x == 1 and self.tileposition.y < currentLevel.platform.column then
+			currentLevel.grid[self.tileposition.y][self.tileposition.x].isPendingGood = false
+			local leftBorder = selectConformation(availableSquareByGroup(self, getAvailableGroupById(self, squares.targets[8].leftBorder)))
+			if leftBorder then
+				return loadConformationSquare(self, leftBorder)
+			end
+		end
+		if self.tileposition.y == currentLevel.platform.column and self.tileposition.x == 1 then
+			currentLevel.grid[self.tileposition.y][self.tileposition.x].isPendingGood = false
+			local bottomLeft = selectConformation(availableSquareByGroup(self, getAvailableGroupById(self, squares.targets[4].bottomLeft)))
+			if bottomLeft then
+				return loadConformationSquare(self, bottomLeft)
+			end
+		end
+		if self.tileposition.y == 1 and self.tileposition.x == currentLevel.platform.column then
+			currentLevel.grid[self.tileposition.y][self.tileposition.x].isPendingGood = false
+			local topRight = selectConformation(availableSquareByGroup(self, getAvailableGroupById(self, squares.targets[2].topRight)))
+			if topRight then
+				return loadConformationSquare(self, topRight)
+			end
+		end
+		if self.tileposition.y == currentLevel.platform.column and self.tileposition.x > 1 and self.tileposition.x < currentLevel.platform.column then
+			currentLevel.grid[self.tileposition.y][self.tileposition.x].isPendingGood = false
+			local bottomBorder = selectConformation(availableSquareByGroup(self, getAvailableGroupById(self, squares.targets[7].bottomBorder)))
+			if bottomBorder then
+				return loadConformationSquare(self, bottomBorder)
+			end
+		end
+		if self.tileposition.y > 1 and self.tileposition.x == currentLevel.platform.column and self.tileposition.y < currentLevel.platform.column then
+			currentLevel.grid[self.tileposition.y][self.tileposition.x].isPendingGood = false
+			local rightBorder = selectConformation(availableSquareByGroup(self, getAvailableGroupById(self, squares.targets[6].rightBorder)))
+			if rightBorder then
+				return loadConformationSquare(self, rightBorder)
+			end
+		end
+		if self.tileposition.y == currentLevel.platform.column and self.tileposition.x == currentLevel.platform.column then
+			currentLevel.grid[self.tileposition.y][self.tileposition.x].isPendingGood = false
+			local bottomRight = selectConformation(availableSquareByGroup(self, getAvailableGroupById(self, squares.targets[3].bottomRight)))
+			if bottomRight then
+				return loadConformationSquare(self, bottomRight)
+			end
+		end
+		if self.tileposition.y > 1 and self.tileposition.x > 1 and self.tileposition.x < currentLevel.platform.column and self.tileposition.y < currentLevel.platform.column then
+			currentLevel.grid[self.tileposition.y][self.tileposition.x].isPendingGood = false
+			local plain = selectConformation(availableSquareByGroup(self, getAvailableGroupById(self, squares.targets[9].plain)))
+			if plain then
+				return loadConformationSquare(self, plain)
+			end
+		end
+	end
+end
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("initialize_tile") then
+		currentLevel.grid[self.tileposition.y][self.tileposition.x].isGrey = false
+		local color = currentLevel.grid[self.tileposition.y][self.tileposition.x]
+		if (currentLevel.grid[self.tileposition.y][self.tileposition.x].positionX + currentLevel.grid[self.tileposition.y][self.tileposition.x].positionY)%2 == 0 then
+			currentLevel.grid[self.tileposition.y][self.tileposition.x].color = groupColor[currentLevel.groups[currentLevel.grid[self.tileposition.y][self.tileposition.x].groupId].groupColorId].firstColor
+		else
+			currentLevel.grid[self.tileposition.y][self.tileposition.x].color = groupColor[currentLevel.groups[currentLevel.grid[self.tileposition.y][self.tileposition.x].groupId].groupColorId].secondColor
+		end
+
+		local scalGrid = go.get_scale(currentLevel.grid[self.tileposition.y][self.tileposition.x].gridSpriteId)
+		go.animate(currentLevel.grid[self.tileposition.y][self.tileposition.x].gridSpriteId, "tint", go.PLAYBACK_ONCE_FORWARD, currentLevel.grid[self.tileposition.y][self.tileposition.x].color, go.EASING_INSINE, 0.4, 0)
+		go.animate(currentLevel.grid[self.tileposition.y][self.tileposition.x].gridSpriteId, "scale", go.PLAYBACK_ONCE_PINGPONG, scalGrid.x*0.7, go.EASING_INOUTQUART, 0.4, 0)
+	end
+	if message_id == hash("adjacent_tile_locked") then
+		self.currentTile = message.tileObject
+		currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].isGrey = false
+		if (currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].positionX + currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].positionY)%2 == 0 then
+			currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].color = groupColor[currentLevel.groups[currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].groupId].groupColorId].firstColor
+		else
+			currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].color = groupColor[currentLevel.groups[currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].groupId].groupColorId].secondColor
+		end
+		colorTileBlock(self)
+		currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].target = true
+
+		local scalGrid = go.get_scale(currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].gridSpriteId)
+		go.animate(currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].gridSpriteId, "tint", go.PLAYBACK_ONCE_FORWARD, currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].color, go.EASING_INSINE, 0.4, 0)
+		go.animate(currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].gridSpriteId, "scale", go.PLAYBACK_ONCE_PINGPONG, scalGrid.x*0.7, go.EASING_INOUTQUART, 0.4, 0)
+	end
+
+	if message_id == hash("initialize_adjacent_tile_locked") then
+		self.currentTile = message.tileObject
+		currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].isGrey = false
+		if (currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].positionX + currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].positionY)%2 == 0 then
+			currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].color = groupColor[currentLevel.groups[currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].groupId].groupColorId].firstColor
+		else
+			currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].color = groupColor[currentLevel.groups[currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].groupId].groupColorId].secondColor
+		end
+		initializeColorTileBlock(self)
+		currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].target = true
+
+		local scalGrid = go.get_scale(currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].gridSpriteId)
+		go.animate(currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].gridSpriteId, "tint", go.PLAYBACK_ONCE_FORWARD, currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].color, go.EASING_INSINE, 0.3, 0)
+		go.animate(currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].gridSpriteId, "scale", go.PLAYBACK_ONCE_PINGPONG, scalGrid.x*0.7, go.EASING_INOUTQUART, 0.3, 0)
+	end
+
+	if message_id == hash("disable_tile_hover_collision") then
+		msg.post("#hover", "disable")
+	end
+	
+	if message_id == hash("initialize_target") then
+		local squareUrlInitalize = msg.url(nil, currentLevel.grid[message.initializeObject.gdXY.y][message.initializeObject.gdXY.x].instanceSquareId, "front")
+		msg.post(squareUrlInitalize, "disable")
+		currentLevel.grid[message.initializeObject.gdXY.y][message.initializeObject.gdXY.x].revealed = false
+		msg.post(squareUrlInitalize, "play_animation", {id = hash(string.upper(currentLevel.grid[message.initializeObject.gdXY.y][message.initializeObject.gdXY.x].number))})
+		msg.post("#plain", "play_animation", {id = hash("PLAIN")})
+	end
+	if message_id == hash("decrement_target") then
+		if not currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].target then
+			currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].isGrey = true
+
+			if currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].revealed then
+				local urlBlock = msg.url(nil, currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].instanceSquareId, "front")
+				go.animate(urlBlock, "tint", go.PLAYBACK_ONCE_FORWARD, currentLevel.platform.initialColor, go.EASING_INSINE, 0.1, 0)
+			end
+			
+			if (currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].positionX + currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].positionY)%2 == 0 then
+				currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].color = currentLevel.platform.grey.light
+				go.animate(currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].gridSpriteId, "tint", go.PLAYBACK_ONCE_FORWARD, currentLevel.platform.grey.light, go.EASING_INSINE, 0.4, 0)
+			else
+				currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].color = currentLevel.platform.grey.dark
+				go.animate(currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].gridSpriteId, "tint", go.PLAYBACK_ONCE_FORWARD, currentLevel.platform.grey.dark, go.EASING_INSINE, 0.4, 0)
+			end
+			
+			local scalGrid = go.get_scale(currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].gridSpriteId)
+			go.animate(currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].gridSpriteId, "scale", go.PLAYBACK_ONCE_PINGPONG, scalGrid.x*0.7, go.EASING_INOUTQUART, 0.4, 0)
+			
+			if currentLevel.refBlock[currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].blockNumber].isActive and
+			currentLevel.refBlock[currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].blockNumber].isdisplaying then
+				local urlblock = msg.url(nil, currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].instanceSquareId, "square")
+				msg.post(urlblock, "hide_block_with_tile", {currentBlockNumber = currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].number })
+			end
+			
+			for a = 1, #currentLevel.blocks do
+				for b = 1, #currentLevel.blocks[a] do
+					if currentLevel.blocks[a][b].result.tileX + 1 == currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].gdXY.x and currentLevel.blocks[a][b].result.tileY + 1 == currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].gdXY.y then
+						currentLevel.blocks[a][b].isColored = false
+					end
+				end
+			end
+		end
+	end
+	if message_id == hash("adjacent_bonus") then
+		local saveZoneBonus = sys.load(ryoku_path)
+		if saveZoneBonus.adjacent > 0 then
+			saveZoneBonus.adjacent = saveZoneBonus.adjacent - 1
+			if sys.save(ryoku_path, saveZoneBonus) then
+				msg.post("/powerup#powerup", "increment_zone")
+			end
+		end
+		self.currentTile = message.tileBonus[1]
+		go.animate(self.currentTile.gridSpriteId, "scale", go.PLAYBACK_ONCE_FORWARD, 1, go.EASING_INOUTQUART, 1, 0, startAdjacentBonus)
+	end
+	if message_id == hash("target_bonus") then
+		local targetGrid = message.tileBonus[1]
+		self.targetGrid = message.tileBonus[1]
+		self.currentTile = message.tileBonus[1]
+		currentLevel.grid[targetGrid.gdXY.y][targetGrid.gdXY.x].revealed = true
+		local saveTargetBonus = sys.load(ryoku_path)
+		if saveTargetBonus.target > 0 then
+			saveTargetBonus.target = saveTargetBonus.target - 1
+			if sys.save(ryoku_path, saveTargetBonus) then
+				msg.post("/powerup#powerup", "increment_target")
+			end
+		end
+		if currentLevel.refBlock[currentLevel.grid[targetGrid.gdXY.y][targetGrid.gdXY.x].blockNumber].isdisplaying then
+			
+			local targetUrl = msg.url(nil, currentLevel.grid[targetGrid.gdXY.y][targetGrid.gdXY.x].instanceSquareId, "front")
+			msg.post(targetUrl, "enable")
+			go.animate(targetUrl, "tint", go.PLAYBACK_ONCE_FORWARD, currentLevel.platform.initialColor, go.EASING_INSINE, 0.1, 0)
+			
+			msg.post(targetUrl, "play_animation", {id = hash(string.upper(currentLevel.grid[targetGrid.gdXY.y][targetGrid.gdXY.x].number))})
+			go.animate(targetGrid.gridSpriteId, "scale", go.PLAYBACK_ONCE_FORWARD, 1, go.EASING_INOUTQUART, 1, 0, startTargetBonus)
+		end
+		if not currentLevel.refBlock[currentLevel.grid[targetGrid.gdXY.y][targetGrid.gdXY.x].blockNumber].isdisplaying then
+			startTargetBonusNotDisplaying(self)
+		end
+	end
+	if message_id == hash("group_bonus") then
+		local saveGroupBonus = sys.load(ryoku_path)
+		if saveGroupBonus.group > 0 then
+			saveGroupBonus.group = saveGroupBonus.group - 1
+			if sys.save(ryoku_path, saveGroupBonus) then
+				msg.post("/powerup#powerup", "increment_group")
+			end
+		end
+		self.currentTile = message.tileBonus[1]
+		go.animate(self.currentTile.gridSpriteId, "scale", go.PLAYBACK_ONCE_FORWARD, 1, go.EASING_INOUTQUART, 1, 0, startGroupBonus)
+	end
+end
+
+function on_input(self, action_id, action)
+end
+
+function on_reload(self)
+end

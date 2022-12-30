@@ -1,0 +1,497 @@
+local ryoku_path = sys.get_save_file("ryoku", "data_level")
+local config = sys.load(ryoku_path)
+local list = require("ressources.listLevel")
+local currentLevel = list[config.level].path
+local languages = require("ressources.langages")
+local modifier = require("ressources.modifier")
+
+function setRuFont(self)
+	-- ZONE
+	gui.set_font(gui.get_node("header_zone_free"), hash("RU_22"))
+	gui.set_font(gui.get_node("header_zone_pay"), hash("RU_22"))
+
+	gui.set_font(gui.get_node("get_zone_free"), hash("RU_22"))
+	gui.set_font(gui.get_node("get_zone_pay"), hash("RU_22"))
+
+	gui.set_font(gui.get_node("offer_zone_free_gratuit"), hash("RU_22"))
+	gui.set_font(gui.get_node("offer_zone_pay_facile"), hash("RU_22"))
+
+	gui.set_font(gui.get_node("offer_zone_free_unique"), hash("RU_22"))
+	gui.set_font(gui.get_node("offer_zone_pay_jouer"), hash("RU_22"))
+
+	gui.set_font(gui.get_node("txt_recharge_free_zone"), hash("RU_30_border"))
+	gui.set_font(gui.get_node("txt_recharge_pay_zone"), hash("RU_30_border"))
+
+	-- GROUP
+	gui.set_font(gui.get_node("header_group_free"), hash("RU_22"))
+	gui.set_font(gui.get_node("header_group_pay"), hash("RU_22"))
+
+	gui.set_font(gui.get_node("get_group_free"), hash("RU_22"))
+	gui.set_font(gui.get_node("get_group_pay"), hash("RU_22"))
+
+	gui.set_font(gui.get_node("offer_group_free_gratuit"), hash("RU_22"))
+	gui.set_font(gui.get_node("offer_group_pay_facile"), hash("RU_22"))
+
+	gui.set_font(gui.get_node("offer_group_free_unique"), hash("RU_22"))
+	gui.set_font(gui.get_node("offer_group_pay_jouer"), hash("RU_22"))
+
+	gui.set_font(gui.get_node("txt_recharge_free_group"), hash("RU_30_border"))
+	gui.set_font(gui.get_node("txt_recharge_pay_group"), hash("RU_30_border"))
+
+	-- TARGET
+	gui.set_font(gui.get_node("header_target_free"), hash("RU_22"))
+	gui.set_font(gui.get_node("header_target_pay"), hash("RU_22"))
+
+	gui.set_font(gui.get_node("get_target_free"), hash("RU_22"))
+	gui.set_font(gui.get_node("get_target_pay"), hash("RU_22"))
+
+	gui.set_font(gui.get_node("offer_target_free_gratuit"), hash("RU_22"))
+	gui.set_font(gui.get_node("offer_target_pay_facile"), hash("RU_22"))
+
+	gui.set_font(gui.get_node("offer_target_free_unique"), hash("RU_22"))
+	gui.set_font(gui.get_node("offer_target_pay_jouer"), hash("RU_22"))
+
+	gui.set_font(gui.get_node("txt_recharge_free_target"), hash("RU_30_border"))
+	gui.set_font(gui.get_node("txt_recharge_pay_target"), hash("RU_30_border"))
+end
+
+function setArbFont(self)
+	-- ZONE
+	gui.set_font(gui.get_node("header_zone_free"), hash("ARB_35_border"))
+	gui.set_font(gui.get_node("header_zone_pay"), hash("ARB_35_border"))
+
+	gui.set_font(gui.get_node("get_zone_free"), hash("ARB_25"))
+	gui.set_font(gui.get_node("get_zone_pay"), hash("ARB_25"))
+
+	gui.set_font(gui.get_node("offer_zone_free_gratuit"), hash("ARB_25"))
+	gui.set_font(gui.get_node("offer_zone_pay_facile"), hash("ARB_25"))
+
+	gui.set_font(gui.get_node("offer_zone_free_unique"), hash("ARB_25"))
+	gui.set_font(gui.get_node("offer_zone_pay_jouer"), hash("ARB_25"))
+
+	gui.set_font(gui.get_node("txt_recharge_free_zone"), hash("ARB_35_border"))
+	gui.set_font(gui.get_node("txt_recharge_pay_zone"), hash("ARB_35_border"))
+
+	-- GROUP
+	gui.set_font(gui.get_node("header_group_free"), hash("ARB_35_border"))
+	gui.set_font(gui.get_node("header_group_pay"), hash("ARB_35_border"))
+
+	gui.set_font(gui.get_node("get_group_free"), hash("ARB_25"))
+	gui.set_font(gui.get_node("get_group_pay"), hash("ARB_25"))
+
+	gui.set_font(gui.get_node("offer_group_free_gratuit"), hash("ARB_25"))
+	gui.set_font(gui.get_node("offer_group_pay_facile"), hash("ARB_25"))
+
+	gui.set_font(gui.get_node("offer_group_free_unique"), hash("ARB_25"))
+	gui.set_font(gui.get_node("offer_group_pay_jouer"), hash("ARB_25"))
+
+	gui.set_font(gui.get_node("txt_recharge_free_group"), hash("ARB_35_border"))
+	gui.set_font(gui.get_node("txt_recharge_pay_group"), hash("ARB_35_border"))
+
+	-- TARGET
+	gui.set_font(gui.get_node("header_target_free"), hash("ARB_35_border"))
+	gui.set_font(gui.get_node("header_target_pay"), hash("ARB_35_border"))
+
+	gui.set_font(gui.get_node("get_target_free"), hash("ARB_25"))
+	gui.set_font(gui.get_node("get_target_pay"), hash("ARB_25"))
+
+	gui.set_font(gui.get_node("offer_target_free_gratuit"), hash("ARB_25"))
+	gui.set_font(gui.get_node("offer_target_pay_facile"), hash("ARB_25"))
+
+	gui.set_font(gui.get_node("offer_target_free_unique"), hash("ARB_25"))
+	gui.set_font(gui.get_node("offer_target_pay_jouer"), hash("ARB_25"))
+
+	gui.set_font(gui.get_node("txt_recharge_free_target"), hash("ARB_35_border"))
+	gui.set_font(gui.get_node("txt_recharge_pay_target"), hash("ARB_35_border"))
+end
+
+function setJaFont(self)
+	-- ZONE
+	gui.set_font(gui.get_node("header_zone_free"), hash("JA_30_border"))
+	gui.set_font(gui.get_node("header_zone_pay"), hash("JA_30_border"))
+
+	gui.set_font(gui.get_node("get_zone_free"), hash("JA_25"))
+	gui.set_font(gui.get_node("get_zone_pay"), hash("JA_25"))
+
+	gui.set_font(gui.get_node("offer_zone_free_gratuit"), hash("JA_25"))
+	gui.set_font(gui.get_node("offer_zone_pay_facile"), hash("JA_25"))
+
+	gui.set_font(gui.get_node("offer_zone_free_unique"), hash("JA_25"))
+	gui.set_font(gui.get_node("offer_zone_pay_jouer"), hash("JA_25"))
+
+	gui.set_font(gui.get_node("txt_recharge_free_zone"), hash("JA_30_border"))
+	gui.set_font(gui.get_node("txt_recharge_pay_zone"), hash("JA_30_border"))
+
+	-- GROUP
+	gui.set_font(gui.get_node("header_group_free"), hash("JA_30_border"))
+	gui.set_font(gui.get_node("header_group_pay"), hash("JA_30_border"))
+
+	gui.set_font(gui.get_node("get_group_free"), hash("JA_25"))
+	gui.set_font(gui.get_node("get_group_pay"), hash("JA_25"))
+
+	gui.set_font(gui.get_node("offer_group_free_gratuit"), hash("JA_25"))
+	gui.set_font(gui.get_node("offer_group_pay_facile"), hash("JA_25"))
+
+	gui.set_font(gui.get_node("offer_group_free_unique"), hash("JA_25"))
+	gui.set_font(gui.get_node("offer_group_pay_jouer"), hash("JA_25"))
+
+	gui.set_font(gui.get_node("txt_recharge_free_group"), hash("JA_30_border"))
+	gui.set_font(gui.get_node("txt_recharge_pay_group"), hash("JA_30_border"))
+
+	-- TARGET
+	gui.set_font(gui.get_node("header_target_free"), hash("JA_30_border"))
+	gui.set_font(gui.get_node("header_target_pay"), hash("JA_30_border"))
+
+	gui.set_font(gui.get_node("get_target_free"), hash("JA_25"))
+	gui.set_font(gui.get_node("get_target_pay"), hash("JA_25"))
+
+	gui.set_font(gui.get_node("offer_target_free_gratuit"), hash("JA_25"))
+	gui.set_font(gui.get_node("offer_target_pay_facile"), hash("JA_25"))
+
+	gui.set_font(gui.get_node("offer_target_free_unique"), hash("JA_25"))
+	gui.set_font(gui.get_node("offer_target_pay_jouer"), hash("JA_25"))
+
+	gui.set_font(gui.get_node("txt_recharge_free_target"), hash("JA_30_border"))
+	gui.set_font(gui.get_node("txt_recharge_pay_target"), hash("JA_30_border"))
+end
+
+function setKrFont(self)
+	-- ZONE
+	gui.set_font(gui.get_node("header_zone_free"), hash("KR_30_border"))
+	gui.set_font(gui.get_node("header_zone_pay"), hash("KR_30_border"))
+
+	gui.set_font(gui.get_node("get_zone_free"), hash("KR_25"))
+	gui.set_font(gui.get_node("get_zone_pay"), hash("KR_25"))
+
+	gui.set_font(gui.get_node("offer_zone_free_gratuit"), hash("KR_25"))
+	gui.set_font(gui.get_node("offer_zone_pay_facile"), hash("KR_25"))
+
+	gui.set_font(gui.get_node("offer_zone_free_unique"), hash("KR_25"))
+	gui.set_font(gui.get_node("offer_zone_pay_jouer"), hash("KR_25"))
+
+	gui.set_font(gui.get_node("txt_recharge_free_zone"), hash("KR_30_border"))
+	gui.set_font(gui.get_node("txt_recharge_pay_zone"), hash("KR_30_border"))
+
+	-- GROUP
+	gui.set_font(gui.get_node("header_group_free"), hash("KR_30_border"))
+	gui.set_font(gui.get_node("header_group_pay"), hash("KR_30_border"))
+
+	gui.set_font(gui.get_node("get_group_free"), hash("KR_25"))
+	gui.set_font(gui.get_node("get_group_pay"), hash("KR_25"))
+
+	gui.set_font(gui.get_node("offer_group_free_gratuit"), hash("KR_25"))
+	gui.set_font(gui.get_node("offer_group_pay_facile"), hash("KR_25"))
+
+	gui.set_font(gui.get_node("offer_group_free_unique"), hash("KR_25"))
+	gui.set_font(gui.get_node("offer_group_pay_jouer"), hash("KR_25"))
+
+	gui.set_font(gui.get_node("txt_recharge_free_group"), hash("KR_30_border"))
+	gui.set_font(gui.get_node("txt_recharge_pay_group"), hash("KR_30_border"))
+
+	-- TARGET
+	gui.set_font(gui.get_node("header_target_free"), hash("KR_30_border"))
+	gui.set_font(gui.get_node("header_target_pay"), hash("KR_30_border"))
+
+	gui.set_font(gui.get_node("get_target_free"), hash("KR_25"))
+	gui.set_font(gui.get_node("get_target_pay"), hash("KR_25"))
+
+	gui.set_font(gui.get_node("offer_target_free_gratuit"), hash("KR_25"))
+	gui.set_font(gui.get_node("offer_target_pay_facile"), hash("KR_25"))
+
+	gui.set_font(gui.get_node("offer_target_free_unique"), hash("KR_25"))
+	gui.set_font(gui.get_node("offer_target_pay_jouer"), hash("KR_25"))
+
+	gui.set_font(gui.get_node("txt_recharge_free_target"), hash("KR_30_border"))
+	gui.set_font(gui.get_node("txt_recharge_pay_target"), hash("KR_30_border"))
+end
+
+function setViFont(self)
+	-- ZONE
+	gui.set_font(gui.get_node("header_zone_free"), hash("VI_30_border"))
+	gui.set_font(gui.get_node("header_zone_pay"), hash("VI_30_border"))
+
+	gui.set_font(gui.get_node("get_zone_free"), hash("VI_25"))
+	gui.set_font(gui.get_node("get_zone_pay"), hash("VI_25"))
+
+	gui.set_font(gui.get_node("offer_zone_free_gratuit"), hash("VI_25"))
+	gui.set_font(gui.get_node("offer_zone_pay_facile"), hash("VI_25"))
+
+	gui.set_font(gui.get_node("offer_zone_free_unique"), hash("VI_25"))
+	gui.set_font(gui.get_node("offer_zone_pay_jouer"), hash("VI_25"))
+
+	gui.set_font(gui.get_node("txt_recharge_free_zone"), hash("VI_30_border"))
+	gui.set_font(gui.get_node("txt_recharge_pay_zone"), hash("VI_30_border"))
+
+	-- GROUP
+	gui.set_font(gui.get_node("header_group_free"), hash("VI_30_border"))
+	gui.set_font(gui.get_node("header_group_pay"), hash("VI_30_border"))
+
+	gui.set_font(gui.get_node("get_group_free"), hash("VI_25"))
+	gui.set_font(gui.get_node("get_group_pay"), hash("VI_25"))
+
+	gui.set_font(gui.get_node("offer_group_free_gratuit"), hash("VI_25"))
+	gui.set_font(gui.get_node("offer_group_pay_facile"), hash("VI_25"))
+
+	gui.set_font(gui.get_node("offer_group_free_unique"), hash("VI_25"))
+	gui.set_font(gui.get_node("offer_group_pay_jouer"), hash("VI_25"))
+
+	gui.set_font(gui.get_node("txt_recharge_free_group"), hash("VI_30_border"))
+	gui.set_font(gui.get_node("txt_recharge_pay_group"), hash("VI_30_border"))
+
+	-- TARGET
+	gui.set_font(gui.get_node("header_target_free"), hash("VI_30_border"))
+	gui.set_font(gui.get_node("header_target_pay"), hash("VI_30_border"))
+
+	gui.set_font(gui.get_node("get_target_free"), hash("VI_25"))
+	gui.set_font(gui.get_node("get_target_pay"), hash("VI_25"))
+
+	gui.set_font(gui.get_node("offer_target_free_gratuit"), hash("VI_25"))
+	gui.set_font(gui.get_node("offer_target_pay_facile"), hash("VI_25"))
+
+	gui.set_font(gui.get_node("offer_target_free_unique"), hash("VI_25"))
+	gui.set_font(gui.get_node("offer_target_pay_jouer"), hash("VI_25"))
+
+	gui.set_font(gui.get_node("txt_recharge_free_target"), hash("VI_30_border"))
+	gui.set_font(gui.get_node("txt_recharge_pay_target"), hash("VI_30_border"))
+end
+
+function setTxtForAll(self)
+	-- ZONE
+	gui.set_text(gui.get_node("header_zone_free"), languages[config.game_language].header_zone_popup)
+	gui.set_text(gui.get_node("header_zone_pay"), languages[config.game_language].header_zone_popup)
+
+	gui.set_text(gui.get_node("get_zone_free"), languages[config.game_language].get_zone_free)
+	gui.set_text(gui.get_node("get_zone_pay"), languages[config.game_language].get_zone_pay)
+
+	gui.set_text(gui.get_node("offer_zone_free_gratuit"), languages[config.game_language].label_market_free_gratuit)
+	gui.set_text(gui.get_node("offer_zone_pay_facile"), languages[config.game_language].label_market_pay_facile)
+
+	gui.set_text(gui.get_node("offer_zone_free_unique"), languages[config.game_language].label_market_free_unique)
+	gui.set_text(gui.get_node("offer_zone_pay_jouer"), languages[config.game_language].label_market_pay_jouer)
+
+	gui.set_text(gui.get_node("txt_recharge_free_zone"), languages[config.game_language].label_button_recharge)
+	gui.set_text(gui.get_node("txt_recharge_pay_zone"), languages[config.game_language].label_button_recharge)
+
+	-- GROUP
+	gui.set_text(gui.get_node("header_group_free"), languages[config.game_language].header_group_popup)
+	gui.set_text(gui.get_node("header_group_pay"), languages[config.game_language].header_group_popup)
+
+	gui.set_text(gui.get_node("get_group_free"), languages[config.game_language].get_group_free)
+	gui.set_text(gui.get_node("get_group_pay"), languages[config.game_language].get_group_pay)
+
+	gui.set_text(gui.get_node("offer_group_free_gratuit"), languages[config.game_language].label_market_free_gratuit)
+	gui.set_text(gui.get_node("offer_group_pay_facile"), languages[config.game_language].label_market_pay_facile)
+
+	gui.set_text(gui.get_node("offer_group_free_unique"), languages[config.game_language].label_market_free_unique)
+	gui.set_text(gui.get_node("offer_group_pay_jouer"), languages[config.game_language].label_market_pay_jouer)
+
+	gui.set_text(gui.get_node("txt_recharge_free_group"), languages[config.game_language].label_button_recharge)
+	gui.set_text(gui.get_node("txt_recharge_pay_group"), languages[config.game_language].label_button_recharge)
+
+	-- TARGET
+	gui.set_text(gui.get_node("header_target_free"), languages[config.game_language].header_target_popup)
+	gui.set_text(gui.get_node("header_target_pay"), languages[config.game_language].header_target_popup)
+
+	gui.set_text(gui.get_node("get_target_free"), languages[config.game_language].get_target_free)
+	gui.set_text(gui.get_node("get_target_pay"), languages[config.game_language].get_target_pay)
+
+	gui.set_text(gui.get_node("offer_target_free_gratuit"), languages[config.game_language].label_market_free_gratuit)
+	gui.set_text(gui.get_node("offer_target_pay_facile"), languages[config.game_language].label_market_pay_facile)
+
+	gui.set_text(gui.get_node("offer_target_free_unique"), languages[config.game_language].label_market_free_unique)
+	gui.set_text(gui.get_node("offer_target_pay_jouer"), languages[config.game_language].label_market_pay_jouer)
+
+	gui.set_text(gui.get_node("txt_recharge_free_target"), languages[config.game_language].label_button_recharge)
+	gui.set_text(gui.get_node("txt_recharge_pay_target"), languages[config.game_language].label_button_recharge)
+end
+
+function setTxtArabic(self)
+	-- ZONE
+	gui.set_text(gui.get_node("header_zone_free"), modifier.modifierToArab(languages[config.game_language].header_zone_popup))
+	gui.set_text(gui.get_node("header_zone_pay"), modifier.modifierToArab(languages[config.game_language].header_zone_popup))
+
+	gui.set_text(gui.get_node("get_zone_free"), modifier.modifierToArab(languages[config.game_language].get_zone_free))
+	gui.set_text(gui.get_node("get_zone_pay"), modifier.modifierToArab(languages[config.game_language].get_zone_pay))
+
+	gui.set_text(gui.get_node("offer_zone_free_gratuit"), modifier.modifierToArab(languages[config.game_language].label_market_free_gratuit))
+	gui.set_text(gui.get_node("offer_zone_pay_facile"), modifier.modifierToArab(languages[config.game_language].label_market_pay_facile))
+
+	gui.set_text(gui.get_node("offer_zone_free_unique"), modifier.modifierToArab(languages[config.game_language].label_market_free_unique))
+	gui.set_text(gui.get_node("offer_zone_pay_jouer"), modifier.modifierToArab(languages[config.game_language].label_market_pay_jouer))
+
+	gui.set_text(gui.get_node("txt_recharge_free_zone"), modifier.modifierToArab(languages[config.game_language].label_button_recharge))
+	gui.set_text(gui.get_node("txt_recharge_pay_zone"), modifier.modifierToArab(languages[config.game_language].label_button_recharge))
+
+	-- GROUP
+	gui.set_text(gui.get_node("header_group_free"), modifier.modifierToArab(languages[config.game_language].header_group_popup))
+	gui.set_text(gui.get_node("header_group_pay"), modifier.modifierToArab(languages[config.game_language].header_group_popup))
+
+	gui.set_text(gui.get_node("get_group_free"), modifier.modifierToArab(languages[config.game_language].get_group_free))
+	gui.set_text(gui.get_node("get_group_pay"), modifier.modifierToArab(languages[config.game_language].get_group_pay))
+
+	gui.set_text(gui.get_node("offer_group_free_gratuit"), modifier.modifierToArab(languages[config.game_language].label_market_free_gratuit))
+	gui.set_text(gui.get_node("offer_group_pay_facile"), modifier.modifierToArab(languages[config.game_language].label_market_pay_facile))
+
+	gui.set_text(gui.get_node("offer_group_free_unique"), modifier.modifierToArab(languages[config.game_language].label_market_free_unique))
+	gui.set_text(gui.get_node("offer_group_pay_jouer"), modifier.modifierToArab(languages[config.game_language].label_market_pay_jouer))
+
+	gui.set_text(gui.get_node("txt_recharge_free_group"), modifier.modifierToArab(languages[config.game_language].label_button_recharge))
+	gui.set_text(gui.get_node("txt_recharge_pay_group"), modifier.modifierToArab(languages[config.game_language].label_button_recharge))
+
+	-- TARGET
+	gui.set_text(gui.get_node("header_target_free"), modifier.modifierToArab(languages[config.game_language].header_target_popup))
+	gui.set_text(gui.get_node("header_target_pay"), modifier.modifierToArab(languages[config.game_language].header_target_popup))
+
+	gui.set_text(gui.get_node("get_target_free"), modifier.modifierToArab(languages[config.game_language].get_target_free))
+	gui.set_text(gui.get_node("get_target_pay"), modifier.modifierToArab(languages[config.game_language].get_target_pay))
+
+	gui.set_text(gui.get_node("offer_target_free_gratuit"), modifier.modifierToArab(languages[config.game_language].label_market_free_gratuit))
+	gui.set_text(gui.get_node("offer_target_pay_facile"), modifier.modifierToArab(languages[config.game_language].label_market_pay_facile))
+
+	gui.set_text(gui.get_node("offer_target_free_unique"), modifier.modifierToArab(languages[config.game_language].label_market_free_unique))
+	gui.set_text(gui.get_node("offer_target_pay_jouer"), modifier.modifierToArab(languages[config.game_language].label_market_pay_jouer))
+
+	gui.set_text(gui.get_node("txt_recharge_free_target"), modifier.modifierToArab(languages[config.game_language].label_button_recharge))
+	gui.set_text(gui.get_node("txt_recharge_pay_target"), modifier.modifierToArab(languages[config.game_language].label_button_recharge))
+end
+
+function init(self)
+	if config.game_language == "ru" or config.game_language == "be" then
+		setRuFont(self)
+	end
+	if config.game_language == "ar" then
+		setArbFont(self)
+	end
+	if config.game_language == "ja" then
+		setJaFont(self)
+	end
+	if config.game_language == "ko" then
+		setKrFont(self)
+	end
+	if config.game_language == "vi" then
+		setViFont(self)
+	end
+	if config.game_language == "ar" then
+		setTxtArabic(self)
+	else
+		setTxtForAll(self)
+	end
+	msg.post(".", "acquire_input_focus")
+	gui.set_render_order(0)
+end
+
+function final(self)
+	-- Add finalization code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function update(self, dt)
+	-- Add update code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("zone_popup_pay") then
+		gui.set_enabled(gui.get_node("overlay"), true)
+		gui.set_enabled(gui.get_node("popup_adjacent_pay"), true)
+	end
+	if message_id == hash("target_popup_pay") then
+		gui.set_enabled(gui.get_node("overlay"), true)
+		gui.set_enabled(gui.get_node("popup_target_pay"), true)
+	end
+	if message_id == hash("group_popup_pay") then
+		gui.set_enabled(gui.get_node("overlay"), true)
+		gui.set_enabled(gui.get_node("popup_group_pay"), true)
+	end
+	-- Add message-handling code here
+	-- Learn more: https://defold.com/manuals/message-passing/
+	-- Remove this function if not needed
+end
+
+function on_input(self, action_id, action)
+	if action_id == hash("touch") and action.pressed then
+		-- popup powerup zone
+		if gui.pick_node(gui.get_node("adjacent_close_pay"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_adjacent_pay")) then
+			gui.set_enabled(gui.get_node("popup_adjacent_pay"), false)
+			timer.delay(0.5, false, function() 
+				gui.set_enabled(gui.get_node("popup_adjacent_free"), true)
+			end)
+		end
+		if gui.pick_node(gui.get_node("adjacent_close_free"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_adjacent_free")) then
+			currentLevel.platform.stopGame = false
+			gui.set_enabled(gui.get_node("popup_adjacent_free"), false)
+			gui.set_enabled(gui.get_node("overlay"), false)
+		end
+		if gui.pick_node(gui.get_node("adjacent_recharge_free"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_adjacent_free")) then
+			currentLevel.platform.stopGame = false
+			local rechargeZone = sys.load(ryoku_path)
+			rechargeZone.adjacent = rechargeZone.adjacent + 1
+			if sys.save(ryoku_path, rechargeZone) then
+				msg.post("/powerup#powerup", "increment_zone")
+			end
+			gui.set_enabled(gui.get_node("popup_adjacent_free"), false)
+			gui.set_enabled(gui.get_node("overlay"), false)
+		end
+		-- popup powerup target
+		if gui.pick_node(gui.get_node("target_close_pay"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_target_pay")) then
+			gui.set_enabled(gui.get_node("popup_target_pay"), false)
+			timer.delay(0.5, false, function() 
+				gui.set_enabled(gui.get_node("popup_target_free"), true)
+			end)
+		end
+		if gui.pick_node(gui.get_node("target_close_free"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_target_free")) then
+			currentLevel.platform.stopGame = false
+			gui.set_enabled(gui.get_node("popup_target_free"), false)
+			gui.set_enabled(gui.get_node("overlay"), false)
+		end
+		if gui.pick_node(gui.get_node("target_recharge_free"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_target_free")) then
+			currentLevel.platform.stopGame = false
+			local rechargeTarget = sys.load(ryoku_path)
+			rechargeTarget.target = rechargeTarget.target + 1
+			if sys.save(ryoku_path, rechargeTarget) then
+				msg.post("/powerup#powerup", "increment_target")
+			end
+			gui.set_enabled(gui.get_node("popup_target_free"), false)
+			gui.set_enabled(gui.get_node("overlay"), false)
+		end
+		-- popup powerup group
+		if gui.pick_node(gui.get_node("group_close_pay"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_group_pay")) then
+			gui.set_enabled(gui.get_node("popup_group_pay"), false)
+			timer.delay(0.5, false, function() 
+				gui.set_enabled(gui.get_node("popup_group_free"), true)
+			end)
+		end
+		if gui.pick_node(gui.get_node("group_close_free"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_group_free")) then
+			currentLevel.platform.stopGame = false
+			gui.set_enabled(gui.get_node("popup_group_free"), false)
+			gui.set_enabled(gui.get_node("overlay"), false)
+		end
+		if gui.pick_node(gui.get_node("group_recharge_free"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_group_free")) then
+			currentLevel.platform.stopGame = false
+			local rechargeGroup = sys.load(ryoku_path)
+			rechargeGroup.group = rechargeGroup.group + 1
+			if sys.save(ryoku_path, rechargeGroup) then
+				msg.post("/powerup#powerup", "increment_group")
+			end
+			gui.set_enabled(gui.get_node("popup_group_free"), false)
+			gui.set_enabled(gui.get_node("overlay"), false)
+		end
+	end
+	-- Add input-handling code here. The game object this script is attached to
+	-- must have acquired input focus:
+	--
+	--    msg.post(".", "acquire_input_focus")
+	--
+	-- All mapped input bindings will be received. Mouse and touch input will
+	-- be received regardless of where on the screen it happened.
+	-- Learn more: https://defold.com/manuals/input/
+	-- Remove this function if not needed
+end
+
+function on_reload(self)
+	-- Add reload-handling code here
+	-- Learn more: https://defold.com/manuals/hot-reload/
+	-- Remove this function if not needed
+end

@@ -1,0 +1,130 @@
+local ryoku_path = sys.get_save_file("ryoku", "data_level")
+local config = sys.load(ryoku_path)
+local list = require("ressources.listLevel")
+local currentLevel = list[config.level].path
+local languages = require("ressources.langages")
+
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	if currentLevel.platform.stopGame and config.level == 3 and not config.enable_adjacent then
+		timer.delay(3, false, function() 
+			gui.set_enabled(gui.get_node("overlay"), true)
+			gui.set_enabled(gui.get_node("popup_cadeaux_zone"), true)
+			--gui.set_visible(gui.get_node("popup_cadeaux_zone"), true)
+		end)
+	end
+	if currentLevel.platform.stopGame and config.level == 4 and not config.enable_target then
+		timer.delay(3, false, function() 
+			gui.set_enabled(gui.get_node("overlay"), true)
+			gui.set_enabled(gui.get_node("popup_cadeaux_target"), true)
+			--gui.set_visible(gui.get_node("popup_cadeaux_target"), true)
+		end)
+	end
+	if currentLevel.platform.stopGame and config.level == 5 and not config.enable_group then
+		timer.delay(3, false, function() 
+			gui.set_enabled(gui.get_node("overlay"), true)
+			gui.set_enabled(gui.get_node("popup_cadeaux_group"), true)
+			--gui.set_visible(gui.get_node("popup_cadeaux_group"), true)
+		end)
+	end
+	-- ZONE
+	gui.set_text(gui.get_node("cadeaux_zone_actif"), languages[config.game_language].label_active_cadeaux_zone)
+	gui.set_text(gui.get_node("cadeaux_zone_rule"), languages[config.game_language].label_rule_cadeaux_zone)
+	gui.set_text(gui.get_node("cadeaux_zone_prendre"), languages[config.game_language].label_prendre_cadeaux)
+	gui.set_text(gui.get_node("txt_prendre_cadeaux_zone"), languages[config.game_language].label_button_prendre)
+
+	-- GROUP
+	gui.set_text(gui.get_node("cadeaux_group_actif"), languages[config.game_language].label_active_cadeaux_group)
+	gui.set_text(gui.get_node("cadeaux_group_rule"), languages[config.game_language].label_rule_cadeaux_group)
+	gui.set_text(gui.get_node("cadeaux_group_prendre"), languages[config.game_language].label_prendre_cadeaux)
+	gui.set_text(gui.get_node("txt_prendre_cadeaux_group"), languages[config.game_language].label_button_prendre)
+
+	-- TARGET
+	gui.set_text(gui.get_node("cadeaux_target_actif"), languages[config.game_language].label_active_cadeaux_target)
+	gui.set_text(gui.get_node("cadeaux_target_rule"), languages[config.game_language].label_rule_cadeaux_target)
+	gui.set_text(gui.get_node("cadeaux_target_prendre"), languages[config.game_language].label_prendre_cadeaux)
+	gui.set_text(gui.get_node("txt_prendre_cadeaux_target"), languages[config.game_language].label_button_prendre)
+end
+
+function final(self)
+	-- Add finalization code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function update(self, dt)
+	-- Add update code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function on_message(self, message_id, message, sender)
+	-- Add message-handling code here
+	-- Learn more: https://defold.com/manuals/message-passing/
+	-- Remove this function if not needed
+end
+
+function on_input(self, action_id, action)
+	if action_id == hash("touch") and action.pressed then
+		-- Zone Popup
+		if gui.pick_node(gui.get_node("zone_close_cadeaux"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_cadeaux_zone")) then
+			currentLevel.platform.stopGame = false
+			gui.set_enabled(gui.get_node("overlay"), false)
+			gui.set_enabled(gui.get_node("popup_cadeaux_zone"), false)
+			gui.set_visible(gui.get_node("popup_cadeaux_zone"), false)
+		end
+		if gui.pick_node(gui.get_node("zone_recharge_cadeaux"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_cadeaux_zone")) then
+			currentLevel.platform.stopGame = false
+			local saveAdjacent = sys.load(ryoku_path)
+			saveAdjacent.adjacent = saveAdjacent.adjacent + 2
+			if sys.save(ryoku_path, saveAdjacent) then
+				msg.post("/powerup#powerup", "increment_zone")
+				gui.set_enabled(gui.get_node("overlay"), false)
+				gui.set_enabled(gui.get_node("popup_cadeaux_zone"), false)
+				gui.set_visible(gui.get_node("popup_cadeaux_zone"), false)
+			end
+		end
+		-- Target Popup
+		if gui.pick_node(gui.get_node("target_close_cadeaux"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_cadeaux_target")) then
+			currentLevel.platform.stopGame = false
+			gui.set_enabled(gui.get_node("overlay"), false)
+			gui.set_enabled(gui.get_node("popup_cadeaux_target"), false)
+			gui.set_visible(gui.get_node("popup_cadeaux_target"), false)
+		end
+		if gui.pick_node(gui.get_node("target_recharge_cadeaux"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_cadeaux_target")) then
+			currentLevel.platform.stopGame = false
+			local saveTarget = sys.load(ryoku_path)
+			saveTarget.target = saveTarget.target + 2
+			if sys.save(ryoku_path, saveTarget) then
+				msg.post("/powerup#powerup", "increment_target")
+				gui.set_enabled(gui.get_node("overlay"), false)
+				gui.set_enabled(gui.get_node("popup_cadeaux_target"), false)
+				gui.set_visible(gui.get_node("popup_cadeaux_target"), false)
+			end
+		end
+		-- Group Popup
+		if gui.pick_node(gui.get_node("group_close_cadeaux"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_cadeaux_group")) then
+			currentLevel.platform.stopGame = false
+			gui.set_enabled(gui.get_node("overlay"), false)
+			gui.set_enabled(gui.get_node("popup_cadeaux_group"), false)
+			gui.set_visible(gui.get_node("popup_cadeaux_group"), false)
+		end
+		if gui.pick_node(gui.get_node("group_recharge_cadeaux"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_cadeaux_group")) then
+			currentLevel.platform.stopGame = false
+			local saveGroup = sys.load(ryoku_path)
+			saveGroup.group = saveGroup.group + 2
+			if sys.save(ryoku_path, saveGroup) then
+				msg.post("/powerup#powerup", "increment_group")
+				gui.set_enabled(gui.get_node("overlay"), false)
+				gui.set_enabled(gui.get_node("popup_cadeaux_group"), false)
+				gui.set_visible(gui.get_node("popup_cadeaux_group"), false)
+			end
+		end
+	end
+end
+
+function on_reload(self)
+	-- Add reload-handling code here
+	-- Learn more: https://defold.com/manuals/hot-reload/
+	-- Remove this function if not needed
+end

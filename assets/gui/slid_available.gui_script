@@ -1,0 +1,133 @@
+local ryoku_path = sys.get_save_file("ryoku", "data_level")
+local config = sys.load(ryoku_path)
+local list = require("ressources.listLevel")
+local currentLevel = list[config.level].path
+function init(self)
+	currentLevel.platform.positionArrowToLeft = gui.get_position(gui.get_node("left_available"))
+	currentLevel.platform.positionArrowToRight = gui.get_position(gui.get_node("right_available"))
+	gui.set_text(gui.get_node("left_block"), 0)
+	gui.set_text(gui.get_node("right_block"), 0)
+	--gui.set_enabled(gui.get_node("next_level"), false)
+	self.finaliseNextLevel = false
+	-- Add initialization code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function final(self)
+	-- Add finalization code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function initialLeftAvailable(self, node)
+	gui.set_position(node, currentLevel.platform.positionArrowToLeft)
+end
+
+function initialRightAvailable(self, node)
+	gui.set_position(node, currentLevel.platform.positionArrowToRight)
+end
+
+function update(self, dt)
+	-- Add update code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+	--if currentLevel.platform.initialManageTarget or 
+	--currentLevel.platform.slider.whenPoseAndReplacingBlockIsDone then
+	if not self.finaliseNextLevel and currentLevel.platform.totalGroupDisplaying == currentLevel.platform.column and currentLevel.platform.finaliseNextLevel then
+		--gui.set_enabled(gui.get_node("next_level"), true)
+		self.finaliseNextLevel = true
+		local setLevel = sys.load(ryoku_path)
+		setLevel.level = setLevel.level + 1
+		if sys.save(ryoku_path, setLevel) then
+			local checkLevel = sys.load(ryoku_path)
+			timer.delay(3, false, function()
+				if list[checkLevel.level] == nil then
+					msg.post("controller:/loader#controller", "changeScene", { newScene = "seeYou" })
+				else
+					msg.post("controller:/loader#controller", "changeScene", { newScene = "clickOnLevel" })
+				end
+			end)
+		end
+	end
+	local leftAvailable = 0;
+	local rightAvailable = 0;
+	
+	for a = 1, #currentLevel.refBlock do
+		if currentLevel.refBlock[a].isActive then
+			if currentLevel.selectionBlock[1].selectionFactoryBlockId == currentLevel.refBlock[a].factoryBlockId then
+				currentLevel.platform.indexLeftAvailable = currentLevel.refBlock[a].index
+			end
+			if currentLevel.selectionBlock[3].selectionFactoryBlockId == currentLevel.refBlock[a].factoryBlockId then
+				currentLevel.platform.indexRightAvailable = currentLevel.refBlock[a].index
+			end
+		end
+	end
+
+	for b = 1, #currentLevel.refBlock do
+		if currentLevel.refBlock[b].isActive then
+			if currentLevel.platform.indexLeftAvailable ~= 0 and 
+			currentLevel.refBlock[b].index < currentLevel.platform.indexLeftAvailable then
+				leftAvailable = leftAvailable + 1
+			end
+			if currentLevel.platform.indexRightAvailable ~= 0 and 
+			currentLevel.refBlock[b].index > currentLevel.platform.indexRightAvailable then
+				rightAvailable = rightAvailable + 1
+			end
+		end
+	end
+	currentLevel.platform.leftAvailable = leftAvailable
+	currentLevel.platform.rightAvailable = rightAvailable
+	gui.set_text(gui.get_node("left_block"), leftAvailable)
+
+	gui.set_text(gui.get_node("right_block"), rightAvailable)
+	--end
+	-- if not currentLevel.platform.slider.whenPoseAndReplacingBlockIsDone then
+	-- 	gui.set_position(gui.get_node("left_available"), currentLevel.platform.positionArrowToLeft)
+	-- 	gui.set_position(gui.get_node("right_available"), currentLevel.platform.positionArrowToRight)
+	-- end
+
+	if currentLevel.platform.slider.isSlideLeftRight and
+	currentLevel.platform.slider.directionSlider == -1 and
+	not currentLevel.platform.slidToLeft and
+	not currentLevel.platform.processing then
+		local positionLeft = gui.get_position(gui.get_node("left_available"))
+		positionLeft.x = positionLeft.x + 50
+		gui.animate(gui.get_node("left_available"), gui.PROP_POSITION, positionLeft, gui.EASING_INOUTQUAD, 0.2, 0, initialLeftAvailable, gui.PLAYBACK_ONCE_PINGPONG)
+		currentLevel.platform.processing = true
+	end
+
+	if currentLevel.platform.slider.isSlideLeftRight and
+	currentLevel.platform.slider.directionSlider == 1 and
+	not currentLevel.platform.slidToRight and
+	not currentLevel.platform.processing then
+		local positionRight = gui.get_position(gui.get_node("right_available"))
+		positionRight.x = positionRight.x - 50
+		gui.animate(gui.get_node("right_available"), gui.PROP_POSITION, positionRight, gui.EASING_INOUTQUAD, 0.2, 0, initialRightAvailable, gui.PLAYBACK_ONCE_PINGPONG)
+		currentLevel.platform.processing = true
+	end
+end
+
+function on_message(self, message_id, message, sender)
+	-- Add message-handling code here
+	-- Learn more: https://defold.com/manuals/message-passing/
+	-- Remove this function if not needed
+end
+
+function on_input(self, action_id, action)
+	-- Add input-handling code here. The game object this script is attached to
+	-- must have acquired input focus:
+	--
+	--    msg.post(".", "acquire_input_focus")
+	--
+	-- All mapped input bindings will be received. Mouse and touch input will
+	-- be received regardless of where on the screen it happened.
+	-- Learn more: https://defold.com/manuals/input/
+	-- Remove this function if not needed
+end
+
+function on_reload(self)
+	-- Add reload-handling code here
+	-- Learn more: https://defold.com/manuals/hot-reload/
+	-- Remove this function if not needed
+end

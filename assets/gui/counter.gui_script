@@ -1,0 +1,50 @@
+local ryoku_path = sys.get_save_file("ryoku", "data_level")
+local config = sys.load(ryoku_path)
+local list = require("ressources.listLevel")
+local currentLevel = list[config.level].path
+function init(self)
+	gui.set_color(gui.get_node("bg_level"), vmath.vector4(242/255, 196/255, 104/255, 1))
+	local label_level = "#"..config.level
+	gui.set_text(gui.get_node("level"), label_level)
+	-- Add initialization code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function final(self)
+	-- Add finalization code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function update(self, dt)
+	if currentLevel.platform.handleManageTarget or currentLevel.platform.initialManageTarget then
+		local counterText = (#currentLevel.blocks - currentLevel.platform.totalBlockAvailable).."/"..#currentLevel.blocks
+		local getCounter = gui.get_size(gui.get_node("counter"))
+		gui.set_text(gui.get_node("counter"), counterText)
+	end
+end
+
+function on_message(self, message_id, message, sender)
+	-- Add message-handling code here
+	-- Learn more: https://defold.com/manuals/message-passing/
+	-- Remove this function if not needed
+end
+
+function on_input(self, action_id, action)
+	-- Add input-handling code here. The game object this script is attached to
+	-- must have acquired input focus:
+	--
+	--    msg.post(".", "acquire_input_focus")
+	--
+	-- All mapped input bindings will be received. Mouse and touch input will
+	-- be received regardless of where on the screen it happened.
+	-- Learn more: https://defold.com/manuals/input/
+	-- Remove this function if not needed
+end
+
+function on_reload(self)
+	-- Add reload-handling code here
+	-- Learn more: https://defold.com/manuals/hot-reload/
+	-- Remove this function if not needed
+end

@@ -1,0 +1,232 @@
+local ryoku_path = sys.get_save_file("ryoku", "data_level")
+local config = sys.load(ryoku_path)
+local list = require("ressources.listLevel")
+local currentLevel = list[config.level].path
+go.property("blockNumber", 0)
+go.property("sliderPosition", vmath.vector3())
+
+function generatePositionArea(self)
+	go.set_position(currentLevel.refBlock[self.blockNumber].positionBlock)
+end
+
+function calculateLimitArea(self)
+	currentLevel.refBlock[self.blockNumber].factoryTetrisId = factory.create("#tetrisFactory", nil, nil, { blockNumber = self.blockNumber }, nil)
+	if currentLevel.refBlock[self.blockNumber].isdisplaying then
+		msg.post(currentLevel.refBlock[self.blockNumber].factoryTetrisId, "createBlockFactory", {selectedBlockParent = currentLevel.refBlock[self.blockNumber].factoryBlockId, factoryBlockTetrisChidren = currentLevel.refBlock[self.blockNumber].factoryTetrisId})
+	end
+end
+
+function setNumberBlock()
+	local countBlocksAvailable = 0
+	for a = 1, #currentLevel.refBlock do
+		if currentLevel.refBlock[a].isActive then
+			countBlocksAvailable = countBlocksAvailable + 1
+		end
+	end
+	currentLevel.platform.totalBlockAvailable = countBlocksAvailable
+end
+
+function manageBlock(self, handle, time_elapsed)
+	currentLevel.platform.isStartSlid = true
+end
+
+function reinitializeTetrisBlock(self, url, property)
+	if currentLevel.selectionBlock[3].l1.x > currentLevel.refBlock[self.blockNumber].positionBlock.x 
+	and currentLevel.selectionBlock[1].l0.x < currentLevel.refBlock[self.blockNumber].positionBlock.x
+	and not currentLevel.refBlock[self.blockNumber].isdisplaying
+	and currentLevel.refBlock[self.blockNumber].isActive then
+		--if tintOpacity == 0 then
+		msg.post(currentLevel.refBlock[self.blockNumber].factoryTetrisId, "displayblock", {blockNumber = currentLevel.refBlock[self.blockNumber].blockNumber})
+		currentLevel.refBlock[self.blockNumber].isdisplaying = true
+		--end
+	elseif currentLevel.selectionBlock[3].l1.x < currentLevel.refBlock[self.blockNumber].positionBlock.x
+	and currentLevel.selectionBlock[1].l0.x < currentLevel.refBlock[self.blockNumber].positionBlock.x
+	and currentLevel.refBlock[self.blockNumber].isdisplaying 
+	and currentLevel.refBlock[self.blockNumber].isActive then
+		--if tintOpacity == 1 then
+		msg.post(currentLevel.refBlock[self.blockNumber].factoryTetrisId, "notDisplayblock", {blockNumber = currentLevel.refBlock[self.blockNumber].blockNumber})
+		currentLevel.refBlock[self.blockNumber].isdisplaying = false
+		--end
+	elseif currentLevel.selectionBlock[3].l1.x > currentLevel.refBlock[self.blockNumber].positionBlock.x
+	and currentLevel.selectionBlock[1].l0.x > currentLevel.refBlock[self.blockNumber].positionBlock.x
+	and currentLevel.refBlock[self.blockNumber].isdisplaying 
+	and currentLevel.refBlock[self.blockNumber].isActive then
+		--if tintOpacity == 1 then
+		msg.post(currentLevel.refBlock[self.blockNumber].factoryTetrisId, "notDisplayblock", {blockNumber = currentLevel.refBlock[self.blockNumber].blockNumber})
+		currentLevel.refBlock[self.blockNumber].isdisplaying = false
+		--end
+	elseif currentLevel.selectionBlock[3].l1.x < currentLevel.refBlock[self.blockNumber].positionBlock.x
+	and currentLevel.selectionBlock[1].l0.x < currentLevel.refBlock[self.blockNumber].positionBlock.x
+	and not currentLevel.refBlock[self.blockNumber].isdisplaying 
+	and currentLevel.refBlock[self.blockNumber].isActive then
+		--if tintOpacity == 0 then
+		msg.post(currentLevel.refBlock[self.blockNumber].factoryTetrisId, "notDisplayblock", {blockNumber = currentLevel.refBlock[self.blockNumber].blockNumber})
+		currentLevel.refBlock[self.blockNumber].isdisplaying = false
+		--end
+	elseif currentLevel.selectionBlock[3].l1.x > currentLevel.refBlock[self.blockNumber].positionBlock.x
+	and currentLevel.selectionBlock[1].l0.x > currentLevel.refBlock[self.blockNumber].positionBlock.x
+	and not currentLevel.refBlock[self.blockNumber].isdisplaying 
+	and currentLevel.refBlock[self.blockNumber].isActive then
+		--if tintOpacity == 0 then
+		msg.post(currentLevel.refBlock[self.blockNumber].factoryTetrisId, "notDisplayblock", {blockNumber = currentLevel.refBlock[self.blockNumber].blockNumber})
+		currentLevel.refBlock[self.blockNumber].isdisplaying = false
+		--end
+	end
+end
+
+function init(self)
+	self.urlCadre = nil
+	setNumberBlock()
+	timer.delay(1, false, manageBlock)
+end
+
+function final(self)
+	go.delete(currentLevel.refBlock[self.blockNumber].factoryTetrisId)
+	-- Add finalization code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function update(self, dt)
+	--if not currentLevel.platform.initialManageTarget and currentLevel.platform.isStartSlid and not (currentLevel.platform.isDragUp and currentLevel.platform.slider.isSlideLeftRight and currentLevel.platform.slider.dragBlock) and not currentLevel.platform.slider.whenPoseAndReplacingBlockIsDone then
+	if currentLevel.platform.isStartSlid then
+		for g=1, #currentLevel.selectionBlock do
+			for h=1, #currentLevel.refBlock do
+				--local backSquare = msg.url(nil, currentLevel.blocks[h][1].blockId, "back")
+				--local tintOpacity = go.get(backSquare, "tint.w")
+				
+				if currentLevel.selectionBlock[3].l1.x > currentLevel.refBlock[h].positionBlock.x 
+				and currentLevel.selectionBlock[1].l0.x < currentLevel.refBlock[h].positionBlock.x
+				and not currentLevel.refBlock[h].isdisplaying
+				and currentLevel.refBlock[h].isActive then
+					--if tintOpacity == 0 then
+						msg.post(currentLevel.refBlock[h].factoryTetrisId, "displayblock", {blockNumber = currentLevel.refBlock[h].blockNumber})
+						currentLevel.refBlock[h].isdisplaying = true
+					--end
+				elseif currentLevel.selectionBlock[3].l1.x < currentLevel.refBlock[h].positionBlock.x
+				and currentLevel.selectionBlock[1].l0.x < currentLevel.refBlock[h].positionBlock.x
+				and currentLevel.refBlock[h].isdisplaying 
+				and currentLevel.refBlock[h].isActive then
+					--if tintOpacity == 1 then
+						msg.post(currentLevel.refBlock[h].factoryTetrisId, "notDisplayblock", {blockNumber = currentLevel.refBlock[h].blockNumber})
+						currentLevel.refBlock[h].isdisplaying = false
+					--end
+				elseif currentLevel.selectionBlock[3].l1.x > currentLevel.refBlock[h].positionBlock.x
+				and currentLevel.selectionBlock[1].l0.x > currentLevel.refBlock[h].positionBlock.x
+				and currentLevel.refBlock[h].isdisplaying 
+				and currentLevel.refBlock[h].isActive then
+					--if tintOpacity == 1 then
+						msg.post(currentLevel.refBlock[h].factoryTetrisId, "notDisplayblock", {blockNumber = currentLevel.refBlock[h].blockNumber})
+						currentLevel.refBlock[h].isdisplaying = false
+					--end
+				elseif currentLevel.selectionBlock[3].l1.x < currentLevel.refBlock[h].positionBlock.x
+				and currentLevel.selectionBlock[1].l0.x < currentLevel.refBlock[h].positionBlock.x
+				and not currentLevel.refBlock[h].isdisplaying 
+				and currentLevel.refBlock[h].isActive then
+					--if tintOpacity == 0 then
+					msg.post(currentLevel.refBlock[h].factoryTetrisId, "notDisplayblock", {blockNumber = currentLevel.refBlock[h].blockNumber})
+					currentLevel.refBlock[h].isdisplaying = false
+					--end
+				elseif currentLevel.selectionBlock[3].l1.x > currentLevel.refBlock[h].positionBlock.x
+				and currentLevel.selectionBlock[1].l0.x > currentLevel.refBlock[h].positionBlock.x
+				and not currentLevel.refBlock[h].isdisplaying 
+				and currentLevel.refBlock[h].isActive then
+					--if tintOpacity == 0 then
+					msg.post(currentLevel.refBlock[h].factoryTetrisId, "notDisplayblock", {blockNumber = currentLevel.refBlock[h].blockNumber})
+					currentLevel.refBlock[h].isdisplaying = false
+					--end
+				end
+			end
+		end
+		currentLevel.platform.isStartSlid = false
+	end
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("initGenerateBlocks") then
+		self.blockNumber = message.blockNumber
+		self.factoryLink = message.factoryLink
+		generatePositionArea(self)
+		calculateLimitArea(self)
+	end
+
+-- 	if message_id == hash("processing_slide_origin") then
+-- 		currentLevel.refBlock[self.blockNumber].x0 = currentLevel.refBlock[self.blockNumber].x0 + message.currentOriginGapX
+-- 		currentLevel.refBlock[self.blockNumber].x1 = currentLevel.refBlock[self.blockNumber].x1 + message.currentOriginGapX
+-- 		currentLevel.refBlock[self.blockNumber].originXY.x = currentLevel.refBlock[self.blockNumber].x0
+-- 		currentLevel.refBlock[self.blockNumber].positionBlock.x = currentLevel.refBlock[self.blockNumber].positionBlock.x + message.currentOriginGapX
+-- 
+-- 		for g=1, #currentLevel.selectionBlock do
+-- 			if currentLevel.selectionBlock[g].l1.x > currentLevel.refBlock[self.blockNumber].positionBlock.x 
+-- 			and currentLevel.selectionBlock[g].l0.x < currentLevel.refBlock[self.blockNumber].positionBlock.x 
+-- 			and currentLevel.refBlock[self.blockNumber].isActive
+-- 			and currentLevel.selectionBlock[g].selectionFactoryBlockId ~= currentLevel.refBlock[self.blockNumber].factoryBlockId then
+-- 				currentLevel.selectionBlock[g].selectionFactoryBlockId = currentLevel.refBlock[self.blockNumber].factoryBlockId
+-- 
+-- 				if currentLevel.selectionBlock[1].selectionFactoryBlockId == currentLevel.platform.isFirst then
+-- 					currentLevel.platform.slidToRight = true
+-- 				else
+-- 					currentLevel.platform.slidToRight = false
+-- 				end
+-- 				if currentLevel.selectionBlock[3].selectionFactoryBlockId == currentLevel.platform.isLast then
+-- 					currentLevel.platform.slidToLeft = true
+-- 				else
+-- 					currentLevel.platform.slidToLeft = false
+-- 				end
+-- 			end
+-- 		end
+-- 		
+-- 		go.set_position(currentLevel.refBlock[self.blockNumber].positionBlock)
+-- 	end
+	if message_id == hash("animate_slide_origin") then
+		if message.direction == "TO_LEFT" then
+			currentLevel.refBlock[self.blockNumber].x0 = currentLevel.refBlock[self.blockNumber].x0 - message.average
+			currentLevel.refBlock[self.blockNumber].x1 = currentLevel.refBlock[self.blockNumber].x1 - message.average
+			currentLevel.refBlock[self.blockNumber].originXY.x = currentLevel.refBlock[self.blockNumber].x0
+			currentLevel.refBlock[self.blockNumber].positionBlock.x = currentLevel.refBlock[self.blockNumber].positionBlock.x - message.average
+		end
+		if message.direction == "TO_RIGHT" then
+			currentLevel.refBlock[self.blockNumber].x0 = currentLevel.refBlock[self.blockNumber].x0 + message.average
+			currentLevel.refBlock[self.blockNumber].x1 = currentLevel.refBlock[self.blockNumber].x1 + message.average
+			currentLevel.refBlock[self.blockNumber].originXY.x = currentLevel.refBlock[self.blockNumber].x0
+			currentLevel.refBlock[self.blockNumber].positionBlock.x = currentLevel.refBlock[self.blockNumber].positionBlock.x + message.average
+		end
+		for g=1, #currentLevel.selectionBlock do
+			if currentLevel.selectionBlock[g].l1.x > currentLevel.refBlock[self.blockNumber].positionBlock.x 
+			and currentLevel.selectionBlock[g].l0.x < currentLevel.refBlock[self.blockNumber].positionBlock.x 
+			and currentLevel.refBlock[self.blockNumber].isActive
+			and currentLevel.selectionBlock[g].selectionFactoryBlockId ~= currentLevel.refBlock[self.blockNumber].factoryBlockId then
+				currentLevel.selectionBlock[g].selectionFactoryBlockId = currentLevel.refBlock[self.blockNumber].factoryBlockId
+
+				if currentLevel.selectionBlock[1].selectionFactoryBlockId == currentLevel.platform.isFirst then
+					currentLevel.platform.slidToRight = true
+				else
+					currentLevel.platform.slidToRight = false
+				end
+				if currentLevel.selectionBlock[3].selectionFactoryBlockId == currentLevel.platform.isLast then
+					currentLevel.platform.slidToLeft = true
+				else
+					currentLevel.platform.slidToLeft = false
+				end
+			end
+		end
+		--go.set_position(currentLevel.refBlock[self.blockNumber].positionBlock)
+		
+		go.animate(currentLevel.refBlock[self.blockNumber].factoryTetrisId, "position.x", go.PLAYBACK_ONCE_FORWARD, currentLevel.refBlock[self.blockNumber].positionBlock.x, go.EASING_OUTEXPO, message.duration, 0, reinitializeTetrisBlock)
+		--currentLevel.platform.slider.whenPoseAndReplacingBlockIsDone = true
+	end
+	if message_id == hash("return_origin_refBlock") then
+		currentLevel.refBlock[self.blockNumber].positionBlock.x = message.factoryX
+		currentLevel.refBlock[self.blockNumber].positionBlock.y = message.factoryY
+		go.set_position(currentLevel.refBlock[self.blockNumber].positionBlock)
+	end
+end
+
+function on_input(self, action_id, action)
+end
+
+function on_reload(self)
+	-- Add reload-handling code here
+	-- Learn more: https://defold.com/manuals/hot-reload/
+	-- Remove this function if not needed
+end
