@@ -1,7 +1,8 @@
 local ryoku_path = sys.get_save_file("ryoku", "data_level")
 local config = sys.load(ryoku_path)
-local list = require("ressources.listLevel")
-local currentLevel = list[config.level].path
+--local list = require("ressources.listLevel")
+--local currentLevel = list[config.level].path
+local currentLevel = require("levels.template")
 local languages = require("ressources.langages")
 local modifier = require("ressources.modifier")
 
@@ -255,6 +256,56 @@ function setViFont(self)
 	gui.set_font(gui.get_node("txt_recharge_pay_target"), hash("VI_30_border"))
 end
 
+function setLatineFont(self)
+	-- ZONE
+	gui.set_font(gui.get_node("header_zone_free"), hash("PoetsenOne25_border"))
+	gui.set_font(gui.get_node("header_zone_pay"), hash("PoetsenOne25_border"))
+
+	gui.set_font(gui.get_node("get_zone_free"), hash("PoetsenOne22"))
+	gui.set_font(gui.get_node("get_zone_pay"), hash("PoetsenOne22"))
+
+	gui.set_font(gui.get_node("offer_zone_free_gratuit"), hash("PoetsenOne22"))
+	gui.set_font(gui.get_node("offer_zone_pay_facile"), hash("PoetsenOne22"))
+
+	gui.set_font(gui.get_node("offer_zone_free_unique"), hash("PoetsenOne22"))
+	gui.set_font(gui.get_node("offer_zone_pay_jouer"), hash("PoetsenOne22"))
+
+	gui.set_font(gui.get_node("txt_recharge_free_zone"), hash("PoetsenOne40_border"))
+	gui.set_font(gui.get_node("txt_recharge_pay_zone"), hash("PoetsenOne40_border"))
+
+	-- GROUP
+	gui.set_font(gui.get_node("header_group_free"), hash("PoetsenOne25_border"))
+	gui.set_font(gui.get_node("header_group_pay"), hash("PoetsenOne25_border"))
+
+	gui.set_font(gui.get_node("get_group_free"), hash("PoetsenOne22"))
+	gui.set_font(gui.get_node("get_group_pay"), hash("PoetsenOne22"))
+
+	gui.set_font(gui.get_node("offer_group_free_gratuit"), hash("PoetsenOne22"))
+	gui.set_font(gui.get_node("offer_group_pay_facile"), hash("PoetsenOne22"))
+
+	gui.set_font(gui.get_node("offer_group_free_unique"), hash("PoetsenOne22"))
+	gui.set_font(gui.get_node("offer_group_pay_jouer"), hash("PoetsenOne22"))
+
+	gui.set_font(gui.get_node("txt_recharge_free_group"), hash("PoetsenOne40_border"))
+	gui.set_font(gui.get_node("txt_recharge_pay_group"), hash("PoetsenOne40_border"))
+
+	-- TARGET
+	gui.set_font(gui.get_node("header_target_free"), hash("PoetsenOne25_border"))
+	gui.set_font(gui.get_node("header_target_pay"), hash("PoetsenOne25_border"))
+
+	gui.set_font(gui.get_node("get_target_free"), hash("PoetsenOne22"))
+	gui.set_font(gui.get_node("get_target_pay"), hash("PoetsenOne22"))
+
+	gui.set_font(gui.get_node("offer_target_free_gratuit"), hash("PoetsenOne22"))
+	gui.set_font(gui.get_node("offer_target_pay_facile"), hash("PoetsenOne22"))
+
+	gui.set_font(gui.get_node("offer_target_free_unique"), hash("PoetsenOne22"))
+	gui.set_font(gui.get_node("offer_target_pay_jouer"), hash("PoetsenOne22"))
+
+	gui.set_font(gui.get_node("txt_recharge_free_target"), hash("PoetsenOne40_border"))
+	gui.set_font(gui.get_node("txt_recharge_pay_target"), hash("PoetsenOne40_border"))
+end
+
 function setTxtForAll(self)
 	-- ZONE
 	gui.set_text(gui.get_node("header_zone_free"), languages[config.game_language].header_zone_popup)
@@ -355,6 +406,15 @@ function setTxtArabic(self)
 	gui.set_text(gui.get_node("txt_recharge_pay_target"), modifier.modifierToArab(languages[config.game_language].label_button_recharge))
 end
 
+function setInformationReperes(self)
+	gui.set_text(gui.get_node("header_info"), languages[config.game_language].header_info)
+	gui.set_text(gui.get_node("situation_info"), languages[config.game_language].situation_info)
+	gui.set_text(gui.get_node("request_info"), languages[config.game_language].request_info)
+	gui.set_text(gui.get_node("warn_info"), languages[config.game_language].warn_info)
+	gui.set_text(gui.get_node("help_bonus"), languages[config.game_language].help_bonus)
+	gui.set_text(gui.get_node("ok_button"), languages[config.game_language].ok_button)
+end
+
 function init(self)
 	if config.game_language == "ru" or config.game_language == "be" then
 		setRuFont(self)
@@ -371,11 +431,25 @@ function init(self)
 	if config.game_language == "vi" then
 		setViFont(self)
 	end
+	if config.game_language == "fr" or 
+	config.game_language == "en" or 
+	config.game_language == "es" or 
+	config.game_language == "de" or 
+	config.game_language == "pt" or 
+	config.game_language == "pl" or 
+	config.game_language == "nl" or 
+	config.game_language == "tr" or 
+	config.game_language == "it" or 
+	config.game_language == "id" then
+		setLatineFont(self)
+	end
 	if config.game_language == "ar" then
 		setTxtArabic(self)
 	else
 		setTxtForAll(self)
 	end
+	
+	setInformationReperes(self)
 	msg.post(".", "acquire_input_focus")
 	gui.set_render_order(0)
 end
@@ -387,9 +461,6 @@ function final(self)
 end
 
 function update(self, dt)
-	-- Add update code here
-	-- Learn more: https://defold.com/manuals/script/
-	-- Remove this function if not needed
 end
 
 function on_message(self, message_id, message, sender)
@@ -405,9 +476,10 @@ function on_message(self, message_id, message, sender)
 		gui.set_enabled(gui.get_node("overlay"), true)
 		gui.set_enabled(gui.get_node("popup_group_pay"), true)
 	end
-	-- Add message-handling code here
-	-- Learn more: https://defold.com/manuals/message-passing/
-	-- Remove this function if not needed
+	if message_id == hash("display_info") then
+		gui.set_enabled(gui.get_node("overlay"), true)
+		gui.set_enabled(gui.get_node("popup_info_powerup"), true)
+	end
 end
 
 function on_input(self, action_id, action)
@@ -478,16 +550,12 @@ function on_input(self, action_id, action)
 			gui.set_enabled(gui.get_node("popup_group_free"), false)
 			gui.set_enabled(gui.get_node("overlay"), false)
 		end
+		if gui.pick_node(gui.get_node("info_button"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_info_powerup")) then
+			currentLevel.platform.stopGame = false
+			gui.set_enabled(gui.get_node("popup_info_powerup"), false)
+			gui.set_enabled(gui.get_node("overlay"), false)
+		end
 	end
-	-- Add input-handling code here. The game object this script is attached to
-	-- must have acquired input focus:
-	--
-	--    msg.post(".", "acquire_input_focus")
-	--
-	-- All mapped input bindings will be received. Mouse and touch input will
-	-- be received regardless of where on the screen it happened.
-	-- Learn more: https://defold.com/manuals/input/
-	-- Remove this function if not needed
 end
 
 function on_reload(self)

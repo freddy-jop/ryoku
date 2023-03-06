@@ -1,7 +1,8 @@
 local ryoku_path = sys.get_save_file("ryoku", "data_level")
 local config = sys.load(ryoku_path)
-local list = require("ressources.listLevel")
-local currentLevel = list[config.level].path
+--local list = require("ressources.listLevel")
+--local currentLevel = list[config.level].path
+local currentLevel = require("levels.template")
 go.property("blockNumber", 0)
 go.property("sliderPosition", vmath.vector3())
 
@@ -149,35 +150,6 @@ function on_message(self, message_id, message, sender)
 		generatePositionArea(self)
 		calculateLimitArea(self)
 	end
-
--- 	if message_id == hash("processing_slide_origin") then
--- 		currentLevel.refBlock[self.blockNumber].x0 = currentLevel.refBlock[self.blockNumber].x0 + message.currentOriginGapX
--- 		currentLevel.refBlock[self.blockNumber].x1 = currentLevel.refBlock[self.blockNumber].x1 + message.currentOriginGapX
--- 		currentLevel.refBlock[self.blockNumber].originXY.x = currentLevel.refBlock[self.blockNumber].x0
--- 		currentLevel.refBlock[self.blockNumber].positionBlock.x = currentLevel.refBlock[self.blockNumber].positionBlock.x + message.currentOriginGapX
--- 
--- 		for g=1, #currentLevel.selectionBlock do
--- 			if currentLevel.selectionBlock[g].l1.x > currentLevel.refBlock[self.blockNumber].positionBlock.x 
--- 			and currentLevel.selectionBlock[g].l0.x < currentLevel.refBlock[self.blockNumber].positionBlock.x 
--- 			and currentLevel.refBlock[self.blockNumber].isActive
--- 			and currentLevel.selectionBlock[g].selectionFactoryBlockId ~= currentLevel.refBlock[self.blockNumber].factoryBlockId then
--- 				currentLevel.selectionBlock[g].selectionFactoryBlockId = currentLevel.refBlock[self.blockNumber].factoryBlockId
--- 
--- 				if currentLevel.selectionBlock[1].selectionFactoryBlockId == currentLevel.platform.isFirst then
--- 					currentLevel.platform.slidToRight = true
--- 				else
--- 					currentLevel.platform.slidToRight = false
--- 				end
--- 				if currentLevel.selectionBlock[3].selectionFactoryBlockId == currentLevel.platform.isLast then
--- 					currentLevel.platform.slidToLeft = true
--- 				else
--- 					currentLevel.platform.slidToLeft = false
--- 				end
--- 			end
--- 		end
--- 		
--- 		go.set_position(currentLevel.refBlock[self.blockNumber].positionBlock)
--- 	end
 	if message_id == hash("animate_slide_origin") then
 		if message.direction == "TO_LEFT" then
 			currentLevel.refBlock[self.blockNumber].x0 = currentLevel.refBlock[self.blockNumber].x0 - message.average

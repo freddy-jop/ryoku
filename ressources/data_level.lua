@@ -19,7 +19,11 @@ local data = {
 	music = true,
 	vibration = true,
 	cloud_save = false,
-	game_language = ""
+	game_language = "",
+	handleLevelInfo = 1,
+	scrollHorizontale = true,
+	scrollVerticale = false,
+	pendingTuto = true
 }
 
 return data

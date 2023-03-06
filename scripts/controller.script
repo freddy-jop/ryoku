@@ -37,7 +37,6 @@ end
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash("changeScene") then
-		print("===> message.newScene ::: ", message.newScene)
 		changeScene(self, message.newScene)
 	end
 	if message_id == hash("proxy_loaded") then
@@ -56,7 +55,6 @@ function on_message(self, message_id, message, sender)
 		-- 	msg.post(sender, "enable")
 		-- end
 		
-		print("sender === > ", sender)
 		-- if sender.fragment == hash("corporate") then
 		-- 	msg.post("/logo_corporate/gui#corporate", "corporate_to_start")
 		-- end

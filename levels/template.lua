@@ -1,7 +1,11 @@
-local template10 = {
+local template = {
 	platform = {
+		handleManageInfos = false,
+		tickInfos = 0,
+		tickRoundedInfos = 0,
+		counterTarget = 0,
 		stopGame = false,
-		startChallenge = {{2,1},{1,1},{1,2}},
+		startChallenge = {},
 		randomChallenge = 0,
 		finaliseNextLevel = false,
 		averageSlid = 0,
@@ -17,12 +21,12 @@ local template10 = {
 		actionDy = 0,
 		actionReleased = false,
 		isStartSlid = false,
-		column = 10,
+		column = 0,
 		listBlock = 1,
 		startSlider = 0,
 		intervalBlockSlid = 0,
 		sizeSquare = 160,
-		scaleGrid = 0.375,
+		scaleGrid = 0,
 		scaleSlid = 0.24,
 		grey = {
 			light = vmath.vector4(243/255, 244/255, 245/255, 1),
@@ -58,7 +62,7 @@ local template10 = {
 		initialColor = vmath.vector4(255/255, 255/255, 255/255, 1),
 		isBlockMatch = false,
 		gapX = 0,
-		blockHeight = 350,
+		blockHeight = 330,
 		slidToLeft = false,
 		slidToRight = false,
 		isFirst = "",
@@ -73,58 +77,12 @@ local template10 = {
 			gridX1 = 0
 		}
 	},
-	selectionBlock = {
-		{
-			selectionFactoryBlockId = "",
-			positionSelectionBlock = vmath.vector3(0, 0, 0),
-			blockNumber = 1,
-			l0 = vmath.vector3(0, 0, 0),
-			l1 = vmath.vector3(0, 0, 0),
-			r0 = vmath.vector3(0, 0, 0),
-			r1 = vmath.vector3(0, 0, 0),
-			limitBlockId = "",
-			selectionOriginX = 0
-		},
-		{
-			selectionFactoryBlockId = "",
-			positionSelectionBlock = vmath.vector3(0, 0, 0),
-			blockNumber = 2,
-			l0 = vmath.vector3(0, 0, 0),
-			l1 = vmath.vector3(0, 0, 0),
-			r0 = vmath.vector3(0, 0, 0),
-			r1 = vmath.vector3(0, 0, 0),
-			limitBlockId = "",
-			selectionOriginX = 0
-		},
-		{
-			selectionFactoryBlockId = "",
-			positionSelectionBlock = vmath.vector3(0, 0, 0),
-			blockNumber = 3,
-			l0 = vmath.vector3(0, 0, 0),
-			l1 = vmath.vector3(0, 0, 0),
-			r0 = vmath.vector3(0, 0, 0),
-			r1 = vmath.vector3(0, 0, 0),
-			limitBlockId = "",
-			selectionOriginX = 0
-		}
-	},
+	selectionBlock = {},
 	refBlock = {},
 	blocks = {},
 	groupProgress = {},
 	groups = {},
-	grid = {},
-	patterGrid = {
-		{{6,1},{2,1},{3,1},{5,1},{10,1},{8,2},{1,2},{4,3},{7,3},{9,3}},
-		{{8,1},{1,1},{7,1},{9,4},{2,4},{4,2},{5,2},{6,3},{3,3},{10,3}},
-		{{9,1},{4,1},{8,4},{7,4},{6,5},{2,2},{10,2},{3,2},{1,3},{5,3}},
-		{{10,4},{5,4},{6,4},{3,5},{8,5},{1,5},{4,5},{7,2},{9,2},{2,3}},
-		{{4,4},{3,4},{1,4},{2,6},{7,5},{10,5},{9,5},{5,5},{6,2},{8,3}},
-		{{7,8},{9,9},{10,6},{4,6},{5,6},{3,6},{2,5},{1,7},{8,7},{6,7}},
-		{{3,8},{7,9},{5,9},{1,6},{9,6},{6,6},{8,6},{10,7},{2,7},{4,7}},
-		{{5,8},{8,8},{2,9},{6,9},{4,9},{7,6},{3,7},{9,7},{10,10},{1,10}},
-		{{2,8},{6,8},{9,8},{10,9},{1,9},{5,7},{7,7},{8,10},{4,10},{3,10}},
-		{{1,8},{10,8},{4,8},{8,9},{3,9},{9,10},{6,10},{2,10},{5,10},{7,10}}
-	}
+	grid = {}
 }
 
-return template10
+return template

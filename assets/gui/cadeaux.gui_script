@@ -1,32 +1,152 @@
 local ryoku_path = sys.get_save_file("ryoku", "data_level")
 local config = sys.load(ryoku_path)
-local list = require("ressources.listLevel")
-local currentLevel = list[config.level].path
+--local list = require("ressources.listLevel")
+--local currentLevel = list[config.level].path
+local currentLevel = require("levels.template")
 local languages = require("ressources.langages")
+local modifier = require("ressources.modifier")
 
-function init(self)
-	msg.post(".", "acquire_input_focus")
-	if currentLevel.platform.stopGame and config.level == 3 and not config.enable_adjacent then
-		timer.delay(3, false, function() 
-			gui.set_enabled(gui.get_node("overlay"), true)
-			gui.set_enabled(gui.get_node("popup_cadeaux_zone"), true)
-			--gui.set_visible(gui.get_node("popup_cadeaux_zone"), true)
-		end)
-	end
-	if currentLevel.platform.stopGame and config.level == 4 and not config.enable_target then
-		timer.delay(3, false, function() 
-			gui.set_enabled(gui.get_node("overlay"), true)
-			gui.set_enabled(gui.get_node("popup_cadeaux_target"), true)
-			--gui.set_visible(gui.get_node("popup_cadeaux_target"), true)
-		end)
-	end
-	if currentLevel.platform.stopGame and config.level == 5 and not config.enable_group then
-		timer.delay(3, false, function() 
-			gui.set_enabled(gui.get_node("overlay"), true)
-			gui.set_enabled(gui.get_node("popup_cadeaux_group"), true)
-			--gui.set_visible(gui.get_node("popup_cadeaux_group"), true)
-		end)
-	end
+function setViCadeauxFont(self)
+	-- ZONE
+	gui.set_font(gui.get_node("cadeaux_zone_actif"),  hash("VI_25"))
+	gui.set_font(gui.get_node("cadeaux_zone_rule"), hash("VI_25"))
+	gui.set_font(gui.get_node("cadeaux_zone_prendre"), hash("VI_25"))
+	gui.set_font(gui.get_node("txt_prendre_cadeaux_zone"), hash("VI_30_border"))
+
+	-- GROUP
+	gui.set_font(gui.get_node("cadeaux_group_actif"), hash("VI_25"))
+	gui.set_font(gui.get_node("cadeaux_group_rule"), hash("VI_25"))
+	gui.set_font(gui.get_node("cadeaux_group_prendre"), hash("VI_25"))
+	gui.set_font(gui.get_node("txt_prendre_cadeaux_group"), hash("VI_30_border"))
+
+	-- TARGET
+	gui.set_font(gui.get_node("cadeaux_target_actif"), hash("VI_25"))
+	gui.set_font(gui.get_node("cadeaux_target_rule"), hash("VI_25"))
+	gui.set_font(gui.get_node("cadeaux_target_prendre"), hash("VI_25"))
+	gui.set_font(gui.get_node("txt_prendre_cadeaux_target"), hash("VI_30_border"))
+end
+
+function setKrCadeauxFont(self)
+	-- ZONE
+	gui.set_font(gui.get_node("cadeaux_zone_actif"),  hash("KR_25"))
+	gui.set_font(gui.get_node("cadeaux_zone_rule"), hash("KR_25"))
+	gui.set_font(gui.get_node("cadeaux_zone_prendre"), hash("KR_25"))
+	gui.set_font(gui.get_node("txt_prendre_cadeaux_zone"), hash("KR_30_border"))
+
+	-- GROUP
+	gui.set_font(gui.get_node("cadeaux_group_actif"), hash("KR_25"))
+	gui.set_font(gui.get_node("cadeaux_group_rule"), hash("KR_25"))
+	gui.set_font(gui.get_node("cadeaux_group_prendre"), hash("KR_25"))
+	gui.set_font(gui.get_node("txt_prendre_cadeaux_group"), hash("KR_30_border"))
+
+	-- TARGET
+	gui.set_font(gui.get_node("cadeaux_target_actif"), hash("KR_25"))
+	gui.set_font(gui.get_node("cadeaux_target_rule"), hash("KR_25"))
+	gui.set_font(gui.get_node("cadeaux_target_prendre"), hash("KR_25"))
+	gui.set_font(gui.get_node("txt_prendre_cadeaux_target"), hash("KR_30_border"))
+end
+
+function setJaCadeauxFont(self)
+	-- ZONE
+	gui.set_font(gui.get_node("cadeaux_zone_actif"),  hash("JA_25"))
+	gui.set_font(gui.get_node("cadeaux_zone_rule"), hash("JA_25"))
+	gui.set_font(gui.get_node("cadeaux_zone_prendre"), hash("JA_25"))
+	gui.set_font(gui.get_node("txt_prendre_cadeaux_zone"), hash("JA_30_border"))
+
+	-- GROUP
+	gui.set_font(gui.get_node("cadeaux_group_actif"), hash("JA_25"))
+	gui.set_font(gui.get_node("cadeaux_group_rule"), hash("JA_25"))
+	gui.set_font(gui.get_node("cadeaux_group_prendre"), hash("JA_25"))
+	gui.set_font(gui.get_node("txt_prendre_cadeaux_group"), hash("JA_30_border"))
+
+	-- TARGET
+	gui.set_font(gui.get_node("cadeaux_target_actif"), hash("JA_25"))
+	gui.set_font(gui.get_node("cadeaux_target_rule"), hash("JA_25"))
+	gui.set_font(gui.get_node("cadeaux_target_prendre"), hash("JA_25"))
+	gui.set_font(gui.get_node("txt_prendre_cadeaux_target"), hash("JA_30_border"))
+end
+
+function setRuCadeauxFont(self)
+	-- ZONE
+	gui.set_font(gui.get_node("cadeaux_zone_actif"),  hash("RU_22"))
+	gui.set_font(gui.get_node("cadeaux_zone_rule"), hash("RU_22"))
+	gui.set_font(gui.get_node("cadeaux_zone_prendre"), hash("RU_22"))
+	gui.set_font(gui.get_node("txt_prendre_cadeaux_zone"), hash("RU_30_border"))
+
+	-- GROUP
+	gui.set_font(gui.get_node("cadeaux_group_actif"), hash("RU_22"))
+	gui.set_font(gui.get_node("cadeaux_group_rule"), hash("RU_22"))
+	gui.set_font(gui.get_node("cadeaux_group_prendre"), hash("RU_22"))
+	gui.set_font(gui.get_node("txt_prendre_cadeaux_group"), hash("RU_30_border"))
+
+	-- TARGET
+	gui.set_font(gui.get_node("cadeaux_target_actif"), hash("RU_22"))
+	gui.set_font(gui.get_node("cadeaux_target_rule"), hash("RU_22"))
+	gui.set_font(gui.get_node("cadeaux_target_prendre"), hash("RU_22"))
+	gui.set_font(gui.get_node("txt_prendre_cadeaux_target"), hash("RU_30_border"))
+end
+
+function setArbCadeauxFont(self)
+	-- ZONE
+	gui.set_font(gui.get_node("cadeaux_zone_actif"),  hash("ARB_25"))
+	gui.set_font(gui.get_node("cadeaux_zone_rule"), hash("ARB_25"))
+	gui.set_font(gui.get_node("cadeaux_zone_prendre"), hash("ARB_25"))
+	gui.set_font(gui.get_node("txt_prendre_cadeaux_zone"), hash("ARB_35_border"))
+
+	-- GROUP
+	gui.set_font(gui.get_node("cadeaux_group_actif"), hash("ARB_25"))
+	gui.set_font(gui.get_node("cadeaux_group_rule"), hash("ARB_25"))
+	gui.set_font(gui.get_node("cadeaux_group_prendre"), hash("ARB_25"))
+	gui.set_font(gui.get_node("txt_prendre_cadeaux_group"), hash("ARB_35_border"))
+
+	-- TARGET
+	gui.set_font(gui.get_node("cadeaux_target_actif"), hash("ARB_25"))
+	gui.set_font(gui.get_node("cadeaux_target_rule"), hash("ARB_25"))
+	gui.set_font(gui.get_node("cadeaux_target_prendre"), hash("ARB_25"))
+	gui.set_font(gui.get_node("txt_prendre_cadeaux_target"), hash("ARB_35_border"))
+end
+
+function setLatineCadeauxFont(self)
+	-- ZONE
+	gui.set_font(gui.get_node("cadeaux_zone_actif"),  hash("PoetsenOne22"))
+	gui.set_font(gui.get_node("cadeaux_zone_rule"), hash("PoetsenOne22"))
+	gui.set_font(gui.get_node("cadeaux_zone_prendre"), hash("PoetsenOne22"))
+	gui.set_font(gui.get_node("txt_prendre_cadeaux_zone"), hash("PoetsenOne40_border"))
+
+	-- GROUP
+	gui.set_font(gui.get_node("cadeaux_group_actif"), hash("PoetsenOne22"))
+	gui.set_font(gui.get_node("cadeaux_group_rule"), hash("PoetsenOne22"))
+	gui.set_font(gui.get_node("cadeaux_group_prendre"), hash("PoetsenOne22"))
+	gui.set_font(gui.get_node("txt_prendre_cadeaux_group"), hash("PoetsenOne40_border"))
+
+	-- TARGET
+	gui.set_font(gui.get_node("cadeaux_target_actif"), hash("PoetsenOne22"))
+	gui.set_font(gui.get_node("cadeaux_target_rule"), hash("PoetsenOne22"))
+	gui.set_font(gui.get_node("cadeaux_target_prendre"), hash("PoetsenOne22"))
+	gui.set_font(gui.get_node("txt_prendre_cadeaux_target"), hash("PoetsenOne40_border"))
+end
+
+function setTxtCadeauxArabic(self)
+	-- ZONE
+	gui.set_text(gui.get_node("cadeaux_zone_actif"), modifier.modifierToArab(languages[config.game_language].label_active_cadeaux_zone))
+	gui.set_text(gui.get_node("cadeaux_zone_rule"),  modifier.modifierToArab(languages[config.game_language].label_rule_cadeaux_zone))
+	gui.set_text(gui.get_node("cadeaux_zone_prendre"),  modifier.modifierToArab(languages[config.game_language].label_prendre_cadeaux))
+	gui.set_text(gui.get_node("txt_prendre_cadeaux_zone"),  modifier.modifierToArab(languages[config.game_language].label_button_prendre))
+
+	-- GROUP
+	gui.set_text(gui.get_node("cadeaux_group_actif"),  modifier.modifierToArab(languages[config.game_language].label_active_cadeaux_group))
+	gui.set_text(gui.get_node("cadeaux_group_rule"),  modifier.modifierToArab(languages[config.game_language].label_rule_cadeaux_group))
+	gui.set_text(gui.get_node("cadeaux_group_prendre"),  modifier.modifierToArab(languages[config.game_language].label_prendre_cadeaux))
+	gui.set_text(gui.get_node("txt_prendre_cadeaux_group"),  modifier.modifierToArab(languages[config.game_language].label_button_prendre))
+
+	-- TARGET
+	gui.set_text(gui.get_node("cadeaux_target_actif"),  modifier.modifierToArab(languages[config.game_language].label_active_cadeaux_target))
+	gui.set_text(gui.get_node("cadeaux_target_rule"),  modifier.modifierToArab(languages[config.game_language].label_rule_cadeaux_target))
+	gui.set_text(gui.get_node("cadeaux_target_prendre"),  modifier.modifierToArab(languages[config.game_language].label_prendre_cadeaux))
+	gui.set_text(gui.get_node("txt_prendre_cadeaux_target"),  modifier.modifierToArab(languages[config.game_language].label_button_prendre))
+end
+
+function setTxtCadeauxForAll(self)
 	-- ZONE
 	gui.set_text(gui.get_node("cadeaux_zone_actif"), languages[config.game_language].label_active_cadeaux_zone)
 	gui.set_text(gui.get_node("cadeaux_zone_rule"), languages[config.game_language].label_rule_cadeaux_zone)
@@ -44,6 +164,64 @@ function init(self)
 	gui.set_text(gui.get_node("cadeaux_target_rule"), languages[config.game_language].label_rule_cadeaux_target)
 	gui.set_text(gui.get_node("cadeaux_target_prendre"), languages[config.game_language].label_prendre_cadeaux)
 	gui.set_text(gui.get_node("txt_prendre_cadeaux_target"), languages[config.game_language].label_button_prendre)
+end
+
+function manageStartPopupCadeaux()
+	if currentLevel.platform.stopGame and config.level == 3 and not config.enable_adjacent then
+		timer.delay(3, false, function() 
+			gui.set_enabled(gui.get_node("overlay_zone"), true)
+			gui.set_enabled(gui.get_node("popup_cadeaux_zone"), true)
+		end)
+	end
+	if currentLevel.platform.stopGame and config.level == 4 and not config.enable_target then
+		timer.delay(3, false, function() 
+			gui.set_enabled(gui.get_node("overlay_target"), true)
+			gui.set_enabled(gui.get_node("popup_cadeaux_target"), true)
+		end)
+	end
+	if currentLevel.platform.stopGame and config.level == 5 and not config.enable_group then
+		timer.delay(3, false, function() 
+			gui.set_enabled(gui.get_node("overlay_group"), true)
+			gui.set_enabled(gui.get_node("popup_cadeaux_group"), true)
+		end)
+	end
+end
+
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	if config.game_language == "ru" or config.game_language == "be" then
+		setRuCadeauxFont(self)
+	end
+	if config.game_language == "ar" then
+		setArbCadeauxFont(self)
+	end
+	if config.game_language == "ja" then
+		setJaCadeauxFont(self)
+	end
+	if config.game_language == "ko" then
+		setKrCadeauxFont(self)
+	end
+	if config.game_language == "vi" then
+		setViCadeauxFont(self)
+	end
+	if config.game_language == "fr" or 
+	config.game_language == "en" or 
+	config.game_language == "es" or 
+	config.game_language == "de" or 
+	config.game_language == "pt" or 
+	config.game_language == "pl" or 
+	config.game_language == "nl" or 
+	config.game_language == "tr" or 
+	config.game_language == "it" or 
+	config.game_language == "id" then
+		setLatineCadeauxFont(self)
+	end
+	if config.game_language == "ar" then
+		setTxtCadeauxArabic(self)
+	else
+		setTxtCadeauxForAll(self)
+	end
+	manageStartPopupCadeaux()
 end
 
 function final(self)
@@ -69,9 +247,8 @@ function on_input(self, action_id, action)
 		-- Zone Popup
 		if gui.pick_node(gui.get_node("zone_close_cadeaux"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_cadeaux_zone")) then
 			currentLevel.platform.stopGame = false
-			gui.set_enabled(gui.get_node("overlay"), false)
+			gui.set_enabled(gui.get_node("overlay_zone"), false)
 			gui.set_enabled(gui.get_node("popup_cadeaux_zone"), false)
-			gui.set_visible(gui.get_node("popup_cadeaux_zone"), false)
 		end
 		if gui.pick_node(gui.get_node("zone_recharge_cadeaux"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_cadeaux_zone")) then
 			currentLevel.platform.stopGame = false
@@ -79,15 +256,14 @@ function on_input(self, action_id, action)
 			saveAdjacent.adjacent = saveAdjacent.adjacent + 2
 			if sys.save(ryoku_path, saveAdjacent) then
 				msg.post("/powerup#powerup", "increment_zone")
-				gui.set_enabled(gui.get_node("overlay"), false)
+				gui.set_enabled(gui.get_node("overlay_zone"), false)
 				gui.set_enabled(gui.get_node("popup_cadeaux_zone"), false)
-				gui.set_visible(gui.get_node("popup_cadeaux_zone"), false)
 			end
 		end
 		-- Target Popup
 		if gui.pick_node(gui.get_node("target_close_cadeaux"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_cadeaux_target")) then
 			currentLevel.platform.stopGame = false
-			gui.set_enabled(gui.get_node("overlay"), false)
+			gui.set_enabled(gui.get_node("overlay_target"), false)
 			gui.set_enabled(gui.get_node("popup_cadeaux_target"), false)
 			gui.set_visible(gui.get_node("popup_cadeaux_target"), false)
 		end
@@ -97,7 +273,7 @@ function on_input(self, action_id, action)
 			saveTarget.target = saveTarget.target + 2
 			if sys.save(ryoku_path, saveTarget) then
 				msg.post("/powerup#powerup", "increment_target")
-				gui.set_enabled(gui.get_node("overlay"), false)
+				gui.set_enabled(gui.get_node("overlay_target"), false)
 				gui.set_enabled(gui.get_node("popup_cadeaux_target"), false)
 				gui.set_visible(gui.get_node("popup_cadeaux_target"), false)
 			end
@@ -105,7 +281,7 @@ function on_input(self, action_id, action)
 		-- Group Popup
 		if gui.pick_node(gui.get_node("group_close_cadeaux"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_cadeaux_group")) then
 			currentLevel.platform.stopGame = false
-			gui.set_enabled(gui.get_node("overlay"), false)
+			gui.set_enabled(gui.get_node("overlay_group"), false)
 			gui.set_enabled(gui.get_node("popup_cadeaux_group"), false)
 			gui.set_visible(gui.get_node("popup_cadeaux_group"), false)
 		end
@@ -115,7 +291,7 @@ function on_input(self, action_id, action)
 			saveGroup.group = saveGroup.group + 2
 			if sys.save(ryoku_path, saveGroup) then
 				msg.post("/powerup#powerup", "increment_group")
-				gui.set_enabled(gui.get_node("overlay"), false)
+				gui.set_enabled(gui.get_node("overlay_group"), false)
 				gui.set_enabled(gui.get_node("popup_cadeaux_group"), false)
 				gui.set_visible(gui.get_node("popup_cadeaux_group"), false)
 			end

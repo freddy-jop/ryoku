@@ -1,7 +1,8 @@
 local ryoku_path = sys.get_save_file("ryoku", "data_level")
 local config = sys.load(ryoku_path)
-local list = require("ressources.listLevel")
-local currentLevel = list[config.level].path
+--local list = require("ressources.listLevel")
+--local currentLevel = list[config.level].path
+local currentLevel = require("levels.template")
 local groupColor = require("construct.groupsColors")
 go.property("block", 0)
 go.property("tileNumber", 0)

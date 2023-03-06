@@ -1,7 +1,8 @@
 local ryoku_path = sys.get_save_file("ryoku", "data_level")
 local config = sys.load(ryoku_path)
-local list = require("ressources.listLevel")
-local currentLevel = list[config.level].path
+--local list = require("ressources.listLevel")
+--local currentLevel = list[config.level].path
+local currentLevel = require("levels.template")
 local squares = require("construct.conformation")
 local groupColor = require("construct.groupsColors")
 
@@ -50,11 +51,6 @@ function loadConformationSquare(self, playConformation)
 			msg.post(front, "play_animation", {id = hash(string.upper(currentLevel.grid[self.tileposition.y][self.tileposition.x].number))})
 			go.animate(front, "scale", go.PLAYBACK_ONCE_FORWARD, vmath.vector3(1), go.EASING_OUTBOUNCE, 0.4, 0)
 			go.animate(front, "tint", go.PLAYBACK_ONCE_FORWARD, groupColor[currentLevel.groups[currentLevel.grid[self.tileposition.y][self.tileposition.x].groupId].groupColorId].colorBrique, go.EASING_INOUTQUART, 0.2, 0)
-			--go.set(front, "tint", currentLevel.groups[currentLevel.grid[self.tileposition.y][self.tileposition.x].groupId].colorBrique)
-
-			--local targetParticule = msg.url(nil, currentLevel.grid[self.tileposition.y][self.tileposition.x].instanceSquareId, "conforFx")
-			--particlefx.set_constant(targetParticule, "emitter", "tint", currentLevel.groups[currentLevel.grid[self.tileposition.y][self.tileposition.x].groupId].colorBrique)
-			--particlefx.play(targetParticule)
 		end
 	end
 end

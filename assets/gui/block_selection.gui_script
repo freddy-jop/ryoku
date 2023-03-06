@@ -1,7 +1,8 @@
 local ryoku_path = sys.get_save_file("ryoku", "data_level")
 local config = sys.load(ryoku_path)
-local list = require("ressources.listLevel")
-local currentLevel = list[config.level].path
+--local list = require("ressources.listLevel")
+--local currentLevel = list[config.level].path
+local currentLevel = require("levels.template")
 local languages = require("ressources.langages")
 
 function selectCurrentRefblock(factoryId)
@@ -19,7 +20,6 @@ function init(self)
 	self.selection_1 = ""
 	self.selection_2 = ""
 	self.selection_3 = ""
-	pprint("====> config/game_language ::: ", languages[config.game_language])
 end
 
 function final(self)

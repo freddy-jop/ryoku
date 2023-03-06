@@ -2,9 +2,10 @@
 local dataLevel = sys.load_resource("/ressources/data_level.lua")
 local data = assert(loadstring(dataLevel))
 --local level = data()
-local list = require("ressources.listLevel")
+local list = require("levels.lists")
 
 local ryoku_path = sys.get_save_file("ryoku", "data_level")
+
 
 function init(self)
 	self.appData = sys.load(ryoku_path)
@@ -31,10 +32,11 @@ function init(self)
 			end
 			sys.save(ryoku_path, self.appData)
 		end
-		--self.appData.game_language = "vi"
+		--self.appData.game_language = "ar"
 
 		sys.save(ryoku_path, self.appData)
 	end
+	self.currentLevel = list.targetLevelByBlock(self.appData.level)
 	msg.post("@render:", "clear_color", { color = vmath.vector4(0.949, 0.952, 0.956, 0) })
 	msg.post(".", "corporate_to_start")
 end
@@ -56,7 +58,7 @@ function on_message(self, message_id, message, sender)
 		--local assertLevel = assert(loadstring(sys.load_resource("/levels/level"..self.appData.level..".lua")))
 		--currentLevel = assertLevel()
 		timer.delay(6, false, function()
-			if list[self.appData.level] == nil then
+			if self.currentLevel == nil then
 				msg.post("controller:/loader#controller", "changeScene", { newScene = "seeYou" })
 			else
 				msg.post("controller:/loader#controller", "changeScene", { newScene = "clickOnLevel" })

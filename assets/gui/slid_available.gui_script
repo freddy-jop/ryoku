@@ -1,7 +1,8 @@
 local ryoku_path = sys.get_save_file("ryoku", "data_level")
 local config = sys.load(ryoku_path)
-local list = require("ressources.listLevel")
-local currentLevel = list[config.level].path
+local list = require("levels.lists")
+--local currentLevel = list[config.level].path
+local currentLevel = require("levels.template")
 function init(self)
 	currentLevel.platform.positionArrowToLeft = gui.get_position(gui.get_node("left_available"))
 	currentLevel.platform.positionArrowToRight = gui.get_position(gui.get_node("right_available"))
@@ -41,8 +42,8 @@ function update(self, dt)
 		setLevel.level = setLevel.level + 1
 		if sys.save(ryoku_path, setLevel) then
 			local checkLevel = sys.load(ryoku_path)
-			timer.delay(3, false, function()
-				if list[checkLevel.level] == nil then
+			timer.delay(((currentLevel.platform.column * 2)/10) + 1, false, function()
+				if list.targetLevelByBlock(checkLevel.level) == nil then
 					msg.post("controller:/loader#controller", "changeScene", { newScene = "seeYou" })
 				else
 					msg.post("controller:/loader#controller", "changeScene", { newScene = "clickOnLevel" })

@@ -1,7 +1,8 @@
 local ryoku_path = sys.get_save_file("ryoku", "data_level")
 local config = sys.load(ryoku_path)
-local list = require("ressources.listLevel")
-local currentLevel = list[config.level].path
+--local list = require("ressources.listLevel")
+--local currentLevel = list[config.level].path
+local currentLevel = require("levels.template")
 function init(self)
 	gui.set_color(gui.get_node("bg_level"), vmath.vector4(242/255, 196/255, 104/255, 1))
 	local label_level = "#"..config.level

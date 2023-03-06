@@ -1,57 +1,72 @@
 local ryoku_path = sys.get_save_file("ryoku", "data_level")
 local config = sys.load(ryoku_path)
-local list = require("ressources.listLevel")
-local currentLevel = list[config.level].path
+local listLevel = require("levels.lists")
+local patterGrid = listLevel.targetLevelByBlock(config.level)
+local blockList = require("ressources.listBlocks")
+local puzzle = require("construct.puzzles")
+local colorList = require("construct.groupsColors")
+local currentLevel = require("levels.template")
+local blocksStart = blockList[#patterGrid].path
+--local numberListBlock = require("ressources.listBlocksLevels")
+local languages = require("ressources.langages")
+local modifier = require("ressources.modifier")
+
+function scaleColumnGrid(columnDimension)
+	if columnDimension == 3 then
+		currentLevel.platform.blockHeight = 300
+		return 1.25
+	end
+	if columnDimension == 4 then
+		currentLevel.platform.blockHeight = 330
+		return 0.9375
+	end
+	if columnDimension == 5 then
+		currentLevel.platform.blockHeight = 340
+		return 0.75
+	end
+	if columnDimension == 6 then
+		currentLevel.platform.blockHeight = 350
+		return 0.625
+	end
+	if columnDimension == 7 then
+		currentLevel.platform.blockHeight = 360
+		return 0.535
+	end
+	if columnDimension == 8 then
+		currentLevel.platform.blockHeight = 370
+		return 0.468
+	end
+	if columnDimension == 9 then
+		currentLevel.platform.blockHeight = 380
+		return 0.416
+	end
+	if columnDimension == 10 then
+		currentLevel.platform.blockHeight = 390
+		return 0.375
+	end
+	if columnDimension == 12 then
+		currentLevel.platform.blockHeight = 400
+		return 0.3125
+	end
+end
+
+function generateSelectionBlock(self)
+	for w = 1, 3 do
+		local selection = {
+			selectionFactoryBlockId = "",
+			positionSelectionBlock = vmath.vector3(0, 0, 0),
+			blockNumber = w,
+			l0 = vmath.vector3(0, 0, 0),
+			l1 = vmath.vector3(0, 0, 0),
+			r0 = vmath.vector3(0, 0, 0),
+			r1 = vmath.vector3(0, 0, 0),
+			limitBlockId = ""
+		}
+		table.insert(currentLevel.selectionBlock, selection)
+	end
+end
 
 function initializeGrid(self)
-	for a = 1, #currentLevel.refBlock do
-		currentLevel.refBlock[a].isActive = true
-		currentLevel.refBlock[a].isdisplaying = true
-		currentLevel.refBlock[a].isPending = false
-	end
-	for b = 1, #currentLevel.blocks do
-		for z = 1, #currentLevel.blocks[b] do
-			currentLevel.blocks[b][z].isPlaned = false
-			currentLevel.blocks[b][z].isLocked = false
-			currentLevel.blocks[b][z].isMatch = false
-			currentLevel.blocks[b][z].isColored = false
-			currentLevel.blocks[b][z].positionTileBlock = vmath.vector3(0, 0, 1)
-			currentLevel.blocks[b][z].positionPlaned = vmath.vector3(0, 0, 1)
-			currentLevel.blocks[b][z].positionReturn = vmath.vector3(0, 0, 1)
-		end
-	end
-	for c = 1, #currentLevel.groupProgress do
-		currentLevel.groupProgress[c].isCompleted = false
-		currentLevel.groupProgress[c].processGroup = false
-		currentLevel.groupProgress[c].number = 0
-		currentLevel.groupProgress[c].color = 0
-	end
-	for d = 1, #currentLevel.groups do
-		currentLevel.groups[d].ispopulate = false
-		currentLevel.groups[d].groupTarget = false
-		currentLevel.groups[d].isDisplayGroup = false
-		currentLevel.groups[d].animateGroup = false
-		--currentLevel.groups[d].colorBrique.w = 1
-	end
-	for e = 1, #currentLevel.grid do
-		for g = 1, #currentLevel.grid[e] do
-			currentLevel.grid[e][g].isGrey = false
-			currentLevel.grid[e][g].ispopulate = false
-			currentLevel.grid[e][g].isGood = false
-			currentLevel.grid[e][g].isPendingGood = false
-			currentLevel.grid[e][g].target = false
-			currentLevel.grid[e][g].revealed = false
-			currentLevel.grid[e][g].groupLocked = false
-			currentLevel.grid[e][g].isPendingGood = false
-			currentLevel.grid[e][g].animateGroup = false
-			currentLevel.grid[e][g].revelatedAdjacentBonus = false
-			currentLevel.grid[e][g].blockEntryInTile = false
-			currentLevel.grid[e][g].isCollisionable = false
-			currentLevel.grid[e][g].conformationName = "SIMPLE"
-			currentLevel.grid[e][g].gridId = ""
-			currentLevel.grid[e][g].instanceSquareId = ""
-		end
-	end
 	currentLevel.platform.slider.isTouchSlide = false
 	currentLevel.platform.slider.isSlideLeftRight = false
 	currentLevel.platform.slider.dragBlock = false
@@ -63,20 +78,458 @@ function initializeGrid(self)
 	currentLevel.platform.actionLostLevel = false
 	currentLevel.platform.indexLeftAvailable = 0
 	currentLevel.platform.indexRightAvailable = 0
-	currentLevel.selectionBlock[1].selectionFactoryBlockId = ""
-	currentLevel.selectionBlock[2].selectionFactoryBlockId = ""
-	currentLevel.selectionBlock[3].selectionFactoryBlockId = ""
 	currentLevel.platform.isCollisionable = false
+	currentLevel.platform.processing = false
+	currentLevel.platform.slidToRight = false
+	currentLevel.platform.slidToLeft = false
+	currentLevel.platform.actionReleased = false
+	currentLevel.platform.slider.directionSlider = 0
+	currentLevel.platform.column = #patterGrid
+	currentLevel.platform.scaleGrid = scaleColumnGrid(#patterGrid)
+	--currentLevel.platform.listBlock = numberListBlock[config.level].listBlock
+	currentLevel.platform.totalGroupDisplaying = 0
+	currentLevel.platform.finaliseNextLevel = false
+	currentLevel.platform.startChallenge = {}
+	currentLevel.platform.randomChallenge = 0
+end
+
+function defineDimensionNumber(currentBlock)
+	local dimX = 0
+	local dimY = 0
+
+	for j = 1, #currentBlock do
+		if currentBlock[j].blockX > dimX then
+			dimX = currentBlock[j].blockX
+		end
+		if currentBlock[j].blockY > dimY then
+			dimY = currentBlock[j].blockY
+		end
+		if #currentBlock == j then
+			for k = 1, #puzzle do
+				if puzzle[k].elevationX == dimX + 1 and puzzle[k].elevationY == dimY + 1 then
+					return puzzle[k].number
+				end
+			end
+		end
+	end
+end
+
+function randomBlock(self)
+	local blockListInsert = {}
+	local refListInsert = {}
+
+	local blockList = {}
+	local refList = {}
+
+	for i = 1, #self.fusionBlock do
+		table.insert(blockList, i, self.fusionBlock[i])
+	end
+
+	math.randomseed(os.time())
+
+	for z = 1, #self.fusionBlock do
+		local hasard = math.random(1, #blockList)
+
+		for b=1, #blockList[hasard] do
+			blockList[hasard][b].blockNumber = z
+			blockList[hasard][b].isPlaned = false
+			blockList[hasard][b].isLocked = false
+			blockList[hasard][b].isMatch = false
+			blockList[hasard][b].isColored = false
+			blockList[hasard][b].positionTileBlock = vmath.vector3(0, 0, 1)
+			blockList[hasard][b].positionPlaned = vmath.vector3(0, 0, 1)
+			blockList[hasard][b].positionReturn = vmath.vector3(0, 0, 1)
+		end
+
+		table.insert(refListInsert, {
+			factoryBlockId = "",
+			factoryTetrisId = "",
+			blockNumber = z,
+			positionBlock = vmath.vector3(0, 0, 0),
+			isActive = true,
+			x0 = 0,
+			x1 = 0,
+			y0 = 0,
+			y1 = 0,
+			originXY = vmath.vector3(0, 0, 0),
+			index = z,
+			l0 = vmath.vector3(0, 0, 0),
+			l1 = vmath.vector3(0, 0, 0),
+			isdisplaying = false,
+			isPending = false,
+			selectDimension = defineDimensionNumber(blockList[hasard])
+		})
+
+		table.insert(blockListInsert, blockList[hasard])
+
+		table.remove(blockList, hasard)
+
+		if #self.fusionBlock == z then
+			currentLevel.blocks = blockListInsert
+			currentLevel.refBlock = refListInsert
+		end
+	end
+end
+
+function withOutRandomBlock(self)
+	local blockListInsert = {}
+	local refListInsert = {}
+
+	for i = 1, #self.fusionBlock do
+		for b=1, #self.fusionBlock[i] do
+			self.fusionBlock[i][b].blockNumber = i
+			self.fusionBlock[i][b].isPlaned = false
+			self.fusionBlock[i][b].isLocked = false
+			self.fusionBlock[i][b].isMatch = false
+			self.fusionBlock[i][b].isColored = false
+			self.fusionBlock[i][b].positionTileBlock = vmath.vector3(0, 0, 1)
+			self.fusionBlock[i][b].positionPlaned = vmath.vector3(0, 0, 1)
+			self.fusionBlock[i][b].positionReturn = vmath.vector3(0, 0, 1)
+		end
+		table.insert(refListInsert, {
+			factoryBlockId = "",
+			factoryTetrisId = "",
+			blockNumber = i,
+			positionBlock = vmath.vector3(0, 0, 0),
+			isActive = true,
+			x0 = 0,
+			x1 = 0,
+			y0 = 0,
+			y1 = 0,
+			originXY = vmath.vector3(0, 0, 0),
+			index = i,
+			l0 = vmath.vector3(0, 0, 0),
+			l1 = vmath.vector3(0, 0, 0),
+			isdisplaying = false,
+			isPending = false,
+			selectDimension = defineDimensionNumber(self.fusionBlock[i])
+		})
+
+		table.insert(blockListInsert, self.fusionBlock[i])
+		--table.insert(blockList, i, self.fusionBlock[i])
+		if #self.fusionBlock == i then
+			currentLevel.blocks = blockListInsert
+			currentLevel.refBlock = refListInsert
+		end
+	end
+end
+
+function generateChallenge(self)
+	for i = 1, currentLevel.platform.column do
+		for j = 1, currentLevel.platform.column do
+			if i == 1 or i == currentLevel.platform.column or j == 1 or j == currentLevel.platform.column then
+				table.insert(currentLevel.platform.startChallenge, {j, i})
+			end
+		end
+	end
+end
+
+function randomChallenge(self)
+	generateChallenge(self)
+	math.randomseed(os.time())
+	currentLevel.platform.randomChallenge = math.random(1,#currentLevel.platform.startChallenge)
+end
+
+function randomColor(self)
+	local randomGroupColor = {}
+	local groupSelect = {}
+	local groupProgressSelect = {}
+
+	for i = 1, #colorList do
+		table.insert(randomGroupColor, i, colorList[i])
+	end
+
+	math.randomseed(os.time())
+	for z = 1, currentLevel.platform.column do
+		local hasardColor = math.random(1,#randomGroupColor)
+		local group = {
+			ispopulate = false,
+			number = z,
+			counterSquares = 0,
+			groupTarget = false,
+			isDisplayGroup = false,
+			animateGroup = false,
+			groupColorId = randomGroupColor[hasardColor].id
+		}
+		local groupProgress = {
+			isCompleted = false,
+			processGroup = false,
+			number = 0,
+			color = 0
+		}
+
+		table.insert(groupSelect, group)
+		table.insert(groupProgressSelect, groupProgress)
+		table.remove(randomGroupColor, hasardColor)
+
+		if z == currentLevel.platform.column then
+			currentLevel.groups = groupSelect
+			currentLevel.groupProgress = groupProgressSelect
+		end
+	end
+end
+
+function calculateRelativePositionBlock(self, nbBlock)
+	local minX = 14
+	local minY = 14
+	for k = 1, #self.fusionBlock[nbBlock.blockNumber] do
+		if self.fusionBlock[nbBlock.blockNumber][k].result.tileX < minX then
+			minX = self.fusionBlock[nbBlock.blockNumber][k].result.tileX
+		end
+		if self.fusionBlock[nbBlock.blockNumber][k].result.tileY < minY then
+			minY = self.fusionBlock[nbBlock.blockNumber][k].result.tileY
+		end
+		if #self.fusionBlock[nbBlock.blockNumber] == k then
+			for b = 1, #self.fusionBlock[nbBlock.blockNumber] do
+				self.fusionBlock[nbBlock.blockNumber][b].blockX = self.fusionBlock[nbBlock.blockNumber][b].result.tileX - minX
+				self.fusionBlock[nbBlock.blockNumber][b].blockY = self.fusionBlock[nbBlock.blockNumber][b].result.tileY - minY
+			end
+		end
+	end
+end
+
+function generateTetrisBlock(self)
+	for i = 1, #blocksStart[currentLevel.platform.listBlock] do
+		for j = 1, #blocksStart[currentLevel.platform.listBlock][i] do
+			local nbBlock = {
+				blockX = 0,
+				blockY = 0,
+				blockId = "",
+				positionTileBlock = vmath.vector3(0, 0, 1),
+				isPlaned = false,
+				result = {
+					tileX = j-1,
+					tileY = i-1
+				},
+				positionPlaned = vmath.vector3(0, 0, 1),
+				positionReturn= vmath.vector3(0, 0, 1),
+				isColored = false,
+				blockNumber = blocksStart[currentLevel.platform.listBlock][i][j],
+				isLocked = false,
+				isMatch = false,
+				instanceId = ""
+			}
+			if self.fusionBlock[blocksStart[currentLevel.platform.listBlock][i][j]] == nil then
+				self.fusionBlock[blocksStart[currentLevel.platform.listBlock][i][j]] = {}
+			end
+			table.insert(self.fusionBlock[blocksStart[currentLevel.platform.listBlock][i][j]], nbBlock)
+			calculateRelativePositionBlock(self, nbBlock)
+		end
+	end
+end
+
+function findNumber(sudokuNumber)
+	if sudokuNumber == 1 then
+		return "one"
+	end
+	if sudokuNumber == 2 then
+		return "two"
+	end
+	if sudokuNumber == 3 then
+		return "three"
+	end
+	if sudokuNumber == 4 then
+		return "four"
+	end
+	if sudokuNumber == 5 then
+		return "five"
+	end
+	if sudokuNumber == 6 then
+		return "six"
+	end
+	if sudokuNumber == 7 then
+		return "seven"
+	end
+	if sudokuNumber == 8 then
+		return "eight"
+	end
+	if sudokuNumber == 9 then
+		return "nine"
+	end
+	if sudokuNumber == 10 then
+		return "ten"
+	end
+	if sudokuNumber == 11 then
+		return "eleven"
+	end
+	if sudokuNumber == 12 then
+		return "twelve"
+	end
+end
+
+function generateConformationGrid(self)
+	for g = 1, #patterGrid do
+		for q = 1, #patterGrid[g] do
+			local tile = {
+				positionX = q-1,
+				positionY = g-1,
+				color = vmath.vector4(),
+				groupId = patterGrid[g][q][2],
+				instanceId = "",
+				xy = vmath.vector3(),
+				gdXY = vmath.vector3(),
+				isGrey = false,
+				number = findNumber(patterGrid[g][q][1]),
+				ispopulate = false,
+				isGood = false,
+				isPendingGood = false,
+				instanceSquareId = "",
+				target = false,
+				revealed = false,
+				groupLocked = false,
+				conformationName = "SIMPLE",
+				blockNumber = 0,
+				gridId = "",
+				gridSpriteId = "",
+				animateGroup = false,
+				x0 = vmath.vector3(),
+				x1 = vmath.vector3(),
+				y0 = vmath.vector3(),
+				y1 = vmath.vector3(),
+				revelatedAdjacentBonus = false,
+				urlBorderGroup = "",
+				conformationBorderGroup = "",
+				blockEntryInTile = false,
+				isCollisionable = false
+			}
+			if self.conformationGrid[g] == nil then
+				self.conformationGrid[g] = {}
+			end
+			table.insert(self.conformationGrid[g], tile)
+			if #patterGrid == g and #patterGrid[g] == q then
+				currentLevel.grid = self.conformationGrid
+			end
+		end
+	end
+end
+
+function boomer(self, handle, time_elasped)
+	self.chrono = self.chrono - 72
+	self.numberDecompte = self.numberDecompte - 1
+	if self.chrono == 0 then
+		timer.cancel(self.time)
+	end
+	gui.set_text(gui.get_node("number_decompte"), self.numberDecompte)
+	gui.animate(gui.get_node("decompte"), gui.PROP_FILL_ANGLE, vmath.vector4(self.chrono, self.chrono, 1, 0), gui.EASING_OUTBOUNCE, 0.8, 0, function(self, node) 
+		if self.chrono == 0 then
+			gui.set_text(gui.get_node("number_decompte"), "Start")
+			timer.delay(1, false, function() 
+				msg.post("controller:/loader#controller", "changeScene", { newScene = "playLevel" })
+			end)
+		end
+	end, gui.PLAYBACK_ONCE_FORWARD)
+end
+
+function setRestartRuFont(self)
+	gui.set_font(gui.get_node("bad_error"), hash("RU_30_border"))
+	gui.set_font(gui.get_node("relance"), hash("RU_30_border"))
+	gui.set_font(gui.get_node("followus"), hash("RU_30_border"))
+end
+
+function setRestartArbFont(self)
+	gui.set_font(gui.get_node("bad_error"), hash("ARB_25"))
+	gui.set_font(gui.get_node("relance"), hash("ARB_25"))
+	gui.set_font(gui.get_node("followus"), hash("ARB_25"))
+end
+
+function setRestartJaFont(self)
+	gui.set_font(gui.get_node("bad_error"), hash("JA_25"))
+	gui.set_font(gui.get_node("relance"), hash("JA_25"))
+	gui.set_font(gui.get_node("followus"), hash("JA_25"))
+end
+
+function setRestartKrFont(self)
+	gui.set_font(gui.get_node("bad_error"), hash("KR_25"))
+	gui.set_font(gui.get_node("relance"), hash("KR_25"))
+	gui.set_font(gui.get_node("followus"), hash("KR_25"))
+end
+
+function setRestartViFont(self)
+	gui.set_font(gui.get_node("bad_error"), hash("VI_25"))
+	gui.set_font(gui.get_node("relance"), hash("VI_25"))
+	gui.set_font(gui.get_node("followus"), hash("VI_25"))
+end
+
+function setRestartLatineFont(self)
+	gui.set_font(gui.get_node("bad_error"), hash("PoetsenOne25_border"))
+	gui.set_font(gui.get_node("relance"), hash("PoetsenOne25_border"))
+	gui.set_font(gui.get_node("followus"), hash("PoetsenOne25_border"))
+end
+
+function setTxtRestartArabic(self)
+	gui.set_text(gui.get_node("bad_error"), modifier.modifierToArab(languages[config.game_language].bad_error))
+	gui.set_text(gui.get_node("relance"), modifier.modifierToArab(languages[config.game_language].relance))
+	gui.set_text(gui.get_node("followus"), modifier.modifierToArab(languages[config.game_language].followus))
+end
+
+function setTxtRestartForAll(self)
+	gui.set_text(gui.get_node("bad_error"),languages[config.game_language].bad_error)
+	gui.set_text(gui.get_node("relance"), languages[config.game_language].relance)
+	gui.set_text(gui.get_node("followus"), languages[config.game_language].followus)
 end
 
 function init(self)
-	--currentLevel.blocks = {}
+	if config.game_language == "ru" or config.game_language == "be" then
+		setRestartRuFont(self)
+	end
+	if config.game_language == "ar" then
+		setRestartArbFont(self)
+	end
+	if config.game_language == "ja" then
+		setRestartJaFont(self)
+	end
+	if config.game_language == "ko" then
+		setRestartKrFont(self)
+	end
+	if config.game_language == "vi" then
+		setRestartViFont(self)
+	end
+	if config.game_language == "fr" or 
+	config.game_language == "en" or 
+	config.game_language == "es" or 
+	config.game_language == "de" or 
+	config.game_language == "pt" or 
+	config.game_language == "pl" or 
+	config.game_language == "nl" or 
+	config.game_language == "tr" or 
+	config.game_language == "it" or 
+	config.game_language == "id" then
+		setRestartLatineFont(self)
+	end
+	if config.game_language == "ar" then
+		setTxtRestartArabic(self)
+	else
+		setTxtRestartForAll(self)
+	end
+	
+	currentLevel.blocks = {}
+	currentLevel.refBlock = {}
+	currentLevel.grid = {}
+	currentLevel.groupProgress = {}
+	currentLevel.groups = {}
+	currentLevel.selectionBlock = {}
+	self.fusionBlock = {}
+	self.conformationGrid = {}
+	generateSelectionBlock(self)
+	initializeGrid(self)
 	msg.post("@render:", "clear_color", { color = vmath.vector4(0.949, 0.952, 0.956, 0) })
 	msg.post(".", "acquire_input_focus")
-	initializeGrid(self)
-	-- Add initialization code here
-	-- Learn more: https://defold.com/manuals/script/
-	-- Remove this function if not needed
+
+	randomChallenge(self)
+	
+	generateConformationGrid(self)
+	generateTetrisBlock(self)
+	if config.level == 1 then
+		withOutRandomBlock(self)
+	else
+		randomBlock(self)
+	end
+	randomColor(self)
+	
+	self.chrono = 360
+	self.numberDecompte = 5
+	gui.set_text(gui.get_node("number_decompte"), self.numberDecompte)
+	self.time = timer.delay(1, true, boomer)
 end
 
 function final(self)
@@ -98,27 +551,12 @@ function on_message(self, message_id, message, sender)
 end
 
 function on_input(self, action_id, action)
-	if action_id == hash("touch") and action.pressed then
-		if gui.pick_node(gui.get_node(hash("home")), action.x, action.y) then
-			msg.post("controller:/loader#controller", "changeScene", { newScene = "clickOnLevel" })
-		end
-		if gui.pick_node(gui.get_node(hash("restart")), action.x, action.y) then
-			msg.post("controller:/loader#controller", "changeScene", { newScene = "playLevel" })
-		end
-	end
-	-- Add input-handling code here. The game object this script is attached to
-	-- must have acquired input focus:
-	--
-	--    msg.post(".", "acquire_input_focus")
-	--
-	-- All mapped input bindings will be received. Mouse and touch input will
-	-- be received regardless of where on the screen it happened.
-	-- Learn more: https://defold.com/manuals/input/
-	-- Remove this function if not needed
-end
-
-function on_reload(self)
-	-- Add reload-handling code here
-	-- Learn more: https://defold.com/manuals/hot-reload/
-	-- Remove this function if not needed
+	-- if action_id == hash("touch") and action.pressed then
+	-- 	if gui.pick_node(gui.get_node(hash("home")), action.x, action.y) then
+	-- 		msg.post("controller:/loader#controller", "changeScene", { newScene = "clickOnLevel" })
+	-- 	end
+	-- 	if gui.pick_node(gui.get_node(hash("restart")), action.x, action.y) then
+	-- 		msg.post("controller:/loader#controller", "changeScene", { newScene = "playLevel" })
+	-- 	end
+	-- end
 end
