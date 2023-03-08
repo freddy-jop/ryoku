@@ -140,6 +140,7 @@ function randomBlock(self)
 			blockList[hasard][b].positionTileBlock = vmath.vector3(0, 0, 1)
 			blockList[hasard][b].positionPlaned = vmath.vector3(0, 0, 1)
 			blockList[hasard][b].positionReturn = vmath.vector3(0, 0, 1)
+			blockList[hasard][b].numberRevealed = false
 		end
 
 		table.insert(refListInsert, {
@@ -186,6 +187,7 @@ function withOutRandomBlock(self)
 			self.fusionBlock[i][b].positionTileBlock = vmath.vector3(0, 0, 1)
 			self.fusionBlock[i][b].positionPlaned = vmath.vector3(0, 0, 1)
 			self.fusionBlock[i][b].positionReturn = vmath.vector3(0, 0, 1)
+			self.fusionBlock[i][b].numberRevealed = false
 		end
 		table.insert(refListInsert, {
 			factoryBlockId = "",
@@ -377,6 +379,7 @@ function generateConformationGrid(self)
 				instanceSquareId = "",
 				target = false,
 				revealed = false,
+				sudokuRevealed = false,
 				groupLocked = false,
 				conformationName = "SIMPLE",
 				blockNumber = 0,
@@ -419,6 +422,28 @@ function setStartTxtArabic(self)
 	local label_level = modifier.modifierToArab(languages[config.game_language].label_indicator_level).."#"..config.level
 	gui.set_text(gui.get_node("number_level"), label_level)
 	gui.set_text(gui.get_node("start"), modifier.modifierToArab(languages[config.game_language].label_start_level))
+end
+
+function randomSudokuNumber(self)
+	local column = #patterGrid
+	local numberDisplaying = 0
+	if column == 3 or column == 4 or column == 5 then
+		numberDisplaying = 1
+	end
+	if column == 6 or column == 7 or column == 8 then
+		numberDisplaying = 2
+	end
+	if column == 9 or column == 10 or column == 12 then
+		numberDisplaying = 3
+	end
+	for i = 1, numberDisplaying do
+		local gridY = math.random(1, column)
+		local gridX = math.random(1, column)
+		print("====> gridY :: ", gridY)
+		print("====> gridX :: ", gridX)
+		currentLevel.grid[gridY][gridX].sudokuRevealed = true
+		pprint("====> currentLevel.grid[gridY][gridX] ::: ", currentLevel.grid[gridY][gridX])
+	end
 end
 
 function init(self)
@@ -492,6 +517,7 @@ function init(self)
 	if config.level == 5 and not config.enable_group then
 		currentLevel.platform.stopGame = true
 	end
+	randomSudokuNumber(self)
 end
 
 function final(self)

@@ -139,6 +139,7 @@ function randomBlock(self)
 			blockList[hasard][b].positionTileBlock = vmath.vector3(0, 0, 1)
 			blockList[hasard][b].positionPlaned = vmath.vector3(0, 0, 1)
 			blockList[hasard][b].positionReturn = vmath.vector3(0, 0, 1)
+			blockList[hasard][b].numberRevealed = false
 		end
 
 		table.insert(refListInsert, {
@@ -185,6 +186,7 @@ function withOutRandomBlock(self)
 			self.fusionBlock[i][b].positionTileBlock = vmath.vector3(0, 0, 1)
 			self.fusionBlock[i][b].positionPlaned = vmath.vector3(0, 0, 1)
 			self.fusionBlock[i][b].positionReturn = vmath.vector3(0, 0, 1)
+			self.fusionBlock[i][b].numberRevealed = false
 		end
 		table.insert(refListInsert, {
 			factoryBlockId = "",
@@ -376,6 +378,7 @@ function generateConformationGrid(self)
 				instanceSquareId = "",
 				target = false,
 				revealed = false,
+				sudokuRevealed = false,
 				groupLocked = false,
 				conformationName = "SIMPLE",
 				blockNumber = 0,
