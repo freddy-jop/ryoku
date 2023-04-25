@@ -81,7 +81,9 @@ function enableTetrisBlock(self)
 		end
 
 		local front = msg.url(nil, blockFactory, "front")
-		if currentLevel.grid[currentLevel.blocks[self.blockNumber][s].result.tileY + 1][currentLevel.blocks[self.blockNumber][s].result.tileX + 1].revealed then
+		
+		if currentLevel.grid[currentLevel.blocks[self.blockNumber][s].result.tileY + 1][currentLevel.blocks[self.blockNumber][s].result.tileX + 1].revealed or 
+		currentLevel.grid[currentLevel.blocks[self.blockNumber][s].result.tileY + 1][currentLevel.blocks[self.blockNumber][s].result.tileX + 1].sudokuRevealed then
 			msg.post(front, "enable")
 			msg.post(front, "play_animation", {id = hash(string.upper(currentLevel.grid[currentLevel.blocks[self.blockNumber][s].result.tileY + 1][currentLevel.blocks[self.blockNumber][s].result.tileX + 1].number))})
 			if currentLevel.blocks[self.blockNumber][s].isColored then
@@ -89,7 +91,9 @@ function enableTetrisBlock(self)
 			end
 		end
 		if not currentLevel.grid[currentLevel.blocks[self.blockNumber][s].result.tileY + 1][currentLevel.blocks[self.blockNumber][s].result.tileX + 1].revealed then
-			msg.post(front, "disable")
+			if not currentLevel.grid[currentLevel.blocks[self.blockNumber][s].result.tileY + 1][currentLevel.blocks[self.blockNumber][s].result.tileX + 1].sudokuRevealed then
+				msg.post(front, "disable")
+			end
 		end
 	end
 end
@@ -114,7 +118,8 @@ function generateBlockTetris(self)
 		end
 
 		local front = msg.url(nil, blockFactory, "front")
-		if currentLevel.grid[currentLevel.blocks[self.blockNumber][s].result.tileY + 1][currentLevel.blocks[self.blockNumber][s].result.tileX + 1].revealed then
+		if currentLevel.grid[currentLevel.blocks[self.blockNumber][s].result.tileY + 1][currentLevel.blocks[self.blockNumber][s].result.tileX + 1].revealed or 
+		currentLevel.grid[currentLevel.blocks[self.blockNumber][s].result.tileY + 1][currentLevel.blocks[self.blockNumber][s].result.tileX + 1].sudokuRevealed then
 			msg.post(front, "enable")
 			msg.post(front, "play_animation", {id = hash(string.upper(currentLevel.grid[currentLevel.blocks[self.blockNumber][s].result.tileY + 1][currentLevel.blocks[self.blockNumber][s].result.tileX + 1].number))})
 			if currentLevel.blocks[self.blockNumber][s].isColored then
@@ -122,7 +127,10 @@ function generateBlockTetris(self)
 			end
 		end
 		if not currentLevel.grid[currentLevel.blocks[self.blockNumber][s].result.tileY + 1][currentLevel.blocks[self.blockNumber][s].result.tileX + 1].revealed then
-			msg.post(front, "disable")
+			if not currentLevel.grid[currentLevel.blocks[self.blockNumber][s].result.tileY + 1][currentLevel.blocks[self.blockNumber][s].result.tileX + 1].sudokuRevealed then
+				msg.post(front, "disable")
+			end
+			
 			if currentLevel.blocks[self.blockNumber][s].isColored then
 				local back = msg.url(nil, blockFactory, "back")
 				msg.post(back, "enable")
@@ -490,6 +498,51 @@ function selectObjectTile(blockId)
 	end
 end
 
+function setAllNumberColorRevealedGrid()
+	for u = 1, #currentLevel.blocks do
+		for v = 1, #currentLevel.blocks[u] do
+			if currentLevel.grid[currentLevel.blocks[u][v].result.tileY + 1][currentLevel.blocks[u][v].result.tileX + 1].isGood and (currentLevel.grid[currentLevel.blocks[u][v].result.tileY + 1][currentLevel.blocks[u][v].result.tileX + 1].revealed or currentLevel.blocks[u][v].numberRevealed) then
+				local front = msg.url(nil, currentLevel.blocks[u][v].blockId, "front")
+				go.set(front, "tint", groupColor[currentLevel.groups[currentLevel.grid[currentLevel.blocks[u][v].result.tileY + 1][currentLevel.blocks[u][v].result.tileX + 1].groupId].groupColorId].colorBrique)
+			end
+		end
+	end
+end
+
+function setNumberColorByBlock(positionX, positionY)
+	print("==== positionX//2 :::: ", positionX)
+	print("==== positionY//2 :::: ", positionY)
+	for o = 1, #currentLevel.blocks do
+		for b = 1, #currentLevel.blocks[o] do
+			if currentLevel.grid[currentLevel.blocks[o][b].result.tileY + 1][currentLevel.blocks[o][b].result.tileX + 1].isGood and 
+			currentLevel.blocks[o][b].result.tileX == positionX and 
+			(currentLevel.grid[currentLevel.blocks[o][b].result.tileY + 1][currentLevel.blocks[o][b].result.tileX + 1].revealed or 
+			currentLevel.blocks[o][b].numberRevealed) then
+				local front = msg.url(nil, currentLevel.blocks[o][b].blockId, "front")
+				go.set(front, "tint", groupColor[currentLevel.groups[currentLevel.grid[currentLevel.blocks[o][b].result.tileY + 1][currentLevel.blocks[o][b].result.tileX + 1].groupId].groupColorId].firstColor)
+			end
+			if currentLevel.grid[currentLevel.blocks[o][b].result.tileY + 1][currentLevel.blocks[o][b].result.tileX + 1].isGood and 
+			currentLevel.blocks[o][b].result.tileY == positionY and 
+			(currentLevel.grid[currentLevel.blocks[o][b].result.tileY + 1][currentLevel.blocks[o][b].result.tileX + 1].revealed or 
+			currentLevel.blocks[o][b].numberRevealed) then
+				local front = msg.url(nil, currentLevel.blocks[o][b].blockId, "front")
+				go.set(front, "tint", groupColor[currentLevel.groups[currentLevel.grid[currentLevel.blocks[o][b].result.tileY + 1][currentLevel.blocks[o][b].result.tileX + 1].groupId].groupColorId].firstColor)
+			end
+		end
+	end
+end
+
+function isGoodPlanned(self)
+	for f = 1, #currentLevel.blocks[currentLevel.platform.numberBlock] do
+		if currentLevel.blocks[currentLevel.platform.numberBlock][f].instanceId == "" then
+			return false
+		end
+		if #currentLevel.blocks[currentLevel.platform.numberBlock] == f then
+			return true
+		end
+	end
+end
+
 function manageMatchHover(self)
 	if currentLevel.platform.numberDrag ~= 0 and currentLevel.platform.numberDrag == self.blockNumber and currentLevel.platform.numberBlock > 0 and currentLevel.platform.isCollisionable then
 		local countOut = 0
@@ -512,6 +565,9 @@ function manageMatchHover(self)
 								local hoverDiseableOutGrid = msg.url(nil, currentLevel.blocks[currentLevel.platform.numberBlock][j].instanceId, "hover")
 								msg.post(hoverDiseableOutGrid, "disable")
 								currentLevel.blocks[currentLevel.platform.numberBlock][j].instanceId = ""
+								currentLevel.blocks[currentLevel.platform.numberBlock][j].positionOnGridX = -1
+								currentLevel.blocks[currentLevel.platform.numberBlock][j].positionOnGridY = -1
+								setAllNumberColorRevealedGrid()
 							end
 						end
 					end
@@ -531,6 +587,9 @@ function manageMatchHover(self)
 									local hoverDiseableIsGood = msg.url(nil, currentLevel.blocks[currentLevel.platform.numberBlock][e].instanceId, "hover")
 									msg.post(hoverDiseableIsGood, "disable")
 									currentLevel.blocks[currentLevel.platform.numberBlock][e].instanceId = ""
+									currentLevel.blocks[currentLevel.platform.numberBlock][e].positionOnGridX = -1
+									currentLevel.blocks[currentLevel.platform.numberBlock][e].positionOnGridY = -1
+									setAllNumberColorRevealedGrid()
 								end
 							end
 						end
@@ -547,10 +606,20 @@ function manageMatchHover(self)
 									msg.post(hoverDiseable, "disable")
 								end
 								currentLevel.blocks[currentLevel.platform.numberBlock][k].instanceId = currentLevel.grid[t][g].instanceId
+								currentLevel.blocks[currentLevel.platform.numberBlock][k].positionOnGridX = currentLevel.grid[t][g].positionX
+								currentLevel.blocks[currentLevel.platform.numberBlock][k].positionOnGridY = currentLevel.grid[t][g].positionY
+								if currentLevel.blocks[currentLevel.platform.numberBlock][k].numberRevealed then
+									print("==== blockId :::: ", currentLevel.blocks[currentLevel.platform.numberBlock][k].blockId)
+									if isGoodPlanned(self) then
+										setAllNumberColorRevealedGrid()
+										--setNumberColorByBlock(currentLevel.blocks[currentLevel.platform.numberBlock][k].positionOnGridX, currentLevel.blocks[currentLevel.platform.numberBlock][k].positionOnGridY)
+									end
+								end
 							end
 						end
 					end
 					if #currentLevel.blocks[currentLevel.platform.numberBlock] == countOut then
+						setAllNumberColorRevealedGrid()
 						for i = 1, #currentLevel.blocks[currentLevel.platform.numberBlock] do
 							if currentLevel.blocks[currentLevel.platform.numberBlock][i].instanceId == "" then
 								currentLevel.platform.isBlockMatch = false
@@ -563,6 +632,9 @@ function manageMatchHover(self)
 										local hoverDiseableIsGood = msg.url(nil, currentLevel.blocks[currentLevel.platform.numberBlock][z].instanceId, "hover")
 										msg.post(hoverDiseableIsGood, "disable")
 										currentLevel.blocks[currentLevel.platform.numberBlock][z].instanceId = ""
+										currentLevel.blocks[currentLevel.platform.numberBlock][z].positionOnGridX = -1
+										currentLevel.blocks[currentLevel.platform.numberBlock][z].positionOnGridY = -1
+										setAllNumberColorRevealedGrid()
 									end
 								end
 							end
@@ -574,7 +646,7 @@ function manageMatchHover(self)
 								local hoverUrl = msg.url(nil, currentLevel.blocks[currentLevel.platform.numberBlock][i].instanceId, "hover")
 								go.set(hoverUrl, "tint", vmath.vector4(220/255, 220/255, 220/255, 0.7))
 								msg.post(hoverUrl, "enable")
-
+								
 								local position = go.get_position(currentLevel.blocks[currentLevel.platform.numberBlock][i].instanceId)
 								currentLevel.blocks[currentLevel.platform.numberBlock][i].positionPlaned.x = position.x
 								currentLevel.blocks[currentLevel.platform.numberBlock][i].positionPlaned.y = position.y
@@ -583,6 +655,14 @@ function manageMatchHover(self)
 								local hoverColorTile = vmath.vector4(groupColor[currentLevel.groups[currentLevel.grid[currentLevel.blocks[currentLevel.platform.numberBlock][i].result.tileY + 1][currentLevel.blocks[currentLevel.platform.numberBlock][i].result.tileX + 1].groupId].groupColorId].colorBrique.x, groupColor[currentLevel.groups[currentLevel.grid[currentLevel.blocks[currentLevel.platform.numberBlock][i].result.tileY + 1][currentLevel.blocks[currentLevel.platform.numberBlock][i].result.tileX + 1].groupId].groupColorId].colorBrique.y, groupColor[currentLevel.groups[currentLevel.grid[currentLevel.blocks[currentLevel.platform.numberBlock][i].result.tileY + 1][currentLevel.blocks[currentLevel.platform.numberBlock][i].result.tileX + 1].groupId].groupColorId].colorBrique.z, 0.7)
 								if currentLevel.blocks[currentLevel.platform.numberBlock][i].isColored then
 									go.set(hoverUrl, "tint", hoverColorTile)
+								end
+
+								if currentLevel.blocks[currentLevel.platform.numberBlock][i].numberRevealed then
+									if isGoodPlanned(self) then
+										
+										print("==== blockId//2 :::: ", currentLevel.blocks[currentLevel.platform.numberBlock][i].blockId)
+										setNumberColorByBlock(currentLevel.blocks[currentLevel.platform.numberBlock][i].positionOnGridX, currentLevel.blocks[currentLevel.platform.numberBlock][i].positionOnGridY)
+									end
 								end
 							end
 						end
@@ -736,6 +816,7 @@ function update(self, dt)
 		setStopConformation()
 		groupLockedToSquare()
 		msg.post("/powerup#powerup", "infos_bonus")
+		msg.post("/powerup#powerup", "manage_sudoku_counter")
 	end
 end
 
@@ -929,6 +1010,7 @@ function on_input(self, action_id, action)
 					currentLevel.platform.slider.isSlideLeftRight = false
 				end
 				if self.isOut == 0 then
+					setAllNumberColorRevealedGrid()
 					if config.level == 1 then
 						changeStatusScrollUpStart()
 					end

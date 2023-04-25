@@ -24,6 +24,12 @@ function setViCadeauxFont(self)
 	gui.set_font(gui.get_node("cadeaux_target_rule"), hash("VI_25"))
 	gui.set_font(gui.get_node("cadeaux_target_prendre"), hash("VI_25"))
 	gui.set_font(gui.get_node("txt_prendre_cadeaux_target"), hash("VI_30_border"))
+	
+	-- SUDOKU
+	gui.set_font(gui.get_node("cadeaux_sudoku_actif"), hash("VI_25"))
+	gui.set_font(gui.get_node("cadeaux_sudoku_rule"), hash("VI_25"))
+	gui.set_font(gui.get_node("cadeaux_sudoku_prendre"), hash("VI_25"))
+	gui.set_font(gui.get_node("txt_prendre_cadeaux_sudoku"), hash("VI_30_border"))
 end
 
 function setKrCadeauxFont(self)
@@ -44,6 +50,12 @@ function setKrCadeauxFont(self)
 	gui.set_font(gui.get_node("cadeaux_target_rule"), hash("KR_25"))
 	gui.set_font(gui.get_node("cadeaux_target_prendre"), hash("KR_25"))
 	gui.set_font(gui.get_node("txt_prendre_cadeaux_target"), hash("KR_30_border"))
+
+	-- SUDOKU
+	gui.set_font(gui.get_node("cadeaux_sudoku_actif"), hash("KR_25"))
+	gui.set_font(gui.get_node("cadeaux_sudoku_rule"), hash("KR_25"))
+	gui.set_font(gui.get_node("cadeaux_sudoku_prendre"), hash("KR_25"))
+	gui.set_font(gui.get_node("txt_prendre_cadeaux_sudoku"), hash("KR_30_border"))
 end
 
 function setJaCadeauxFont(self)
@@ -61,6 +73,12 @@ function setJaCadeauxFont(self)
 
 	-- TARGET
 	gui.set_font(gui.get_node("cadeaux_target_actif"), hash("JA_25"))
+	gui.set_font(gui.get_node("cadeaux_target_rule"), hash("JA_25"))
+	gui.set_font(gui.get_node("cadeaux_target_prendre"), hash("JA_25"))
+	gui.set_font(gui.get_node("txt_prendre_cadeaux_target"), hash("JA_30_border"))
+
+	-- SUDOKU
+	gui.set_font(gui.get_node("cadeaux_sudoku_actif"), hash("JA_25"))
 	gui.set_font(gui.get_node("cadeaux_target_rule"), hash("JA_25"))
 	gui.set_font(gui.get_node("cadeaux_target_prendre"), hash("JA_25"))
 	gui.set_font(gui.get_node("txt_prendre_cadeaux_target"), hash("JA_30_border"))
@@ -84,6 +102,12 @@ function setRuCadeauxFont(self)
 	gui.set_font(gui.get_node("cadeaux_target_rule"), hash("RU_22"))
 	gui.set_font(gui.get_node("cadeaux_target_prendre"), hash("RU_22"))
 	gui.set_font(gui.get_node("txt_prendre_cadeaux_target"), hash("RU_30_border"))
+	
+	-- SUDOKU
+	gui.set_font(gui.get_node("cadeaux_sudoku_actif"), hash("RU_22"))
+	gui.set_font(gui.get_node("cadeaux_sudoku_rule"), hash("RU_22"))
+	gui.set_font(gui.get_node("cadeaux_sudoku_prendre"), hash("RU_22"))
+	gui.set_font(gui.get_node("txt_prendre_cadeaux_sudoku"), hash("RU_30_border"))
 end
 
 function setArbCadeauxFont(self)
@@ -104,6 +128,12 @@ function setArbCadeauxFont(self)
 	gui.set_font(gui.get_node("cadeaux_target_rule"), hash("ARB_25"))
 	gui.set_font(gui.get_node("cadeaux_target_prendre"), hash("ARB_25"))
 	gui.set_font(gui.get_node("txt_prendre_cadeaux_target"), hash("ARB_35_border"))
+
+	-- SUDOKU
+	gui.set_font(gui.get_node("cadeaux_sudoku_actif"), hash("ARB_25"))
+	gui.set_font(gui.get_node("cadeaux_sudoku_rule"), hash("ARB_25"))
+	gui.set_font(gui.get_node("cadeaux_sudoku_prendre"), hash("ARB_25"))
+	gui.set_font(gui.get_node("txt_prendre_cadeaux_sudoku"), hash("ARB_35_border"))
 end
 
 function setLatineCadeauxFont(self)
@@ -124,6 +154,12 @@ function setLatineCadeauxFont(self)
 	gui.set_font(gui.get_node("cadeaux_target_rule"), hash("PoetsenOne22"))
 	gui.set_font(gui.get_node("cadeaux_target_prendre"), hash("PoetsenOne22"))
 	gui.set_font(gui.get_node("txt_prendre_cadeaux_target"), hash("PoetsenOne40_border"))
+
+	-- SUDOKU
+	gui.set_font(gui.get_node("cadeaux_sudoku_actif"), hash("PoetsenOne22"))
+	gui.set_font(gui.get_node("cadeaux_sudoku_rule"), hash("PoetsenOne22"))
+	gui.set_font(gui.get_node("cadeaux_sudoku_prendre"), hash("PoetsenOne22"))
+	gui.set_font(gui.get_node("txt_prendre_cadeaux_sudoku"), hash("PoetsenOne40_border"))
 end
 
 function setTxtCadeauxArabic(self)
@@ -144,6 +180,12 @@ function setTxtCadeauxArabic(self)
 	gui.set_text(gui.get_node("cadeaux_target_rule"),  modifier.modifierToArab(languages[config.game_language].label_rule_cadeaux_target))
 	gui.set_text(gui.get_node("cadeaux_target_prendre"),  modifier.modifierToArab(languages[config.game_language].label_prendre_cadeaux))
 	gui.set_text(gui.get_node("txt_prendre_cadeaux_target"),  modifier.modifierToArab(languages[config.game_language].label_button_prendre))
+
+	-- SUDOKU
+	gui.set_text(gui.get_node("cadeaux_sudoku_actif"),  modifier.modifierToArab(languages[config.game_language].label_active_cadeaux_sudoku))
+	gui.set_text(gui.get_node("cadeaux_sudoku_rule"),  modifier.modifierToArab(languages[config.game_language].label_rule_cadeaux_sudoku))
+	gui.set_text(gui.get_node("cadeaux_sudoku_prendre"),  modifier.modifierToArab(languages[config.game_language].label_prendre_cadeaux))
+	gui.set_text(gui.get_node("txt_prendre_cadeaux_sudoku"),  modifier.modifierToArab(languages[config.game_language].label_button_prendre))
 end
 
 function setTxtCadeauxForAll(self)
@@ -164,6 +206,12 @@ function setTxtCadeauxForAll(self)
 	gui.set_text(gui.get_node("cadeaux_target_rule"), languages[config.game_language].label_rule_cadeaux_target)
 	gui.set_text(gui.get_node("cadeaux_target_prendre"), languages[config.game_language].label_prendre_cadeaux)
 	gui.set_text(gui.get_node("txt_prendre_cadeaux_target"), languages[config.game_language].label_button_prendre)
+
+	-- SUDOKU
+	gui.set_text(gui.get_node("cadeaux_sudoku_actif"), languages[config.game_language].label_active_cadeaux_sudoku)
+	gui.set_text(gui.get_node("cadeaux_sudoku_rule"), languages[config.game_language].label_rule_cadeaux_sudoku)
+	gui.set_text(gui.get_node("cadeaux_sudoku_prendre"), languages[config.game_language].label_prendre_cadeaux)
+	gui.set_text(gui.get_node("txt_prendre_cadeaux_sudoku"), languages[config.game_language].label_button_prendre)
 end
 
 function manageStartPopupCadeaux()
@@ -185,10 +233,15 @@ function manageStartPopupCadeaux()
 			gui.set_enabled(gui.get_node("popup_cadeaux_group"), true)
 		end)
 	end
+	if currentLevel.platform.stopGame and config.level == 6 and not config.enable_sudoku then
+		timer.delay(3, false, function() 
+			gui.set_enabled(gui.get_node("overlay_sudoku"), true)
+			gui.set_enabled(gui.get_node("popup_cadeaux_sudoku"), true)
+		end)
+	end
 end
 
-function init(self)
-	msg.post(".", "acquire_input_focus")
+function manageCadeauxLg(self)
 	if config.game_language == "ru" or config.game_language == "be" then
 		setRuCadeauxFont(self)
 	end
@@ -221,6 +274,11 @@ function init(self)
 	else
 		setTxtCadeauxForAll(self)
 	end
+end
+
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	manageCadeauxLg(self)
 	manageStartPopupCadeaux()
 end
 
@@ -253,7 +311,7 @@ function on_input(self, action_id, action)
 		if gui.pick_node(gui.get_node("zone_recharge_cadeaux"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_cadeaux_zone")) then
 			currentLevel.platform.stopGame = false
 			local saveAdjacent = sys.load(ryoku_path)
-			saveAdjacent.adjacent = saveAdjacent.adjacent + 2
+			saveAdjacent.adjacent = saveAdjacent.adjacent + 1
 			if sys.save(ryoku_path, saveAdjacent) then
 				msg.post("/powerup#powerup", "increment_zone")
 				gui.set_enabled(gui.get_node("overlay_zone"), false)
@@ -270,7 +328,7 @@ function on_input(self, action_id, action)
 		if gui.pick_node(gui.get_node("target_recharge_cadeaux"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_cadeaux_target")) then
 			currentLevel.platform.stopGame = false
 			local saveTarget = sys.load(ryoku_path)
-			saveTarget.target = saveTarget.target + 2
+			saveTarget.target = saveTarget.target + 1
 			if sys.save(ryoku_path, saveTarget) then
 				msg.post("/powerup#powerup", "increment_target")
 				gui.set_enabled(gui.get_node("overlay_target"), false)
@@ -288,12 +346,30 @@ function on_input(self, action_id, action)
 		if gui.pick_node(gui.get_node("group_recharge_cadeaux"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_cadeaux_group")) then
 			currentLevel.platform.stopGame = false
 			local saveGroup = sys.load(ryoku_path)
-			saveGroup.group = saveGroup.group + 2
+			saveGroup.group = saveGroup.group + 1
 			if sys.save(ryoku_path, saveGroup) then
 				msg.post("/powerup#powerup", "increment_group")
 				gui.set_enabled(gui.get_node("overlay_group"), false)
 				gui.set_enabled(gui.get_node("popup_cadeaux_group"), false)
 				gui.set_visible(gui.get_node("popup_cadeaux_group"), false)
+			end
+		end
+		-- SUDOKU Popup
+		if gui.pick_node(gui.get_node("sudoku_close_cadeaux"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_cadeaux_sudoku")) then
+			currentLevel.platform.stopGame = false
+			gui.set_enabled(gui.get_node("overlay_sudoku"), false)
+			gui.set_enabled(gui.get_node("popup_cadeaux_sudoku"), false)
+			gui.set_visible(gui.get_node("popup_cadeaux_sudoku"), false)
+		end
+		if gui.pick_node(gui.get_node("sudoku_recharge_cadeaux"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_cadeaux_sudoku")) then
+			currentLevel.platform.stopGame = false
+			local saveSudoku = sys.load(ryoku_path)
+			saveSudoku.sudoku = saveSudoku.sudoku + 1
+			if sys.save(ryoku_path, saveSudoku) then
+				msg.post("/powerup#powerup", "increment_sudoku")
+				gui.set_enabled(gui.get_node("overlay_sudoku"), false)
+				gui.set_enabled(gui.get_node("popup_cadeaux_sudoku"), false)
+				gui.set_visible(gui.get_node("popup_cadeaux_sudoku"), false)
 			end
 		end
 	end

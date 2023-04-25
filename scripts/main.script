@@ -4,6 +4,7 @@ local config = sys.load(ryoku_path)
 --local currentLevel = list[config.level].path
 local currentLevel = require("levels.template")
 local squares = require("construct.conformation")
+local groupColor = require("construct.groupsColors")
 --https://defold.com/manuals/factory/
 --https://paletton.com/#uid=15A0u0kictn8hMuduAjmcpgq0kQ
 -- w: 1920 -- 640
@@ -236,28 +237,38 @@ function showBonus(self, square, bonusName)
 end
 
 function finalizeLostLevel(self)
-	for m = 1, #currentLevel.grid do
-		for i = 1, #currentLevel.grid[m] do
-			local back = msg.url(nil, currentLevel.grid[m][i].instanceSquareId, "back")
-			local front = msg.url(nil, currentLevel.grid[m][i].instanceSquareId, "front")
-			if currentLevel.grid[m][i].conformationName ~= "SIMPLE" then
-				msg.post(back, "play_animation", { id = hash("SIMPLE") })
-			end
-			if currentLevel.grid[m][i].isGood then
-				go.animate(back, "tint", go.PLAYBACK_ONCE_FORWARD, currentLevel.platform.grey.bad, go.EASING_INSINE, 0.2, ((m+i)/10))
-				if currentLevel.grid[m][i].revealed then
-					go.animate(front, "tint", go.PLAYBACK_ONCE_FORWARD, currentLevel.platform.grey.bad, go.EASING_INSINE, 0.2, ((m+i)/10))
+	for i = 1, #currentLevel.groups do
+		local groupNumber = currentLevel.groups[i].number
+		for m = 1, #currentLevel.grid do
+			for i = 1, #currentLevel.grid[m] do
+				local back = msg.url(nil, currentLevel.grid[m][i].instanceSquareId, "back")
+				local front = msg.url(nil, currentLevel.grid[m][i].instanceSquareId, "front")
+				-- if currentLevel.grid[m][i].conformationName ~= "SIMPLE" then
+				-- 	msg.post(back, "play_animation", { id = hash("SIMPLE") })
+				-- end
+				-- if currentLevel.grid[m][i].isGood then
+				-- 	go.animate(back, "tint", go.PLAYBACK_ONCE_FORWARD, currentLevel.platform.grey.bad, go.EASING_INSINE, 0.2, ((m+i)/10))
+				-- 	if currentLevel.grid[m][i].revealed then
+				-- 		go.animate(front, "tint", go.PLAYBACK_ONCE_FORWARD, currentLevel.platform.grey.bad, go.EASING_INSINE, 0.2, ((m+i)/10))
+				-- 	end
+				-- end
+				if currentLevel.grid[m][i].isGood and currentLevel.grid[m][i].groupId == groupNumber then
+					go.animate(back, "tint", go.PLAYBACK_ONCE_FORWARD, groupColor[currentLevel.groups[currentLevel.grid[m][i].groupId].groupColorId].firstColor, go.EASING_INSINE, 0.2, ((groupNumber*2)/10))
+					if currentLevel.grid[m][i].revealed or currentLevel.grid[m][i].sudokuRevealed then
+						go.animate(front, "tint", go.PLAYBACK_ONCE_FORWARD, groupColor[currentLevel.groups[currentLevel.grid[m][i].groupId].groupColorId].firstColor, go.EASING_INSINE, 0.2, ((groupNumber*2)/10))
+					end
 				end
 			end
 		end
 	end
+	
 end
 
 function countRevelatetile(self)
 	local totalTile = 0
 	for m = 1, #currentLevel.grid do
 		for i = 1, #currentLevel.grid[m] do
-			if currentLevel.grid[m][i].revealed then
+			if currentLevel.grid[m][i].revealed or currentLevel.grid[m][i].sudokuRevealed then
 				totalTile = totalTile + 1
 			end
 			if #currentLevel.grid == m and #currentLevel.grid[m] == i then
@@ -272,6 +283,35 @@ function pulseParticuleFinal(self)
 		for pipi = 1, #currentLevel.grid[caca] do
 			local urlblockGroup = msg.url(nil, currentLevel.grid[caca][pipi].instanceSquareId, "square")
 			msg.post(urlblockGroup, "pulse_particule_final", {tileMatch = currentLevel.grid[caca][pipi] })
+		end
+	end
+end
+
+function startSudokuBonus(listSquares)
+	local saveSudokuBonus = sys.load(ryoku_path)
+	if saveSudokuBonus.sudoku > 0 then
+		saveSudokuBonus.sudoku = saveSudokuBonus.sudoku - 1
+		if sys.save(ryoku_path, saveSudokuBonus) then
+			msg.post("/powerup#powerup", "increment_sudoku")
+			math.randomseed(os.time())
+			local randomDoku = math.random(1, #listSquares)
+			for u = 1, #currentLevel.blocks do
+				for v = 1, #currentLevel.blocks[u] do
+					if currentLevel.blocks[u][v].blockId == listSquares[randomDoku] then
+						local front = msg.url(nil, currentLevel.blocks[u][v].blockId, "front")
+						currentLevel.blocks[u][v].numberRevealed = true
+						currentLevel.grid[currentLevel.blocks[u][v].result.tileY + 1][currentLevel.blocks[u][v].result.tileX + 1].sudokuRevealed = true
+						msg.post(front, "enable")
+						local scaleGrid = go.get_scale(front)
+						go.set(front, "scale", vmath.vector3(scaleGrid.x/4, scaleGrid.y/4, 1))
+						msg.post(front, "play_animation", {id = hash(string.upper(currentLevel.grid[currentLevel.blocks[u][v].result.tileY + 1][currentLevel.blocks[u][v].result.tileX + 1].number))})
+						go.animate(front, "scale", go.PLAYBACK_ONCE_FORWARD, 1, go.EASING_OUTELASTIC, 0.8, 0, nil)
+					end
+					if #currentLevel.blocks == u and #currentLevel.blocks[u] == v then
+						msg.post("/powerup#powerup", "manage_sudoku_counter")
+					end
+				end
+			end
 		end
 	end
 end
@@ -311,10 +351,7 @@ function init(self)
 			end
 		end
 	end
-	-- if data then
-	-- 	pprint("====> dataLevel ::: ",data())
-	-- 	data().level = 34
-	-- end
+	msg.post("/powerup#powerup", "manage_sudoku_counter")
 end
 
 function final(self)
@@ -355,9 +392,12 @@ function update(self, dt)
 	end
 	if not self.finalizeLostLevel and currentLevel.platform.actionLostLevel and not currentLevel.platform.isBlockMatch then
 		self.finalizeLostLevel = true
+		currentLevel.platform.stopGame = true
+		msg.post("/life#life", "increment_life", { value = -1 })
+		
 		finalizeLostLevel(self)
 		timer.delay(((currentLevel.platform.column * 2)/10) + 1, false, function() 
-			msg.post("controller:/loader#controller", "changeScene", { newScene = "restartLevel" })
+			msg.post("/life#life", "display_option_lost")
 		end)
 	end
 	-- if currentLevel.platform.actionLostLevel and not currentLevel.platform.isBlockMatch then
@@ -385,6 +425,26 @@ function on_message(self, message_id, message, sender)
 	if message_id == hash("initialize_bonus") then
 		currentLevel.platform.bonusName = message.bonusName
 		initializeBonusGrid(self)
+	end
+	if message_id == hash("run_sudoku_bonus") then
+		local listSquareDisplaying = {}
+		for i = 1, #currentLevel.refBlock do
+			if currentLevel.refBlock[i].isdisplaying and currentLevel.refBlock[i].isActive then
+				for k = 1, #currentLevel.blocks[i] do
+					if not currentLevel.blocks[i][k].numberRevealed and not currentLevel.blocks[i][k].isColored then
+						table.insert(listSquareDisplaying, currentLevel.blocks[i][k].blockId)
+					end
+				end	
+			end
+			if #currentLevel.refBlock == i then
+				if #listSquareDisplaying == 0 then
+					msg.post("/powerup#powerup", "not_have_place")
+				end
+				if #listSquareDisplaying > 0 then
+					startSudokuBonus(listSquareDisplaying)
+				end
+			end
+		end
 	end
 end
 

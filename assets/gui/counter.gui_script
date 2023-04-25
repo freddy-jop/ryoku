@@ -4,12 +4,26 @@ local config = sys.load(ryoku_path)
 --local currentLevel = list[config.level].path
 local currentLevel = require("levels.template")
 function init(self)
-	gui.set_color(gui.get_node("bg_level"), vmath.vector4(242/255, 196/255, 104/255, 1))
+	local bg_size = 80
+	--gui.set_color(gui.get_node("bg_level"), vmath.vector4(242/255, 196/255, 104/255, 1))
 	local label_level = "#"..config.level
 	gui.set_text(gui.get_node("level"), label_level)
-	-- Add initialization code here
-	-- Learn more: https://defold.com/manuals/script/
-	-- Remove this function if not needed
+	if config.level > 0 and  config.level < 10 then
+		bg_size = 90
+	end
+	if config.level > 9 and  config.level < 100 then
+		bg_size = 110
+	end
+	if config.level > 99 and  config.level < 1000 then
+		bg_size = 150
+	end
+	if config.level > 999 and  config.level < 10000 then
+		bg_size = 190
+	end
+	if config.level > 9999 and  config.level < 100000 then
+		bg_size = 230
+	end
+	gui.set_size(gui.get_node("bg_level"), vmath.vector3(bg_size, 65, 1))
 end
 
 function final(self)

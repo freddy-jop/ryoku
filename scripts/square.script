@@ -65,9 +65,9 @@ function setRevelation(self, url, property)
 end
 
 function closureParticule(self, url, property)
-	local targetParticule = msg.url(nil, currentLevel.grid[currentLevel.blocks[self.block][self.tileNumber].result.tileY + 1][currentLevel.blocks[self.block][self.tileNumber].result.tileX + 1].instanceSquareId, "conforFx")
-	particlefx.set_constant(targetParticule, "emitter", "tint", groupColor[currentLevel.groups[currentLevel.grid[currentLevel.blocks[self.block][self.tileNumber].result.tileY + 1][currentLevel.blocks[self.block][self.tileNumber].result.tileX + 1].groupId].groupColorId].colorBrique)
-	particlefx.play(targetParticule)
+	--local targetParticule = msg.url(nil, currentLevel.grid[currentLevel.blocks[self.block][self.tileNumber].result.tileY + 1][currentLevel.blocks[self.block][self.tileNumber].result.tileX + 1].instanceSquareId, "conforFx")
+	--particlefx.set_constant(targetParticule, "emitter", "tint", groupColor[currentLevel.groups[currentLevel.grid[currentLevel.blocks[self.block][self.tileNumber].result.tileY + 1][currentLevel.blocks[self.block][self.tileNumber].result.tileX + 1].groupId].groupColorId].colorBrique)
+	--particlefx.play(targetParticule)
 	if currentLevel.blocks[self.block][self.tileNumber].result.tileY + 1 == currentLevel.platform.column and 
 	currentLevel.blocks[self.block][self.tileNumber].result.tileX + 1 == currentLevel.platform.column then
 		currentLevel.platform.finaliseNextLevel = true
@@ -75,7 +75,6 @@ function closureParticule(self, url, property)
 end
 
 function reinitializeSelectionBlock(self)
-	
 	for g=1, #currentLevel.selectionBlock do
 		if currentLevel.selectionBlock[g].l1.x > currentLevel.refBlock[self.block].positionBlock.x 
 		and currentLevel.selectionBlock[g].l0.x < currentLevel.refBlock[self.block].positionBlock.x 
@@ -177,19 +176,24 @@ function on_message(self, message_id, message, sender)
 			msg.post(initializeTile, "initialize_tile")
 			
 			go.animate("#back", "tint", go.PLAYBACK_ONCE_FORWARD, groupColor[currentLevel.groups[currentLevel.grid[currentLevel.blocks[self.block][self.tileNumber].result.tileY + 1][currentLevel.blocks[self.block][self.tileNumber].result.tileX + 1].groupId].groupColorId].colorBrique, go.EASING_INSINE, 0.15, 0, showAdjacentTilePlaced)
-			if currentLevel.grid[self.collisionTileObject.gdXY.y][self.collisionTileObject.gdXY.x].revealed then
+			if currentLevel.grid[self.collisionTileObject.gdXY.y][self.collisionTileObject.gdXY.x].revealed or 
+			currentLevel.grid[self.collisionTileObject.gdXY.y][self.collisionTileObject.gdXY.x].sudokuRevealed then
 				go.animate("#front", "tint", go.PLAYBACK_ONCE_FORWARD, groupColor[currentLevel.groups[currentLevel.grid[currentLevel.blocks[self.block][self.tileNumber].result.tileY + 1][currentLevel.blocks[self.block][self.tileNumber].result.tileX + 1].groupId].groupColorId].colorBrique, go.EASING_INSINE, 0.15, 0)
 			end
 		else
 			currentLevel.blocks[self.block][self.tileNumber].isColored = false
 			go.animate("#back", "tint", go.PLAYBACK_ONCE_FORWARD, currentLevel.platform.grey.bad, go.EASING_INSINE, 0.15, 0)
+			if currentLevel.blocks[self.block][self.tileNumber].numberRevealed then
+				go.animate("#front", "tint", go.PLAYBACK_ONCE_FORWARD, currentLevel.platform.grey.bad, go.EASING_INSINE, 0.15, 0)
+			end
 		end
 		self.collisionTileObject = nil
 	end
 	if message_id == hash("revelation_block_with_tile") then
 		
 		go.animate("#back", "tint", go.PLAYBACK_ONCE_FORWARD, groupColor[currentLevel.groups[currentLevel.grid[message.currentBlock.result.tileY + 1][message.currentBlock.result.tileX + 1].groupId].groupColorId].colorBrique, go.EASING_INSINE, 0.15, 0)
-		if currentLevel.grid[message.tileAssocied.gdXY.y][message.tileAssocied.gdXY.x].revealed then
+		if currentLevel.grid[message.tileAssocied.gdXY.y][message.tileAssocied.gdXY.x].revealed or 
+		currentLevel.grid[message.tileAssocied.gdXY.y][message.tileAssocied.gdXY.x].sudokuRevealed then
 			go.animate("#front", "tint", go.PLAYBACK_ONCE_FORWARD, groupColor[currentLevel.groups[currentLevel.grid[message.currentBlock.result.tileY + 1][message.currentBlock.result.tileX + 1].groupId].groupColorId].colorBrique, go.EASING_INSINE, 0.15, 0)
 		end
 	end
@@ -197,7 +201,8 @@ function on_message(self, message_id, message, sender)
 	if message_id == hash("initialize_revelation_block_with_tile") then
 		go.set("#back", "tint", groupColor[currentLevel.groups[currentLevel.grid[message.initializeCurrentBlock.result.tileY + 1][message.initializeCurrentBlock.result.tileX + 1].groupId].groupColorId].colorBrique)
 		--go.animate("#back", "tint", go.PLAYBACK_ONCE_FORWARD, groupColor[currentLevel.groups[message.initializeCurrentBlock.groupId].groupColorId].colorBrique, go.EASING_INSINE, 0, 0)
-		if currentLevel.grid[message.initializeTileAssocied.gdXY.y][message.initializeTileAssocied.gdXY.x].revealed then
+		if currentLevel.grid[message.initializeTileAssocied.gdXY.y][message.initializeTileAssocied.gdXY.x].revealed or 
+		currentLevel.grid[message.initializeTileAssocied.gdXY.y][message.initializeTileAssocied.gdXY.x].sudokuRevealed then
 			go.set("#front", "tint", groupColor[currentLevel.groups[currentLevel.grid[message.initializeCurrentBlock.result.tileY + 1][message.initializeCurrentBlock.result.tileX + 1].groupId].groupColorId].colorBrique)
 			--go.animate("#front", "tint", go.PLAYBACK_ONCE_FORWARD, groupColor[currentLevel.groups[message.initializeCurrentBlock.groupId].groupColorId].colorBrique, go.EASING_INSINE, 0, 0)
 		end
@@ -207,7 +212,7 @@ function on_message(self, message_id, message, sender)
 		go.animate("#back", "tint", go.PLAYBACK_ONCE_FORWARD, currentLevel.platform.initialColor, go.EASING_INSINE, 0.1, 0)
 	end
 	if message_id == hash("display_group_number") then
-		if not message.tileMatch.revealed then
+		if not message.tileMatch.revealed and not message.tileMatch.sudokuRevealed then
 			local front = msg.url(nil, message.tileMatch.instanceSquareId, "front")
 			----currentLevel.groups[message.tileMatch.groupId].colorBrique.w = 0
 			--currentLevel.grid[message.tileMatch.gdXY.y][message.tileMatch.gdXY.x].revealed = true

@@ -24,6 +24,7 @@ embedded_instances {
   "  type: \"factory\"\n"
   "  data: \"prototype: \\\"/assets/go/plain.go\\\"\\n"
   "load_dynamically: false\\n"
+  "dynamic_prototype: false\\n"
   "\"\n"
   "  position {\n"
   "    x: 0.0\n"
@@ -79,6 +80,7 @@ embedded_instances {
   "  type: \"factory\"\n"
   "  data: \"prototype: \\\"/assets/go/selectionBlock.go\\\"\\n"
   "load_dynamically: true\\n"
+  "dynamic_prototype: false\\n"
   "\"\n"
   "  position {\n"
   "    x: 0.0\n"
@@ -507,10 +509,10 @@ embedded_instances {
   }
 }
 embedded_instances {
-  id: "home"
+  id: "life"
   data: "components {\n"
-  "  id: \"home\"\n"
-  "  component: \"/assets/gui/home.gui\"\n"
+  "  id: \"life\"\n"
+  "  component: \"/assets/gui/life.gui\"\n"
   "  position {\n"
   "    x: 0.0\n"
   "    y: 0.0\n"

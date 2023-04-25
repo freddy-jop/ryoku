@@ -37,7 +37,7 @@ local listLevels = {
 	},
 	{
 		levelNumber = 10,
-		block = 6
+		block = 8
 	},
 	{
 		levelNumber = 11,
@@ -53,7 +53,7 @@ local listLevels = {
 	},
 	{
 		levelNumber = 14,
-		block = 6
+		block = 12
 	},
 	{
 		levelNumber = 15,

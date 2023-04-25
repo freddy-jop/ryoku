@@ -9,11 +9,21 @@ local grid8 = require("levels.grid8")
 local grid9 = require("levels.grid9")
 local grid10 = require("levels.grid10")
 local grid12 = require("levels.grid12")
+local grid16 = require("levels.grid16")
 local template = require("levels.template")
 
 local listLevels = require("levels.listLevels")
 
-print("===> levels :::: ", #grid3 + #grid4 + #grid5 + #grid6 + #grid7 + #grid8 + #grid9 + #grid10 + #grid12)
+print("===> #grid3 :::: ", #grid3)
+print("===> #grid4 :::: ", #grid4)
+print("===> #grid5 :::: ", #grid5)
+print("===> #grid6 :::: ", #grid6)
+print("===> #grid7 :::: ", #grid7)
+print("===> #grid8 :::: ", #grid8)
+print("===> #grid9 :::: ", #grid9)
+print("===> #grid10 :::: ", #grid10)
+print("===> #grid12 :::: ", #grid12)
+print("===> All :::: ", #grid3 + #grid4 + #grid5 + #grid6 + #grid7 + #grid8 + #grid9 + #grid10 + #grid12)
 
 function M.targetLevelByBlock(configLevel)
 	local incremantBlockGrid = 0
@@ -66,6 +76,10 @@ function M.targetLevelByBlock(configLevel)
 	if currentLevel.block == 12 then
 		template.platform.listBlock = incremantBlockGrid
 		return grid12[incremantBlockGrid]
+	end
+	if currentLevel.block == 16 then
+		template.platform.listBlock = incremantBlockGrid
+		return grid16[incremantBlockGrid]
 	end
 end
 

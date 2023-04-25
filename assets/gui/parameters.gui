@@ -12,7 +12,7 @@ background_color {
 nodes {
   position {
     x: 570.0
-    y: 1108.0
+    y: 1113.0
     z: 0.0
     w: 1.0
   }
@@ -29,8 +29,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 57.0
-    y: 57.0
+    x: 65.0
+    y: 65.0
     z: 0.0
     w: 1.0
   }
@@ -69,7 +69,7 @@ nodes {
 nodes {
   position {
     x: 570.0
-    y: 1080.0
+    y: 1081.0
     z: 0.0
     w: 1.0
   }
@@ -86,8 +86,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 57.0
-    y: 57.0
+    x: 200.0
+    y: 100.0
     z: 0.0
     w: 1.0
   }
@@ -126,7 +126,7 @@ nodes {
 nodes {
   position {
     x: 570.0
-    y: 1019.0
+    y: 1020.0
     z: 0.0
     w: 1.0
   }
@@ -143,8 +143,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 57.0
-    y: 57.0
+    x: 200.0
+    y: 100.0
     z: 0.0
     w: 1.0
   }
@@ -177,13 +177,13 @@ nodes {
   template_node_child: false
   size_mode: SIZE_MODE_AUTO
   custom_type: 0
-  enabled: true
+  enabled: false
   visible: true
 }
 nodes {
   position {
     x: 570.0
-    y: 958.0
+    y: 959.0
     z: 0.0
     w: 1.0
   }
@@ -200,8 +200,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 57.0
-    y: 57.0
+    x: 200.0
+    y: 100.0
     z: 0.0
     w: 1.0
   }
@@ -234,13 +234,13 @@ nodes {
   template_node_child: false
   size_mode: SIZE_MODE_AUTO
   custom_type: 0
-  enabled: true
+  enabled: false
   visible: true
 }
 nodes {
   position {
     x: 570.0
-    y: 897.0
+    y: 898.0
     z: 0.0
     w: 1.0
   }
@@ -257,8 +257,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 57.0
-    y: 57.0
+    x: 200.0
+    y: 100.0
     z: 0.0
     w: 1.0
   }
@@ -291,7 +291,7 @@ nodes {
   template_node_child: false
   size_mode: SIZE_MODE_AUTO
   custom_type: 0
-  enabled: true
+  enabled: false
   visible: true
 }
 material: "/builtins/materials/gui.material"

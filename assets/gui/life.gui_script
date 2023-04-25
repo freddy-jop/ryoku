@@ -1,0 +1,447 @@
+local ryoku_path = sys.get_save_file("ryoku", "data_level")
+local config = sys.load(ryoku_path)
+local currentLevel = require("levels.template")
+local list = require("levels.lists")
+local languages = require("ressources.langages")
+local modifier = require("ressources.modifier")
+
+function setParamsViFont(self)
+	-- LOST_RESTART
+	gui.set_font(gui.get_node("rate"), hash("VI_30_border"))
+
+	-- NETWORK
+	gui.set_font(gui.get_node("suivez_nous"), hash("VI_20"))
+	gui.set_font(gui.get_node("evaluez_nous"), hash("VI_20"))
+	gui.set_font(gui.get_node("soutenez_nous"), hash("VI_20"))
+	gui.set_font(gui.get_node("no_ads"), hash("VI_20"))
+	gui.set_font(gui.get_node("confidentalite"), hash("VI_20"))
+	gui.set_font(gui.get_node("jump_level"), hash("VI_20"))
+
+	-- PARAMETERS
+	gui.set_font(gui.get_node("son"), hash("VI_20"))
+	gui.set_font(gui.get_node("musique"), hash("VI_20"))
+	gui.set_font(gui.get_node("langue"), hash("VI_20"))
+
+	-- RECHARGE LIFE
+	gui.set_font(gui.get_node("header_life"), hash("VI_20"))
+	gui.set_font(gui.get_node("watch_video"), hash("VI_20"))
+	gui.set_font(gui.get_node("txt_recharge_life"), hash("VI_30_border"))
+end
+
+function setParamsKrFont(self)
+	-- LOST_RESTART
+	gui.set_font(gui.get_node("rate"), hash("KR_30_border"))
+
+	-- NETWORK
+	gui.set_font(gui.get_node("suivez_nous"), hash("KR_25"))
+	gui.set_font(gui.get_node("evaluez_nous"), hash("KR_25"))
+	gui.set_font(gui.get_node("soutenez_nous"), hash("KR_25"))
+	gui.set_font(gui.get_node("no_ads"), hash("KR_25"))
+	gui.set_font(gui.get_node("confidentalite"), hash("KR_25"))
+	gui.set_font(gui.get_node("jump_level"), hash("KR_25"))
+
+	-- PARAMETERS
+	gui.set_font(gui.get_node("son"), hash("KR_25"))
+	gui.set_font(gui.get_node("musique"), hash("KR_25"))
+	gui.set_font(gui.get_node("langue"), hash("KR_25"))
+
+	-- RECHARGE LIFE
+	gui.set_font(gui.get_node("header_life"), hash("KR_25"))
+	gui.set_font(gui.get_node("watch_video"), hash("KR_25"))
+	gui.set_font(gui.get_node("txt_recharge_life"), hash("KR_30_border"))
+end
+
+function setParamsJaFont(self)
+	-- LOST_RESTART
+	gui.set_font(gui.get_node("rate"), hash("JA_25"))
+
+	-- NETWORK
+	gui.set_font(gui.get_node("suivez_nous"), hash("JA_20"))
+	gui.set_font(gui.get_node("evaluez_nous"), hash("JA_20"))
+	gui.set_font(gui.get_node("soutenez_nous"), hash("JA_20"))
+	gui.set_font(gui.get_node("no_ads"), hash("JA_20"))
+	gui.set_font(gui.get_node("confidentalite"), hash("JA_20"))
+	gui.set_font(gui.get_node("jump_level"), hash("JA_20"))
+
+	-- PARAMETERS
+	gui.set_font(gui.get_node("son"), hash("JA_20"))
+	gui.set_font(gui.get_node("musique"), hash("JA_20"))
+	gui.set_font(gui.get_node("langue"), hash("JA_20"))
+
+	-- RECHARGE LIFE
+	gui.set_font(gui.get_node("header_life"), hash("JA_20"))
+	gui.set_font(gui.get_node("watch_video"), hash("JA_20"))
+	gui.set_font(gui.get_node("txt_recharge_life"), hash("JA_25"))
+end
+
+function setParamsArbFont(self)
+	-- LOST_RESTART
+	gui.set_font(gui.get_node("rate"), hash("ARB_35_border"))
+
+	-- NETWORK
+	gui.set_font(gui.get_node("suivez_nous"), hash("ARB_25"))
+	gui.set_font(gui.get_node("evaluez_nous"), hash("ARB_25"))
+	gui.set_font(gui.get_node("soutenez_nous"), hash("ARB_25"))
+	gui.set_font(gui.get_node("no_ads"), hash("ARB_25"))
+	gui.set_font(gui.get_node("confidentalite"), hash("ARB_25"))
+	gui.set_font(gui.get_node("jump_level"), hash("ARB_25"))
+
+	-- PARAMETERS
+	gui.set_font(gui.get_node("son"), hash("ARB_25"))
+	gui.set_font(gui.get_node("musique"), hash("ARB_25"))
+	gui.set_font(gui.get_node("langue"), hash("ARB_25"))
+
+	-- RECHARGE LIFE
+	gui.set_font(gui.get_node("header_life"), hash("ARB_25"))
+	gui.set_font(gui.get_node("watch_video"), hash("ARB_25"))
+	gui.set_font(gui.get_node("txt_recharge_life"), hash("ARB_35_border"))
+end
+
+function setParamsRuFont(self)
+	-- LOST_RESTART
+	gui.set_font(gui.get_node("rate"), hash("RU_30_border"))
+
+	-- NETWORK
+	gui.set_font(gui.get_node("suivez_nous"), hash("RU_20"))
+	gui.set_font(gui.get_node("evaluez_nous"), hash("RU_20"))
+	gui.set_font(gui.get_node("soutenez_nous"), hash("RU_20"))
+	gui.set_font(gui.get_node("no_ads"), hash("RU_20"))
+	gui.set_font(gui.get_node("confidentalite"), hash("RU_20"))
+	gui.set_font(gui.get_node("jump_level"), hash("RU_20"))
+
+	-- PARAMETERS
+	gui.set_font(gui.get_node("son"), hash("RU_20"))
+	gui.set_font(gui.get_node("musique"), hash("RU_20"))
+	gui.set_font(gui.get_node("langue"), hash("RU_20"))
+
+	-- RECHARGE LIFE
+	gui.set_font(gui.get_node("header_life"), hash("RU_22"))
+	gui.set_font(gui.get_node("watch_video"), hash("RU_22"))
+	gui.set_font(gui.get_node("txt_recharge_life"), hash("RU_30_border"))
+end
+
+function setParamsLatineFont(self)
+	-- LOST_RESTART
+	gui.set_font(gui.get_node("rate"), hash("PoetsenOne60_border"))
+
+	-- NETWORK
+	gui.set_font(gui.get_node("suivez_nous"), hash("PoetsenOne20"))
+	gui.set_font(gui.get_node("evaluez_nous"), hash("PoetsenOne20"))
+	gui.set_font(gui.get_node("soutenez_nous"), hash("PoetsenOne20"))
+	gui.set_font(gui.get_node("no_ads"), hash("PoetsenOne20"))
+	gui.set_font(gui.get_node("confidentalite"), hash("PoetsenOne20"))
+	gui.set_font(gui.get_node("jump_level"), hash("PoetsenOne20"))
+
+	-- PARAMETERS
+	gui.set_font(gui.get_node("son"), hash("PoetsenOne20"))
+	gui.set_font(gui.get_node("musique"), hash("PoetsenOne20"))
+	gui.set_font(gui.get_node("langue"), hash("PoetsenOne20"))
+
+	-- RECHARGE LIFE
+	gui.set_font(gui.get_node("header_life"), hash("PoetsenOne25_border"))
+	gui.set_font(gui.get_node("watch_video"), hash("PoetsenOne22"))
+	gui.set_font(gui.get_node("txt_recharge_life"), hash("PoetsenOne40_border"))
+end
+
+function setParamsTxtForAll(self)
+	local lgConf = sys.load(ryoku_path)
+	-- LOST_RESTART
+	gui.set_text(gui.get_node("rate"), languages[lgConf.game_language].rate)
+
+	-- NETWORK
+	gui.set_text(gui.get_node("suivez_nous"), languages[lgConf.game_language].followus)
+	gui.set_text(gui.get_node("evaluez_nous"), languages[lgConf.game_language].evaluateus)
+	gui.set_text(gui.get_node("soutenez_nous"), languages[lgConf.game_language].help_us)
+	gui.set_text(gui.get_node("no_ads"), languages[lgConf.game_language].no_ads)
+	gui.set_text(gui.get_node("confidentalite"), languages[lgConf.game_language].confidencial)
+	gui.set_text(gui.get_node("jump_level"), languages[lgConf.game_language].jump_level)
+
+	-- PARAMETERS
+	gui.set_text(gui.get_node("son"), languages[lgConf.game_language].son)
+	gui.set_text(gui.get_node("musique"), languages[lgConf.game_language].musique)
+	gui.set_text(gui.get_node("langue"), languages[lgConf.game_language].lg)
+
+	-- RECHARGE LIFE
+	gui.set_text(gui.get_node("header_life"), languages[lgConf.game_language].header_life)
+	gui.set_text(gui.get_node("watch_video"), languages[lgConf.game_language].watch_video)
+	gui.set_text(gui.get_node("txt_recharge_life"), languages[lgConf.game_language].txt_recharge_life)
+end
+
+function setParamsTxtArabic(self)
+	local lgConfAr = sys.load(ryoku_path)
+	-- LOST_RESTART
+	gui.set_text(gui.get_node("rate"), modifier.modifierToArab(languages[lgConfAr.game_language].rate))
+
+	-- NETWORK
+	gui.set_text(gui.get_node("suivez_nous"), modifier.modifierToArab(languages[lgConfAr.game_language].followus))
+	gui.set_text(gui.get_node("evaluez_nous"), modifier.modifierToArab(languages[lgConfAr.game_language].evaluateus))
+	gui.set_text(gui.get_node("soutenez_nous"), modifier.modifierToArab(languages[lgConfAr.game_language].help_us))
+	gui.set_text(gui.get_node("no_ads"), modifier.modifierToArab(languages[lgConfAr.game_language].no_ads))
+	gui.set_text(gui.get_node("confidentalite"), modifier.modifierToArab(languages[lgConfAr.game_language].confidencial))
+	gui.set_text(gui.get_node("jump_level"), modifier.modifierToArab(languages[lgConfAr.game_language].jump_level))
+
+	-- PARAMETERS
+	gui.set_text(gui.get_node("son"), modifier.modifierToArab(languages[lgConfAr.game_language].son))
+	gui.set_text(gui.get_node("musique"), modifier.modifierToArab(languages[lgConfAr.game_language].musique))
+	gui.set_text(gui.get_node("langue"), modifier.modifierToArab(languages[lgConfAr.game_language].lg))
+
+	-- RECHARGE LIFE
+	gui.set_text(gui.get_node("header_life"), modifier.modifierToArab(languages[lgConfAr.game_language].header_life))
+	gui.set_text(gui.get_node("watch_video"), modifier.modifierToArab(languages[lgConfAr.game_language].watch_video))
+	gui.set_text(gui.get_node("txt_recharge_life"), modifier.modifierToArab(languages[lgConfAr.game_language].txt_recharge_life))
+end
+
+function manageLanguageOnLifeScene(self)
+	local manageConfig = sys.load(ryoku_path)
+	if manageConfig.game_language == "ru" or manageConfig.game_language == "be" then
+		setParamsRuFont(self)
+	end
+	if manageConfig.game_language == "ar" then
+		setParamsArbFont(self)
+	end
+	if manageConfig.game_language == "ja" then
+		setParamsJaFont(self)
+	end
+	if manageConfig.game_language == "ko" then
+		setParamsKrFont(self)
+	end
+	if manageConfig.game_language == "vi" then
+		setParamsViFont(self)
+	end
+
+	if manageConfig.game_language == "fr" or 
+	manageConfig.game_language == "en" or 
+	manageConfig.game_language == "es" or 
+	manageConfig.game_language == "de" or 
+	manageConfig.game_language == "pt" or 
+	manageConfig.game_language == "pl" or 
+	manageConfig.game_language == "nl" or 
+	manageConfig.game_language == "tr" or 
+	manageConfig.game_language == "it" or 
+	manageConfig.game_language == "id" then
+		setParamsLatineFont(self)
+	end
+	if manageConfig.game_language == "ar" then
+		setParamsTxtArabic(self)
+	else
+		setParamsTxtForAll(self)
+	end
+end
+
+function manageAddLife(self)
+	self.toggleAddLife = true
+	if self.displyReload then
+		self.ToggleDisplayOptions = false
+	else
+		currentLevel.platform.stopGame = true
+	end
+	togglePopupAddLife(self)
+end
+
+function toggleMusicOption(self)
+	local textureMusic = ""
+	local musicNode = gui.get_node("musique_icon")
+	if self.musicOn then
+		self.musicOn = false
+		textureMusic = hash("front_music_off")
+	else
+		self.musicOn = true
+		textureMusic = hash("front_music_on")
+	end
+	gui.set_texture(musicNode, hash("parameter"))
+	gui.play_flipbook(musicNode, textureMusic)
+end
+
+function toggleSoundOption(self)
+	local textureSound = ""
+	local soundNode = gui.get_node("son_icon")
+	if self.soundOn then
+		self.soundOn = false
+		textureSound = hash("front_sound_off")
+	else
+		self.soundOn = true
+		textureSound = hash("front_sound_on")
+	end
+	
+	gui.set_texture(soundNode, hash("parameter"))
+	gui.play_flipbook(soundNode, textureSound)
+end
+
+function togglePopupAddLife(self)
+	gui.set_enabled(gui.get_node("overlay_full"), self.toggleAddLife)
+	gui.set_enabled(gui.get_node("popup_add_life"), self.toggleAddLife)
+	toggleDisplayOption(self)
+end
+
+function toggleDisplayOption(self)
+	gui.set_enabled(gui.get_node("overlay"), self.ToggleDisplayOptions)
+	gui.set_enabled(gui.get_node("display_lost"), self.ToggleDisplayOptions)
+	gui.set_enabled(gui.get_node("lost_restart"), self.displyReload)
+	gui.set_enabled(gui.get_node("lost_restart"), self.displyReload)
+	gui.set_enabled(gui.get_node("parameters"), self.displayParameter)
+	gui.set_enabled(gui.get_node("parameters"), self.displayParameter)
+end
+
+function setIndexInLanguage(self)
+	local configCursor = sys.load(ryoku_path)
+	local cursorLg = 0
+	for i = 1, #self.lgList do
+		cursorLg = cursorLg + 1
+		if self.lgList[i] == configCursor.game_language then
+			return cursorLg
+		end
+		-- do things
+	end
+end
+
+function init(self)
+	self.lgList = {"fr","en","es","de","ru","pt","pl","nl","tr","it","ja","ko","vi","id","ar"}
+	msg.post(".", "acquire_input_focus")
+	gui.set_text(gui.get_node("score_life"), config.life)
+	gui.animate(gui.get_node("heart"), gui.PROP_SCALE, vmath.vector3(1.2), gui.EASING_OUTBOUNCE, 1, 0, nil, gui.PLAYBACK_ONCE_PINGPONG)
+	if config.pass_level == 0 then
+		gui.set_enabled(gui.get_node("pass_level"), false)
+	end
+	if config.pass_level > 0 then
+		gui.set_enabled(gui.get_node("pass_level"), true)
+		gui.set_text(gui.get_node("number_pass"), config.pass_level)
+	end
+	self.handlePassLevel = true
+	self.toggleAddLife = false
+	self.ToggleDisplayOptions = false
+	self.displyReload = false
+	self.displayParameter = false
+	self.musicOn = true
+	self.soundOn = true
+	manageLanguageOnLifeScene(self)
+	self.lgIndex = setIndexInLanguage(self)
+end
+
+function final(self)
+	-- Add finalization code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function update(self, dt)
+	-- Add update code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("increment_life") then
+		local saveLife = sys.load(ryoku_path)
+		saveLife.life = saveLife.life + message.value
+		if sys.save(ryoku_path, saveLife) then
+			local getLife = sys.load(ryoku_path)
+			gui.set_text(gui.get_node("score_life"), getLife.life)
+			gui.animate(gui.get_node("heart"), gui.PROP_SCALE, vmath.vector3(1.2), gui.EASING_OUTBOUNCE, 1, 0, nil, gui.PLAYBACK_ONCE_PINGPONG)
+		end
+	end
+	if message_id == hash("display_option_lost") then
+		self.ToggleDisplayOptions = true
+		self.displyReload = true
+		self.displayParameter = false
+		currentLevel.platform.stopGame = true
+		toggleDisplayOption(self)
+		gui.animate(gui.get_node("reload"), gui.PROP_SCALE, vmath.vector3(1.2), gui.EASING_INOUTQUAD, 0.5, 0.5, nil, gui.PLAYBACK_ONCE_PINGPONG)
+	end
+	if message_id == hash("display_option_parameter") then
+		self.ToggleDisplayOptions = true
+		self.displyReload = false
+		self.displayParameter = true
+		currentLevel.platform.stopGame = true
+		toggleDisplayOption(self)
+	end
+	if message_id == hash("manage_getting_life") then
+		manageAddLife(self)
+	end
+end
+
+function on_input(self, action_id, action)
+	if  action_id == hash("touch") and action.pressed then
+		if gui.pick_node(gui.get_node("reload"), action.x, action.y) and gui.is_enabled(gui.get_node("display_lost")) and gui.is_enabled(gui.get_node("lost_restart")) then
+			local checkLife = sys.load(ryoku_path)
+			if checkLife.life == 0 then
+				manageAddLife(self)
+			else
+				self.ToggleDisplayOptions = false
+				self.displyReload = false
+				self.displayParameter = false
+				toggleDisplayOption(self)
+				msg.post("controller:/loader#controller", "changeScene", { newScene = "restartLevel" })
+			end
+		end
+		if gui.pick_node(gui.get_node("forward_level"), action.x, action.y) and gui.is_enabled(gui.get_node("display_lost")) and config.pass_level > 0 and self.handlePassLevel then
+			self.handlePassLevel = false
+			local savePassLevel = sys.load(ryoku_path)
+			savePassLevel.pass_level = savePassLevel.pass_level - 1
+			savePassLevel.level = savePassLevel.level + 1
+			if sys.save(ryoku_path, savePassLevel) then
+				local checkLevel = sys.load(ryoku_path)
+				if list.targetLevelByBlock(checkLevel.level) == nil then
+					msg.post("controller:/loader#controller", "changeScene", { newScene = "seeYou" })
+				else
+					msg.post("controller:/loader#controller", "changeScene", { newScene = "clickOnLevel" })
+				end
+			end
+		end
+		if (gui.pick_node(gui.get_node("bg_heart"), action.x, action.y) and not gui.is_enabled(gui.get_node("popup_add_life")) and not currentLevel.platform.stopGame) or 
+		(gui.pick_node(gui.get_node("bg_heart"), action.x, action.y) and gui.is_enabled(gui.get_node("display_lost"))) then
+			manageAddLife(self)
+		end
+		if gui.pick_node(gui.get_node("life_close"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_add_life")) and currentLevel.platform.stopGame then
+			self.toggleAddLife = false
+			if self.displyReload or self.displayParameter then
+				self.ToggleDisplayOptions = true
+			else
+				currentLevel.platform.stopGame = false
+			end
+			togglePopupAddLife(self)
+		end
+		if gui.pick_node(gui.get_node("life_recharge_free"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_add_life")) and currentLevel.platform.stopGame then
+			msg.post("/life#life", "increment_life", { value = 3 })
+			self.toggleAddLife = false
+			if self.displyReload or self.displayParameter then
+				self.ToggleDisplayOptions = true
+			else
+				currentLevel.platform.stopGame = false
+			end
+			togglePopupAddLife(self)
+		end
+		if gui.pick_node(gui.get_node("close_parameter"), action.x, action.y) and gui.is_enabled(gui.get_node("parameters")) and gui.is_enabled(gui.get_node("display_lost")) and currentLevel.platform.stopGame then
+			self.ToggleDisplayOptions = false
+			self.displyReload = false
+			self.displayParameter = false
+			toggleDisplayOption(self)
+			msg.post("/parameter#parameters", "enable_parameter")
+		end
+		if gui.pick_node(gui.get_node("sound"), action.x, action.y) and gui.is_enabled(gui.get_node("parameters")) and gui.is_enabled(gui.get_node("display_lost")) and currentLevel.platform.stopGame then
+			toggleSoundOption(self)
+		end
+		if gui.pick_node(gui.get_node("music"), action.x, action.y) and gui.is_enabled(gui.get_node("parameters")) and gui.is_enabled(gui.get_node("display_lost")) and currentLevel.platform.stopGame then
+			toggleMusicOption(self)
+		end
+		if gui.pick_node(gui.get_node("translate"), action.x, action.y) and gui.is_enabled(gui.get_node("parameters")) and gui.is_enabled(gui.get_node("display_lost")) and currentLevel.platform.stopGame then
+			local saveLg = sys.load(ryoku_path)
+			if tonumber(self.lgIndex) == tonumber(table.maxn(self.lgList)) then
+				saveLg.game_language = "fr"
+				self.lgIndex = 1
+			else
+				saveLg.game_language = self.lgList[self.lgIndex+1]
+				self.lgIndex = self.lgIndex + 1
+			end
+			if sys.save(ryoku_path, saveLg) then
+				manageLanguageOnLifeScene(self)
+			end
+			
+		end
+	end
+end
+
+function on_reload(self)
+	-- Add reload-handling code here
+	-- Learn more: https://defold.com/manuals/hot-reload/
+	-- Remove this function if not needed
+end

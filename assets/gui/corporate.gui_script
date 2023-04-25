@@ -32,7 +32,7 @@ function init(self)
 			end
 			sys.save(ryoku_path, self.appData)
 		end
-		--self.appData.game_language = "ar"
+		--self.appData.game_language = "ru"
 
 		sys.save(ryoku_path, self.appData)
 	end

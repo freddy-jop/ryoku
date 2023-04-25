@@ -48,6 +48,10 @@ function scaleColumnGrid(columnDimension)
 		currentLevel.platform.blockHeight = 400
 		return 0.3125
 	end
+	if columnDimension == 16 then
+		currentLevel.platform.blockHeight = 370
+		return 0.245
+	end
 end
 
 function generateSelectionBlock(self)
@@ -91,6 +95,7 @@ function initializeGrid(self)
 	currentLevel.platform.finaliseNextLevel = false
 	currentLevel.platform.startChallenge = {}
 	currentLevel.platform.randomChallenge = 0
+	currentLevel.platform.stopGame = false
 end
 
 function defineDimensionNumber(currentBlock)
@@ -272,8 +277,8 @@ function randomColor(self)
 end
 
 function calculateRelativePositionBlock(self, nbBlock)
-	local minX = 14
-	local minY = 14
+	local minX = 18
+	local minY = 18
 	for k = 1, #self.fusionBlock[nbBlock.blockNumber] do
 		if self.fusionBlock[nbBlock.blockNumber][k].result.tileX < minX then
 			minX = self.fusionBlock[nbBlock.blockNumber][k].result.tileX
@@ -296,6 +301,9 @@ function generateTetrisBlock(self)
 			local nbBlock = {
 				blockX = 0,
 				blockY = 0,
+				positionOnGridX = -1,
+				positionOnGridY = -1,
+				numberRevealed = false,
 				blockId = "",
 				positionTileBlock = vmath.vector3(0, 0, 1),
 				isPlaned = false,
@@ -357,6 +365,18 @@ function findNumber(sudokuNumber)
 	if sudokuNumber == 12 then
 		return "twelve"
 	end
+	if sudokuNumber == 13 then
+		return "thirteen"
+	end
+	if sudokuNumber == 14 then
+		return "fourteen"
+	end
+	if sudokuNumber == 15 then
+		return "fifteen"
+	end
+	if sudokuNumber == 16 then
+		return "sixteen"
+	end
 end
 
 function generateConformationGrid(self)
@@ -406,16 +426,16 @@ function generateConformationGrid(self)
 	end
 end
 
-function boomer(self, handle, time_elasped)
+function boomer(self)
 	self.chrono = self.chrono - 72
-	self.numberDecompte = self.numberDecompte - 1
-	if self.chrono == 0 then
-		timer.cancel(self.time)
-	end
-	gui.set_text(gui.get_node("number_decompte"), self.numberDecompte)
-	gui.animate(gui.get_node("decompte"), gui.PROP_FILL_ANGLE, vmath.vector4(self.chrono, self.chrono, 1, 0), gui.EASING_OUTBOUNCE, 0.8, 0, function(self, node) 
+	
+	gui.animate(gui.get_node("decompte"), gui.PROP_FILL_ANGLE, vmath.vector4(self.chrono, self.chrono, 1, 0), gui.EASING_LINEAR, 0.2, 0, function(self, node)
+		if self.chrono > 0 then
+			boomer(self)
+		end 
 		if self.chrono == 0 then
-			gui.set_text(gui.get_node("number_decompte"), "Start")
+			gui.set_texture(gui.get_node("play_pause"), hash("restart"))
+			gui.play_flipbook(gui.get_node("play_pause"), hash("play"))
 			timer.delay(1, false, function() 
 				msg.post("controller:/loader#controller", "changeScene", { newScene = "playLevel" })
 			end)
@@ -424,51 +444,84 @@ function boomer(self, handle, time_elasped)
 end
 
 function setRestartRuFont(self)
-	gui.set_font(gui.get_node("bad_error"), hash("RU_30_border"))
-	gui.set_font(gui.get_node("relance"), hash("RU_30_border"))
-	gui.set_font(gui.get_node("followus"), hash("RU_30_border"))
+	-- gui.set_font(gui.get_node("bad_error"), hash("RU_30_border"))
+	-- gui.set_font(gui.get_node("relance"), hash("RU_30_border"))
+	-- gui.set_font(gui.get_node("followus"), hash("RU_30_border"))
 end
 
 function setRestartArbFont(self)
-	gui.set_font(gui.get_node("bad_error"), hash("ARB_25"))
-	gui.set_font(gui.get_node("relance"), hash("ARB_25"))
-	gui.set_font(gui.get_node("followus"), hash("ARB_25"))
+	-- gui.set_font(gui.get_node("bad_error"), hash("ARB_25"))
+	-- gui.set_font(gui.get_node("relance"), hash("ARB_25"))
+	-- gui.set_font(gui.get_node("followus"), hash("ARB_25"))
 end
 
 function setRestartJaFont(self)
-	gui.set_font(gui.get_node("bad_error"), hash("JA_25"))
-	gui.set_font(gui.get_node("relance"), hash("JA_25"))
-	gui.set_font(gui.get_node("followus"), hash("JA_25"))
+	-- gui.set_font(gui.get_node("bad_error"), hash("JA_25"))
+	-- gui.set_font(gui.get_node("relance"), hash("JA_25"))
+	-- gui.set_font(gui.get_node("followus"), hash("JA_25"))
 end
 
 function setRestartKrFont(self)
-	gui.set_font(gui.get_node("bad_error"), hash("KR_25"))
-	gui.set_font(gui.get_node("relance"), hash("KR_25"))
-	gui.set_font(gui.get_node("followus"), hash("KR_25"))
+	-- gui.set_font(gui.get_node("bad_error"), hash("KR_25"))
+	-- gui.set_font(gui.get_node("relance"), hash("KR_25"))
+	-- gui.set_font(gui.get_node("followus"), hash("KR_25"))
 end
 
 function setRestartViFont(self)
-	gui.set_font(gui.get_node("bad_error"), hash("VI_25"))
-	gui.set_font(gui.get_node("relance"), hash("VI_25"))
-	gui.set_font(gui.get_node("followus"), hash("VI_25"))
+	-- gui.set_font(gui.get_node("bad_error"), hash("VI_25"))
+	-- gui.set_font(gui.get_node("relance"), hash("VI_25"))
+	-- gui.set_font(gui.get_node("followus"), hash("VI_25"))
 end
 
 function setRestartLatineFont(self)
-	gui.set_font(gui.get_node("bad_error"), hash("PoetsenOne25_border"))
-	gui.set_font(gui.get_node("relance"), hash("PoetsenOne25_border"))
-	gui.set_font(gui.get_node("followus"), hash("PoetsenOne25_border"))
+	-- gui.set_font(gui.get_node("bad_error"), hash("PoetsenOne25_border"))
+	-- gui.set_font(gui.get_node("relance"), hash("PoetsenOne25_border"))
+	-- gui.set_font(gui.get_node("followus"), hash("PoetsenOne25_border"))
 end
 
 function setTxtRestartArabic(self)
-	gui.set_text(gui.get_node("bad_error"), modifier.modifierToArab(languages[config.game_language].bad_error))
-	gui.set_text(gui.get_node("relance"), modifier.modifierToArab(languages[config.game_language].relance))
-	gui.set_text(gui.get_node("followus"), modifier.modifierToArab(languages[config.game_language].followus))
+	-- gui.set_text(gui.get_node("bad_error"), modifier.modifierToArab(languages[config.game_language].bad_error))
+	-- gui.set_text(gui.get_node("relance"), modifier.modifierToArab(languages[config.game_language].relance))
+	-- gui.set_text(gui.get_node("followus"), modifier.modifierToArab(languages[config.game_language].followus))
 end
 
 function setTxtRestartForAll(self)
-	gui.set_text(gui.get_node("bad_error"),languages[config.game_language].bad_error)
-	gui.set_text(gui.get_node("relance"), languages[config.game_language].relance)
-	gui.set_text(gui.get_node("followus"), languages[config.game_language].followus)
+	-- gui.set_text(gui.get_node("bad_error"),languages[config.game_language].bad_error)
+	-- gui.set_text(gui.get_node("relance"), languages[config.game_language].relance)
+	-- gui.set_text(gui.get_node("followus"), languages[config.game_language].followus)
+end
+
+function setBlockNumberSudoku(grdY,grdX)
+	for h = 1, #currentLevel.blocks do
+		for g = 1, #currentLevel.blocks[h] do
+			if currentLevel.blocks[h][g].result.tileY == grdY and currentLevel.blocks[h][g].result.tileX == grdX then
+				currentLevel.blocks[h][g].numberRevealed = true
+			end
+		end
+	end
+end
+
+function randomSudokuNumber(self)
+	local column = #patterGrid
+	local numberDisplaying = 0
+	if column == 3 or column == 4 or column == 5 then
+		numberDisplaying = 1
+	end
+	if column == 6 or column == 7 or column == 8 then
+		numberDisplaying = 2
+	end
+	if column == 9 or column == 10 or column == 12 then
+		numberDisplaying = 3
+	end
+	if column == 16 then
+		numberDisplaying = 4
+	end
+	for i = 1, numberDisplaying do
+		local gridY = math.random(1, column)
+		local gridX = math.random(1, column)
+		currentLevel.grid[gridY][gridX].sudokuRevealed = true
+		setBlockNumberSudoku(gridY-1, gridX-1)
+	end
 end
 
 function init(self)
@@ -528,11 +581,13 @@ function init(self)
 		randomBlock(self)
 	end
 	randomColor(self)
+	randomSudokuNumber(self)
+	
+	gui.set_texture(gui.get_node("play_pause"), hash("restart"))
+	gui.play_flipbook(gui.get_node("play_pause"), hash("pause"))
 	
 	self.chrono = 360
-	self.numberDecompte = 5
-	gui.set_text(gui.get_node("number_decompte"), self.numberDecompte)
-	self.time = timer.delay(1, true, boomer)
+	boomer(self)
 end
 
 function final(self)

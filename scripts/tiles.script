@@ -42,7 +42,7 @@ function loadConformationSquare(self, playConformation)
 		currentLevel.grid[self.tileposition.y][self.tileposition.x].conformationName = playConformation
 		local targetConformation = msg.url(nil, currentLevel.grid[self.tileposition.y][self.tileposition.x].instanceSquareId, "back")
 		msg.post(targetConformation, "play_animation", {id = hash(playConformation)})
-		if currentLevel.grid[self.tileposition.y][self.tileposition.x].blockNumber ~= currentLevel.platform.numberBlock and not currentLevel.grid[self.tileposition.y][self.tileposition.x].revealed then
+		if currentLevel.grid[self.tileposition.y][self.tileposition.x].blockNumber ~= currentLevel.platform.numberBlock and not currentLevel.grid[self.tileposition.y][self.tileposition.x].revealed and not currentLevel.grid[self.tileposition.y][self.tileposition.x].sudokuRevealed then
 			currentLevel.grid[self.tileposition.y][self.tileposition.x].revealed = true
 			local front = msg.url(nil, currentLevel.grid[self.tileposition.y][self.tileposition.x].instanceSquareId, "front")
 			msg.post(front, "enable")
@@ -400,8 +400,11 @@ function on_message(self, message_id, message, sender)
 		if not currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].target then
 			currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].isGrey = true
 
-			if currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].revealed then
+			if (currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].revealed or 
+			currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].sudokuRevealed) and 
+			currentLevel.refBlock[currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].blockNumber].isdisplaying then
 				local urlBlock = msg.url(nil, currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].instanceSquareId, "front")
+				print("=== ::: ", go.get_scale(urlBlock))
 				go.animate(urlBlock, "tint", go.PLAYBACK_ONCE_FORWARD, currentLevel.platform.initialColor, go.EASING_INSINE, 0.1, 0)
 			end
 			

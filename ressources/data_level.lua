@@ -11,9 +11,12 @@ local data = {
 	enable_target = false,
 	enable_adjacent = false,
 	enable_group = false,
+	enable_sudoku = false,
 	target = 0,
 	adjacent = 0,
 	group = 0,
+	sudoku = 0,
+	life = 3,
 	stopGame = false,
 	sound = true,
 	music = true,
@@ -23,7 +26,8 @@ local data = {
 	handleLevelInfo = 1,
 	scrollHorizontale = true,
 	scrollVerticale = false,
-	pendingTuto = true
+	pendingTuto = true,
+	pass_level = 1
 }
 
 return data

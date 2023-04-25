@@ -53,19 +53,13 @@ function setTutoRuFont(self)
 	gui.set_font(gui.get_node("welcome_txt_1"), hash("RU_22"))
 	gui.set_font(gui.get_node("welcome_txt_2"), hash("RU_22"))
 	gui.set_font(gui.get_node("welcome_txt_3"), hash("RU_22"))
-	gui.set_font(gui.get_node("welcome_txt_4"), hash("RU_22"))
 	gui.set_font(gui.get_node("welcome_txt_5"), hash("RU_22"))
-	gui.set_font(gui.get_node("welcome_txt_6"), hash("RU_22"))
-	gui.set_font(gui.get_node("welcome_txt_7"), hash("RU_22"))
-	gui.set_font(gui.get_node("welcome_txt_8"), hash("RU_22"))
 
 	-- STORAGE
 	gui.set_font(gui.get_node("storage_txt_header"), hash("RU_22"))
 	gui.set_font(gui.get_node("storage_txt_next"), hash("RU_30_border"))
 	gui.set_font(gui.get_node("storage_txt_1"), hash("RU_22"))
 	gui.set_font(gui.get_node("storage_txt_2"), hash("RU_22"))
-	gui.set_font(gui.get_node("storage_txt_3"), hash("RU_22"))
-	gui.set_font(gui.get_node("storage_txt_4"), hash("RU_22"))
 	gui.set_font(gui.get_node("storage_txt_5"), hash("RU_22"))
 
 	-- NUMBER
@@ -73,32 +67,40 @@ function setTutoRuFont(self)
 	gui.set_font(gui.get_node("numero_txt_next"), hash("RU_30_border"))
 	gui.set_font(gui.get_node("numero_txt_1"), hash("RU_22"))
 	gui.set_font(gui.get_node("numero_txt_2"), hash("RU_22"))
-	gui.set_font(gui.get_node("numero_txt_3"), hash("RU_22"))
-	gui.set_font(gui.get_node("numero_txt_4"), hash("RU_22"))
 
 	-- INDICATEUR GAUCHE
 	gui.set_font(gui.get_node("indicateur_gauche_txt_header"), hash("RU_22"))
 	gui.set_font(gui.get_node("indicateur_gauche_txt_next"), hash("RU_30_border"))
 	gui.set_font(gui.get_node("indicateur_gauche_txt_1"), hash("RU_22"))
-	gui.set_font(gui.get_node("indicateur_gauche_txt_2"), hash("RU_22"))
 	gui.set_font(gui.get_node("indicateur_gauche_txt_3"), hash("RU_22"))
-	gui.set_font(gui.get_node("indicateur_gauche_txt_4"), hash("RU_22"))
 
 	-- INDICATEUR DROIT
 	gui.set_font(gui.get_node("indicateur_droit_txt_header"), hash("RU_22"))
 	gui.set_font(gui.get_node("indicateur_droit_txt_next"), hash("RU_30_border"))
 	gui.set_font(gui.get_node("indicateur_droit_txt_1"), hash("RU_22"))
-	gui.set_font(gui.get_node("indicateur_droit_txt_2"), hash("RU_22"))
 	gui.set_font(gui.get_node("indicateur_droit_txt_3"), hash("RU_22"))
-	gui.set_font(gui.get_node("indicateur_droit_txt_4"), hash("RU_22"))
 
-	-- INDICATEUR DROIT
+	-- PIECES DISPONIBLE
 	gui.set_font(gui.get_node("pieces_disponible_txt_header"), hash("RU_22"))
 	gui.set_font(gui.get_node("pieces_disponible_txt_next"), hash("RU_30_border"))
 	gui.set_font(gui.get_node("pieces_disponible_txt_1"), hash("RU_22"))
-	gui.set_font(gui.get_node("pieces_disponible_txt_2"), hash("RU_22"))
 	gui.set_font(gui.get_node("pieces_disponible_txt_3"), hash("RU_22"))
-	gui.set_font(gui.get_node("pieces_disponible_txt_4"), hash("RU_22"))
+
+	-- PLAY_SUDOKU
+	gui.set_font(gui.get_node("play_sudoku_header"), hash("RU_22"))
+	gui.set_font(gui.get_node("play_sudoku_txt_next"), hash("RU_30_border"))
+	gui.set_font(gui.get_node("play_sudoku_txt_1"), hash("RU_22"))
+	gui.set_font(gui.get_node("play_sudoku_txt_2"), hash("RU_22"))
+	gui.set_font(gui.get_node("play_sudoku_txt_3"), hash("RU_22"))
+
+	-- CHALLENGE_LIFE
+	gui.set_font(gui.get_node("challenge_life_header"), hash("RU_22"))
+	gui.set_font(gui.get_node("challenge_life_txt_next"), hash("RU_30_border"))
+	gui.set_font(gui.get_node("challenge_life_txt_1"), hash("RU_22"))
+	gui.set_font(gui.get_node("challenge_life_txt_2"), hash("RU_22"))
+	gui.set_font(gui.get_node("challenge_life_txt_4"), hash("RU_22"))
+	gui.set_font(gui.get_node("challenge_life_txt_5"), hash("RU_22"))
+	gui.set_font(gui.get_node("challenge_life_txt_6"), hash("RU_22"))
 end
 
 function setTutoArbFont(self)
@@ -108,19 +110,13 @@ function setTutoArbFont(self)
 	gui.set_font(gui.get_node("welcome_txt_1"), hash("ARB_25"))
 	gui.set_font(gui.get_node("welcome_txt_2"), hash("ARB_25"))
 	gui.set_font(gui.get_node("welcome_txt_3"), hash("ARB_25"))
-	gui.set_font(gui.get_node("welcome_txt_4"), hash("ARB_25"))
 	gui.set_font(gui.get_node("welcome_txt_5"), hash("ARB_25"))
-	gui.set_font(gui.get_node("welcome_txt_6"), hash("ARB_25"))
-	gui.set_font(gui.get_node("welcome_txt_7"), hash("ARB_25"))
-	gui.set_font(gui.get_node("welcome_txt_8"), hash("ARB_25"))
 
 	-- STORAGE
 	gui.set_font(gui.get_node("storage_txt_header"), hash("ARB_35_border"))
 	gui.set_font(gui.get_node("storage_txt_next"), hash("ARB_35_border"))
 	gui.set_font(gui.get_node("storage_txt_1"), hash("ARB_25"))
 	gui.set_font(gui.get_node("storage_txt_2"), hash("ARB_25"))
-	gui.set_font(gui.get_node("storage_txt_3"), hash("ARB_25"))
-	gui.set_font(gui.get_node("storage_txt_4"), hash("ARB_25"))
 	gui.set_font(gui.get_node("storage_txt_5"), hash("ARB_25"))
 
 	-- NUMBER
@@ -128,32 +124,40 @@ function setTutoArbFont(self)
 	gui.set_font(gui.get_node("numero_txt_next"), hash("ARB_35_border"))
 	gui.set_font(gui.get_node("numero_txt_1"), hash("ARB_25"))
 	gui.set_font(gui.get_node("numero_txt_2"), hash("ARB_25"))
-	gui.set_font(gui.get_node("numero_txt_3"), hash("ARB_25"))
-	gui.set_font(gui.get_node("numero_txt_4"), hash("ARB_25"))
 
 	-- INDICATEUR GAUCHE
 	gui.set_font(gui.get_node("indicateur_gauche_txt_header"), hash("ARB_35_border"))
 	gui.set_font(gui.get_node("indicateur_gauche_txt_next"), hash("ARB_35_border"))
 	gui.set_font(gui.get_node("indicateur_gauche_txt_1"), hash("ARB_25"))
-	gui.set_font(gui.get_node("indicateur_gauche_txt_2"), hash("ARB_25"))
 	gui.set_font(gui.get_node("indicateur_gauche_txt_3"), hash("ARB_25"))
-	gui.set_font(gui.get_node("indicateur_gauche_txt_4"), hash("ARB_25"))
 
 	-- INDICATEUR DROIT
 	gui.set_font(gui.get_node("indicateur_droit_txt_header"), hash("ARB_35_border"))
 	gui.set_font(gui.get_node("indicateur_droit_txt_next"), hash("ARB_35_border"))
 	gui.set_font(gui.get_node("indicateur_droit_txt_1"), hash("ARB_25"))
-	gui.set_font(gui.get_node("indicateur_droit_txt_2"), hash("ARB_25"))
 	gui.set_font(gui.get_node("indicateur_droit_txt_3"), hash("ARB_25"))
-	gui.set_font(gui.get_node("indicateur_droit_txt_4"), hash("ARB_25"))
 
-	-- INDICATEUR DROIT
+	-- PIECES DISPONIBLE
 	gui.set_font(gui.get_node("pieces_disponible_txt_header"), hash("ARB_35_border"))
 	gui.set_font(gui.get_node("pieces_disponible_txt_next"), hash("ARB_35_border"))
 	gui.set_font(gui.get_node("pieces_disponible_txt_1"), hash("ARB_25"))
-	gui.set_font(gui.get_node("pieces_disponible_txt_2"), hash("ARB_25"))
 	gui.set_font(gui.get_node("pieces_disponible_txt_3"), hash("ARB_25"))
-	gui.set_font(gui.get_node("pieces_disponible_txt_4"), hash("ARB_25"))
+
+	-- PLAY_SUDOKU
+	gui.set_font(gui.get_node("play_sudoku_header"), hash("ARB_35_border"))
+	gui.set_font(gui.get_node("play_sudoku_txt_next"), hash("ARB_35_border"))
+	gui.set_font(gui.get_node("play_sudoku_txt_1"), hash("ARB_25"))
+	gui.set_font(gui.get_node("play_sudoku_txt_2"), hash("ARB_25"))
+	gui.set_font(gui.get_node("play_sudoku_txt_3"), hash("ARB_25"))
+
+	-- CHALLENGE_LIFE
+	gui.set_font(gui.get_node("challenge_life_header"), hash("ARB_35_border"))
+	gui.set_font(gui.get_node("challenge_life_txt_next"), hash("ARB_35_border"))
+	gui.set_font(gui.get_node("challenge_life_txt_1"), hash("ARB_25"))
+	gui.set_font(gui.get_node("challenge_life_txt_2"), hash("ARB_25"))
+	gui.set_font(gui.get_node("challenge_life_txt_4"), hash("ARB_25"))
+	gui.set_font(gui.get_node("challenge_life_txt_5"), hash("ARB_25"))
+	gui.set_font(gui.get_node("challenge_life_txt_6"), hash("ARB_25"))
 end
 
 function setTutoJaFont(self)
@@ -163,19 +167,13 @@ function setTutoJaFont(self)
 	gui.set_font(gui.get_node("welcome_txt_1"), hash("JA_25"))
 	gui.set_font(gui.get_node("welcome_txt_2"), hash("JA_25"))
 	gui.set_font(gui.get_node("welcome_txt_3"), hash("JA_25"))
-	gui.set_font(gui.get_node("welcome_txt_4"), hash("JA_25"))
 	gui.set_font(gui.get_node("welcome_txt_5"), hash("JA_25"))
-	gui.set_font(gui.get_node("welcome_txt_6"), hash("JA_25"))
-	gui.set_font(gui.get_node("welcome_txt_7"), hash("JA_25"))
-	gui.set_font(gui.get_node("welcome_txt_8"), hash("JA_25"))
 
 	-- STORAGE
 	gui.set_font(gui.get_node("storage_txt_header"), hash("JA_30_border"))
 	gui.set_font(gui.get_node("storage_txt_next"), hash("JA_30_border"))
 	gui.set_font(gui.get_node("storage_txt_1"), hash("JA_25"))
 	gui.set_font(gui.get_node("storage_txt_2"), hash("JA_25"))
-	gui.set_font(gui.get_node("storage_txt_3"), hash("JA_25"))
-	gui.set_font(gui.get_node("storage_txt_4"), hash("JA_25"))
 	gui.set_font(gui.get_node("storage_txt_5"), hash("JA_25"))
 
 	-- NUMBER
@@ -183,32 +181,40 @@ function setTutoJaFont(self)
 	gui.set_font(gui.get_node("numero_txt_next"), hash("JA_30_border"))
 	gui.set_font(gui.get_node("numero_txt_1"), hash("JA_25"))
 	gui.set_font(gui.get_node("numero_txt_2"), hash("JA_25"))
-	gui.set_font(gui.get_node("numero_txt_3"), hash("JA_25"))
-	gui.set_font(gui.get_node("numero_txt_4"), hash("JA_25"))
 
 	-- INDICATEUR GAUCHE
 	gui.set_font(gui.get_node("indicateur_gauche_txt_header"), hash("JA_30_border"))
 	gui.set_font(gui.get_node("indicateur_gauche_txt_next"), hash("JA_30_border"))
 	gui.set_font(gui.get_node("indicateur_gauche_txt_1"), hash("JA_25"))
-	gui.set_font(gui.get_node("indicateur_gauche_txt_2"), hash("JA_25"))
 	gui.set_font(gui.get_node("indicateur_gauche_txt_3"), hash("JA_25"))
-	gui.set_font(gui.get_node("indicateur_gauche_txt_4"), hash("JA_25"))
 
 	-- INDICATEUR DROIT
 	gui.set_font(gui.get_node("indicateur_droit_txt_header"), hash("JA_30_border"))
 	gui.set_font(gui.get_node("indicateur_droit_txt_next"), hash("JA_30_border"))
 	gui.set_font(gui.get_node("indicateur_droit_txt_1"), hash("JA_25"))
-	gui.set_font(gui.get_node("indicateur_droit_txt_2"), hash("JA_25"))
 	gui.set_font(gui.get_node("indicateur_droit_txt_3"), hash("JA_25"))
-	gui.set_font(gui.get_node("indicateur_droit_txt_4"), hash("JA_25"))
 
-	-- INDICATEUR DROIT
+	-- PIECES DISPONIBLE
 	gui.set_font(gui.get_node("pieces_disponible_txt_header"), hash("JA_30_border"))
 	gui.set_font(gui.get_node("pieces_disponible_txt_next"), hash("JA_30_border"))
 	gui.set_font(gui.get_node("pieces_disponible_txt_1"), hash("JA_25"))
-	gui.set_font(gui.get_node("pieces_disponible_txt_2"), hash("JA_25"))
 	gui.set_font(gui.get_node("pieces_disponible_txt_3"), hash("JA_25"))
-	gui.set_font(gui.get_node("pieces_disponible_txt_4"), hash("JA_25"))
+
+	-- PLAY_SUDOKU
+	gui.set_font(gui.get_node("play_sudoku_header"), hash("JA_30_border"))
+	gui.set_font(gui.get_node("play_sudoku_txt_next"), hash("JA_30_border"))
+	gui.set_font(gui.get_node("play_sudoku_txt_1"), hash("JA_25"))
+	gui.set_font(gui.get_node("play_sudoku_txt_2"), hash("JA_25"))
+	gui.set_font(gui.get_node("play_sudoku_txt_3"), hash("JA_25"))
+
+	-- CHALLENGE_LIFE
+	gui.set_font(gui.get_node("challenge_life_header"), hash("JA_30_border"))
+	gui.set_font(gui.get_node("challenge_life_txt_next"), hash("JA_30_border"))
+	gui.set_font(gui.get_node("challenge_life_txt_1"), hash("JA_25"))
+	gui.set_font(gui.get_node("challenge_life_txt_2"), hash("JA_25"))
+	gui.set_font(gui.get_node("challenge_life_txt_4"), hash("JA_25"))
+	gui.set_font(gui.get_node("challenge_life_txt_5"), hash("JA_25"))
+	gui.set_font(gui.get_node("challenge_life_txt_6"), hash("JA_25"))
 end
 
 function setTutoKrFont(self)
@@ -218,19 +224,13 @@ function setTutoKrFont(self)
 	gui.set_font(gui.get_node("welcome_txt_1"), hash("KR_25"))
 	gui.set_font(gui.get_node("welcome_txt_2"), hash("KR_25"))
 	gui.set_font(gui.get_node("welcome_txt_3"), hash("KR_25"))
-	gui.set_font(gui.get_node("welcome_txt_4"), hash("KR_25"))
 	gui.set_font(gui.get_node("welcome_txt_5"), hash("KR_25"))
-	gui.set_font(gui.get_node("welcome_txt_6"), hash("KR_25"))
-	gui.set_font(gui.get_node("welcome_txt_7"), hash("KR_25"))
-	gui.set_font(gui.get_node("welcome_txt_8"), hash("KR_25"))
 
 	-- STORAGE
 	gui.set_font(gui.get_node("storage_txt_header"), hash("KR_30_border"))
 	gui.set_font(gui.get_node("storage_txt_next"), hash("KR_30_border"))
 	gui.set_font(gui.get_node("storage_txt_1"), hash("KR_25"))
 	gui.set_font(gui.get_node("storage_txt_2"), hash("KR_25"))
-	gui.set_font(gui.get_node("storage_txt_3"), hash("KR_25"))
-	gui.set_font(gui.get_node("storage_txt_4"), hash("KR_25"))
 	gui.set_font(gui.get_node("storage_txt_5"), hash("KR_25"))
 
 	-- NUMBER
@@ -238,32 +238,40 @@ function setTutoKrFont(self)
 	gui.set_font(gui.get_node("numero_txt_next"), hash("KR_30_border"))
 	gui.set_font(gui.get_node("numero_txt_1"), hash("KR_25"))
 	gui.set_font(gui.get_node("numero_txt_2"), hash("KR_25"))
-	gui.set_font(gui.get_node("numero_txt_3"), hash("KR_25"))
-	gui.set_font(gui.get_node("numero_txt_4"), hash("KR_25"))
 
 	-- INDICATEUR GAUCHE
 	gui.set_font(gui.get_node("indicateur_gauche_txt_header"), hash("KR_30_border"))
 	gui.set_font(gui.get_node("indicateur_gauche_txt_next"), hash("KR_30_border"))
 	gui.set_font(gui.get_node("indicateur_gauche_txt_1"), hash("KR_25"))
-	gui.set_font(gui.get_node("indicateur_gauche_txt_2"), hash("KR_25"))
 	gui.set_font(gui.get_node("indicateur_gauche_txt_3"), hash("KR_25"))
-	gui.set_font(gui.get_node("indicateur_gauche_txt_4"), hash("KR_25"))
 
 	-- INDICATEUR DROIT
 	gui.set_font(gui.get_node("indicateur_droit_txt_header"), hash("KR_30_border"))
 	gui.set_font(gui.get_node("indicateur_droit_txt_next"), hash("KR_30_border"))
 	gui.set_font(gui.get_node("indicateur_droit_txt_1"), hash("KR_25"))
-	gui.set_font(gui.get_node("indicateur_droit_txt_2"), hash("KR_25"))
 	gui.set_font(gui.get_node("indicateur_droit_txt_3"), hash("KR_25"))
-	gui.set_font(gui.get_node("indicateur_droit_txt_4"), hash("KR_25"))
 
-	-- INDICATEUR DROIT
+	-- PIECES DISPONIBLE
 	gui.set_font(gui.get_node("pieces_disponible_txt_header"), hash("KR_30_border"))
 	gui.set_font(gui.get_node("pieces_disponible_txt_next"), hash("KR_30_border"))
 	gui.set_font(gui.get_node("pieces_disponible_txt_1"), hash("KR_25"))
-	gui.set_font(gui.get_node("pieces_disponible_txt_2"), hash("KR_25"))
 	gui.set_font(gui.get_node("pieces_disponible_txt_3"), hash("KR_25"))
-	gui.set_font(gui.get_node("pieces_disponible_txt_4"), hash("KR_25"))
+
+	-- PLAY_SUDOKU
+	gui.set_font(gui.get_node("play_sudoku_header"), hash("KR_30_border"))
+	gui.set_font(gui.get_node("play_sudoku_txt_next"), hash("KR_30_border"))
+	gui.set_font(gui.get_node("play_sudoku_txt_1"), hash("KR_25"))
+	gui.set_font(gui.get_node("play_sudoku_txt_2"), hash("KR_25"))
+	gui.set_font(gui.get_node("play_sudoku_txt_3"), hash("KR_25"))
+
+	-- CHALLENGE_LIFE
+	gui.set_font(gui.get_node("challenge_life_header"), hash("KR_30_border"))
+	gui.set_font(gui.get_node("challenge_life_txt_next"), hash("KR_30_border"))
+	gui.set_font(gui.get_node("challenge_life_txt_1"), hash("KR_25"))
+	gui.set_font(gui.get_node("challenge_life_txt_2"), hash("KR_25"))
+	gui.set_font(gui.get_node("challenge_life_txt_4"), hash("KR_25"))
+	gui.set_font(gui.get_node("challenge_life_txt_5"), hash("KR_25"))
+	gui.set_font(gui.get_node("challenge_life_txt_6"), hash("KR_25"))
 end
 
 function setTutoViFont(self)
@@ -273,19 +281,13 @@ function setTutoViFont(self)
 	gui.set_font(gui.get_node("welcome_txt_1"), hash("VI_25"))
 	gui.set_font(gui.get_node("welcome_txt_2"), hash("VI_25"))
 	gui.set_font(gui.get_node("welcome_txt_3"), hash("VI_25"))
-	gui.set_font(gui.get_node("welcome_txt_4"), hash("VI_25"))
 	gui.set_font(gui.get_node("welcome_txt_5"), hash("VI_25"))
-	gui.set_font(gui.get_node("welcome_txt_6"), hash("VI_25"))
-	gui.set_font(gui.get_node("welcome_txt_7"), hash("VI_25"))
-	gui.set_font(gui.get_node("welcome_txt_8"), hash("VI_25"))
 
 	-- STORAGE
 	gui.set_font(gui.get_node("storage_txt_header"), hash("VI_30_border"))
 	gui.set_font(gui.get_node("storage_txt_next"), hash("VI_30_border"))
 	gui.set_font(gui.get_node("storage_txt_1"), hash("VI_25"))
 	gui.set_font(gui.get_node("storage_txt_2"), hash("VI_25"))
-	gui.set_font(gui.get_node("storage_txt_3"), hash("VI_25"))
-	gui.set_font(gui.get_node("storage_txt_4"), hash("VI_25"))
 	gui.set_font(gui.get_node("storage_txt_5"), hash("VI_25"))
 
 	-- NUMBER
@@ -293,32 +295,40 @@ function setTutoViFont(self)
 	gui.set_font(gui.get_node("numero_txt_next"), hash("VI_30_border"))
 	gui.set_font(gui.get_node("numero_txt_1"), hash("VI_25"))
 	gui.set_font(gui.get_node("numero_txt_2"), hash("VI_25"))
-	gui.set_font(gui.get_node("numero_txt_3"), hash("VI_25"))
-	gui.set_font(gui.get_node("numero_txt_4"), hash("VI_25"))
 
 	-- INDICATEUR GAUCHE
 	gui.set_font(gui.get_node("indicateur_gauche_txt_header"), hash("VI_30_border"))
 	gui.set_font(gui.get_node("indicateur_gauche_txt_next"), hash("VI_30_border"))
 	gui.set_font(gui.get_node("indicateur_gauche_txt_1"), hash("VI_25"))
-	gui.set_font(gui.get_node("indicateur_gauche_txt_2"), hash("VI_25"))
 	gui.set_font(gui.get_node("indicateur_gauche_txt_3"), hash("VI_25"))
-	gui.set_font(gui.get_node("indicateur_gauche_txt_4"), hash("VI_25"))
 
 	-- INDICATEUR DROIT
 	gui.set_font(gui.get_node("indicateur_droit_txt_header"), hash("VI_30_border"))
 	gui.set_font(gui.get_node("indicateur_droit_txt_next"), hash("VI_30_border"))
 	gui.set_font(gui.get_node("indicateur_droit_txt_1"), hash("VI_25"))
-	gui.set_font(gui.get_node("indicateur_droit_txt_2"), hash("VI_25"))
 	gui.set_font(gui.get_node("indicateur_droit_txt_3"), hash("VI_25"))
-	gui.set_font(gui.get_node("indicateur_droit_txt_4"), hash("VI_25"))
 
-	-- INDICATEUR DROIT
+	-- PIECES DISPONIBLE
 	gui.set_font(gui.get_node("pieces_disponible_txt_header"), hash("VI_30_border"))
 	gui.set_font(gui.get_node("pieces_disponible_txt_next"), hash("VI_30_border"))
 	gui.set_font(gui.get_node("pieces_disponible_txt_1"), hash("VI_25"))
-	gui.set_font(gui.get_node("pieces_disponible_txt_2"), hash("VI_25"))
 	gui.set_font(gui.get_node("pieces_disponible_txt_3"), hash("VI_25"))
-	gui.set_font(gui.get_node("pieces_disponible_txt_4"), hash("VI_25"))
+
+	-- PLAY_SUDOKU
+	gui.set_font(gui.get_node("play_sudoku_header"), hash("VI_30_border"))
+	gui.set_font(gui.get_node("play_sudoku_txt_next"), hash("VI_30_border"))
+	gui.set_font(gui.get_node("play_sudoku_txt_1"), hash("VI_25"))
+	gui.set_font(gui.get_node("play_sudoku_txt_2"), hash("VI_25"))
+	gui.set_font(gui.get_node("play_sudoku_txt_3"), hash("VI_25"))
+
+	-- CHALLENGE_LIFE
+	gui.set_font(gui.get_node("challenge_life_header"), hash("VI_30_border"))
+	gui.set_font(gui.get_node("challenge_life_txt_next"), hash("VI_30_border"))
+	gui.set_font(gui.get_node("challenge_life_txt_1"), hash("VI_25"))
+	gui.set_font(gui.get_node("challenge_life_txt_2"), hash("VI_25"))
+	gui.set_font(gui.get_node("challenge_life_txt_4"), hash("VI_25"))
+	gui.set_font(gui.get_node("challenge_life_txt_5"), hash("VI_25"))
+	gui.set_font(gui.get_node("challenge_life_txt_6"), hash("VI_25"))
 end
 
 function setTutoLatineFont(self)
@@ -328,19 +338,13 @@ function setTutoLatineFont(self)
 	gui.set_font(gui.get_node("welcome_txt_1"), hash("PoetsenOne22"))
 	gui.set_font(gui.get_node("welcome_txt_2"), hash("PoetsenOne22"))
 	gui.set_font(gui.get_node("welcome_txt_3"), hash("PoetsenOne22"))
-	gui.set_font(gui.get_node("welcome_txt_4"), hash("PoetsenOne22"))
 	gui.set_font(gui.get_node("welcome_txt_5"), hash("PoetsenOne22"))
-	gui.set_font(gui.get_node("welcome_txt_6"), hash("PoetsenOne22"))
-	gui.set_font(gui.get_node("welcome_txt_7"), hash("PoetsenOne22"))
-	gui.set_font(gui.get_node("welcome_txt_8"), hash("PoetsenOne22"))
 
 	-- STORAGE
 	gui.set_font(gui.get_node("storage_txt_header"), hash("PoetsenOne25_border"))
 	gui.set_font(gui.get_node("storage_txt_next"), hash("PoetsenOne40_border"))
 	gui.set_font(gui.get_node("storage_txt_1"), hash("PoetsenOne22"))
 	gui.set_font(gui.get_node("storage_txt_2"), hash("PoetsenOne22"))
-	gui.set_font(gui.get_node("storage_txt_3"), hash("PoetsenOne22"))
-	gui.set_font(gui.get_node("storage_txt_4"), hash("PoetsenOne22"))
 	gui.set_font(gui.get_node("storage_txt_5"), hash("PoetsenOne22"))
 
 	-- NUMBER
@@ -348,32 +352,40 @@ function setTutoLatineFont(self)
 	gui.set_font(gui.get_node("numero_txt_next"), hash("PoetsenOne40_border"))
 	gui.set_font(gui.get_node("numero_txt_1"), hash("PoetsenOne22"))
 	gui.set_font(gui.get_node("numero_txt_2"), hash("PoetsenOne22"))
-	gui.set_font(gui.get_node("numero_txt_3"), hash("PoetsenOne22"))
-	gui.set_font(gui.get_node("numero_txt_4"), hash("PoetsenOne22"))
 
 	-- INDICATEUR GAUCHE
 	gui.set_font(gui.get_node("indicateur_gauche_txt_header"), hash("PoetsenOne25_border"))
 	gui.set_font(gui.get_node("indicateur_gauche_txt_next"), hash("PoetsenOne40_border"))
 	gui.set_font(gui.get_node("indicateur_gauche_txt_1"), hash("PoetsenOne22"))
-	gui.set_font(gui.get_node("indicateur_gauche_txt_2"), hash("PoetsenOne22"))
 	gui.set_font(gui.get_node("indicateur_gauche_txt_3"), hash("PoetsenOne22"))
-	gui.set_font(gui.get_node("indicateur_gauche_txt_4"), hash("PoetsenOne22"))
 
 	-- INDICATEUR DROIT
 	gui.set_font(gui.get_node("indicateur_droit_txt_header"), hash("PoetsenOne25_border"))
 	gui.set_font(gui.get_node("indicateur_droit_txt_next"), hash("PoetsenOne40_border"))
 	gui.set_font(gui.get_node("indicateur_droit_txt_1"), hash("PoetsenOne22"))
-	gui.set_font(gui.get_node("indicateur_droit_txt_2"), hash("PoetsenOne22"))
 	gui.set_font(gui.get_node("indicateur_droit_txt_3"), hash("PoetsenOne22"))
-	gui.set_font(gui.get_node("indicateur_droit_txt_4"), hash("PoetsenOne22"))
 
-	-- INDICATEUR DROIT
+	-- PIECES DISPONIBLE
 	gui.set_font(gui.get_node("pieces_disponible_txt_header"), hash("PoetsenOne25_border"))
 	gui.set_font(gui.get_node("pieces_disponible_txt_next"), hash("PoetsenOne40_border"))
 	gui.set_font(gui.get_node("pieces_disponible_txt_1"), hash("PoetsenOne22"))
-	gui.set_font(gui.get_node("pieces_disponible_txt_2"), hash("PoetsenOne22"))
 	gui.set_font(gui.get_node("pieces_disponible_txt_3"), hash("PoetsenOne22"))
-	gui.set_font(gui.get_node("pieces_disponible_txt_4"), hash("PoetsenOne22"))
+
+	-- PLAY_SUDOKU
+	gui.set_font(gui.get_node("play_sudoku_header"), hash("PoetsenOne25_border"))
+	gui.set_font(gui.get_node("play_sudoku_txt_next"), hash("PoetsenOne40_border"))
+	gui.set_font(gui.get_node("play_sudoku_txt_1"), hash("PoetsenOne22"))
+	gui.set_font(gui.get_node("play_sudoku_txt_2"), hash("PoetsenOne22"))
+	gui.set_font(gui.get_node("play_sudoku_txt_3"), hash("PoetsenOne22"))
+
+	-- CHALLENGE_LIFE
+	gui.set_font(gui.get_node("challenge_life_header"), hash("PoetsenOne25_border"))
+	gui.set_font(gui.get_node("challenge_life_txt_next"), hash("PoetsenOne40_border"))
+	gui.set_font(gui.get_node("challenge_life_txt_1"), hash("PoetsenOne22"))
+	gui.set_font(gui.get_node("challenge_life_txt_2"), hash("PoetsenOne22"))
+	gui.set_font(gui.get_node("challenge_life_txt_4"), hash("PoetsenOne22"))
+	gui.set_font(gui.get_node("challenge_life_txt_5"), hash("PoetsenOne22"))
+	gui.set_font(gui.get_node("challenge_life_txt_6"), hash("PoetsenOne22"))
 end
 
 function setTutoTxtArabic(self)
@@ -383,19 +395,13 @@ function setTutoTxtArabic(self)
 	gui.set_text(gui.get_node("welcome_txt_1"), modifier.modifierToArab(languages[config.game_language].welcome_txt_1))
 	gui.set_text(gui.get_node("welcome_txt_2"), modifier.modifierToArab(languages[config.game_language].welcome_txt_2))
 	gui.set_text(gui.get_node("welcome_txt_3"), modifier.modifierToArab(languages[config.game_language].welcome_txt_3))
-	gui.set_text(gui.get_node("welcome_txt_4"), modifier.modifierToArab(languages[config.game_language].welcome_txt_4))
 	gui.set_text(gui.get_node("welcome_txt_5"), modifier.modifierToArab(languages[config.game_language].welcome_txt_5))
-	gui.set_text(gui.get_node("welcome_txt_6"), modifier.modifierToArab(languages[config.game_language].welcome_txt_6))
-	gui.set_text(gui.get_node("welcome_txt_7"), modifier.modifierToArab(languages[config.game_language].welcome_txt_7))
-	gui.set_text(gui.get_node("welcome_txt_8"), modifier.modifierToArab(languages[config.game_language].welcome_txt_8))
 
 	-- STORAGE
 	gui.set_text(gui.get_node("storage_txt_header"), modifier.modifierToArab(languages[config.game_language].storage_txt_header))
 	gui.set_text(gui.get_node("storage_txt_next"), modifier.modifierToArab(languages[config.game_language].storage_txt_next))
 	gui.set_text(gui.get_node("storage_txt_1"), modifier.modifierToArab(languages[config.game_language].storage_txt_1))
 	gui.set_text(gui.get_node("storage_txt_2"), modifier.modifierToArab(languages[config.game_language].storage_txt_2))
-	gui.set_text(gui.get_node("storage_txt_3"), modifier.modifierToArab(languages[config.game_language].storage_txt_3))
-	gui.set_text(gui.get_node("storage_txt_4"), modifier.modifierToArab(languages[config.game_language].storage_txt_4))
 	gui.set_text(gui.get_node("storage_txt_5"), modifier.modifierToArab(languages[config.game_language].storage_txt_5))
 
 	-- NUMBER
@@ -403,32 +409,40 @@ function setTutoTxtArabic(self)
 	gui.set_text(gui.get_node("numero_txt_next"), modifier.modifierToArab(languages[config.game_language].numero_txt_next))
 	gui.set_text(gui.get_node("numero_txt_1"), modifier.modifierToArab(languages[config.game_language].numero_txt_1))
 	gui.set_text(gui.get_node("numero_txt_2"), modifier.modifierToArab(languages[config.game_language].numero_txt_2))
-	gui.set_text(gui.get_node("numero_txt_3"), modifier.modifierToArab(languages[config.game_language].numero_txt_3))
-	gui.set_text(gui.get_node("numero_txt_4"), modifier.modifierToArab(languages[config.game_language].numero_txt_4))
 
 	-- INDICATEUR GAUCHE
 	gui.set_text(gui.get_node("indicateur_gauche_txt_header"), modifier.modifierToArab(languages[config.game_language].indicateur_gauche_txt_header))
 	gui.set_text(gui.get_node("indicateur_gauche_txt_next"), modifier.modifierToArab(languages[config.game_language].indicateur_gauche_txt_next))
 	gui.set_text(gui.get_node("indicateur_gauche_txt_1"), modifier.modifierToArab(languages[config.game_language].indicateur_gauche_txt_1))
-	gui.set_text(gui.get_node("indicateur_gauche_txt_2"), modifier.modifierToArab(languages[config.game_language].indicateur_gauche_txt_2))
 	gui.set_text(gui.get_node("indicateur_gauche_txt_3"), modifier.modifierToArab(languages[config.game_language].indicateur_gauche_txt_3))
-	gui.set_text(gui.get_node("indicateur_gauche_txt_4"), modifier.modifierToArab(languages[config.game_language].indicateur_gauche_txt_4))
 
 	-- INDICATEUR DROIT
 	gui.set_text(gui.get_node("indicateur_droit_txt_header"), modifier.modifierToArab(languages[config.game_language].indicateur_droit_txt_header))
 	gui.set_text(gui.get_node("indicateur_droit_txt_next"), modifier.modifierToArab(languages[config.game_language].indicateur_droit_txt_next))
 	gui.set_text(gui.get_node("indicateur_droit_txt_1"), modifier.modifierToArab(languages[config.game_language].indicateur_droit_txt_1))
-	gui.set_text(gui.get_node("indicateur_droit_txt_2"), modifier.modifierToArab(languages[config.game_language].indicateur_droit_txt_2))
 	gui.set_text(gui.get_node("indicateur_droit_txt_3"), modifier.modifierToArab(languages[config.game_language].indicateur_droit_txt_3))
-	gui.set_text(gui.get_node("indicateur_droit_txt_4"), modifier.modifierToArab(languages[config.game_language].indicateur_droit_txt_4))
 
 	-- INDICATEUR DROIT
 	gui.set_text(gui.get_node("pieces_disponible_txt_header"), modifier.modifierToArab(languages[config.game_language].pieces_disponible_txt_header))
 	gui.set_text(gui.get_node("pieces_disponible_txt_next"), modifier.modifierToArab(languages[config.game_language].pieces_disponible_txt_next))
 	gui.set_text(gui.get_node("pieces_disponible_txt_1"), modifier.modifierToArab(languages[config.game_language].pieces_disponible_txt_1))
-	gui.set_text(gui.get_node("pieces_disponible_txt_2"), modifier.modifierToArab(languages[config.game_language].pieces_disponible_txt_2))
 	gui.set_text(gui.get_node("pieces_disponible_txt_3"), modifier.modifierToArab(languages[config.game_language].pieces_disponible_txt_3))
-	gui.set_text(gui.get_node("pieces_disponible_txt_4"), modifier.modifierToArab(languages[config.game_language].pieces_disponible_txt_4))
+
+	-- PLAY_SUDOKU
+	gui.set_text(gui.get_node("play_sudoku_header"), modifier.modifierToArab(languages[config.game_language].play_sudoku_header))
+	gui.set_text(gui.get_node("play_sudoku_txt_next"), modifier.modifierToArab(languages[config.game_language].play_sudoku_txt_next))
+	gui.set_text(gui.get_node("play_sudoku_txt_1"), modifier.modifierToArab(languages[config.game_language].play_sudoku_txt_1))
+	gui.set_text(gui.get_node("play_sudoku_txt_2"), modifier.modifierToArab(languages[config.game_language].play_sudoku_txt_2))
+	gui.set_text(gui.get_node("play_sudoku_txt_3"), modifier.modifierToArab(languages[config.game_language].play_sudoku_txt_3))
+
+	-- CHALLENGE_LIFE
+	gui.set_text(gui.get_node("challenge_life_header"), modifier.modifierToArab(languages[config.game_language].challenge_life_header))
+	gui.set_text(gui.get_node("challenge_life_txt_next"), modifier.modifierToArab(languages[config.game_language].challenge_life_txt_next))
+	gui.set_text(gui.get_node("challenge_life_txt_1"), modifier.modifierToArab(languages[config.game_language].challenge_life_txt_1))
+	gui.set_text(gui.get_node("challenge_life_txt_2"), modifier.modifierToArab(languages[config.game_language].challenge_life_txt_2))
+	gui.set_text(gui.get_node("challenge_life_txt_4"), modifier.modifierToArab(languages[config.game_language].challenge_life_txt_4))
+	gui.set_text(gui.get_node("challenge_life_txt_5"), modifier.modifierToArab(languages[config.game_language].challenge_life_txt_5))
+	gui.set_text(gui.get_node("challenge_life_txt_6"), modifier.modifierToArab(languages[config.game_language].challenge_life_txt_6))
 end
 
 function setTutoTxtForAll(self)
@@ -438,19 +452,13 @@ function setTutoTxtForAll(self)
 	gui.set_text(gui.get_node("welcome_txt_1"), languages[config.game_language].welcome_txt_1)
 	gui.set_text(gui.get_node("welcome_txt_2"), languages[config.game_language].welcome_txt_2)
 	gui.set_text(gui.get_node("welcome_txt_3"), languages[config.game_language].welcome_txt_3)
-	gui.set_text(gui.get_node("welcome_txt_4"), languages[config.game_language].welcome_txt_4)
 	gui.set_text(gui.get_node("welcome_txt_5"), languages[config.game_language].welcome_txt_5)
-	gui.set_text(gui.get_node("welcome_txt_6"), languages[config.game_language].welcome_txt_6)
-	gui.set_text(gui.get_node("welcome_txt_7"), languages[config.game_language].welcome_txt_7)
-	gui.set_text(gui.get_node("welcome_txt_8"), languages[config.game_language].welcome_txt_8)
 
 	-- STORAGE
 	gui.set_text(gui.get_node("storage_txt_header"), languages[config.game_language].storage_txt_header)
 	gui.set_text(gui.get_node("storage_txt_next"), languages[config.game_language].storage_txt_next)
 	gui.set_text(gui.get_node("storage_txt_1"), languages[config.game_language].storage_txt_1)
 	gui.set_text(gui.get_node("storage_txt_2"), languages[config.game_language].storage_txt_2)
-	gui.set_text(gui.get_node("storage_txt_3"), languages[config.game_language].storage_txt_3)
-	gui.set_text(gui.get_node("storage_txt_4"), languages[config.game_language].storage_txt_4)
 	gui.set_text(gui.get_node("storage_txt_5"), languages[config.game_language].storage_txt_5)
 
 	-- NUMBER
@@ -458,32 +466,49 @@ function setTutoTxtForAll(self)
 	gui.set_text(gui.get_node("numero_txt_next"), languages[config.game_language].numero_txt_next)
 	gui.set_text(gui.get_node("numero_txt_1"), languages[config.game_language].numero_txt_1)
 	gui.set_text(gui.get_node("numero_txt_2"), languages[config.game_language].numero_txt_2)
-	gui.set_text(gui.get_node("numero_txt_3"), languages[config.game_language].numero_txt_3)
-	gui.set_text(gui.get_node("numero_txt_4"), languages[config.game_language].numero_txt_4)
 
 	-- INDICATEUR GAUCHE
 	gui.set_text(gui.get_node("indicateur_gauche_txt_header"), languages[config.game_language].indicateur_gauche_txt_header)
 	gui.set_text(gui.get_node("indicateur_gauche_txt_next"), languages[config.game_language].indicateur_gauche_txt_next)
 	gui.set_text(gui.get_node("indicateur_gauche_txt_1"), languages[config.game_language].indicateur_gauche_txt_1)
-	gui.set_text(gui.get_node("indicateur_gauche_txt_2"), languages[config.game_language].indicateur_gauche_txt_2)
 	gui.set_text(gui.get_node("indicateur_gauche_txt_3"), languages[config.game_language].indicateur_gauche_txt_3)
-	gui.set_text(gui.get_node("indicateur_gauche_txt_4"), languages[config.game_language].indicateur_gauche_txt_4)
 
 	-- INDICATEUR DROIT
 	gui.set_text(gui.get_node("indicateur_droit_txt_header"), languages[config.game_language].indicateur_droit_txt_header)
 	gui.set_text(gui.get_node("indicateur_droit_txt_next"), languages[config.game_language].indicateur_droit_txt_next)
 	gui.set_text(gui.get_node("indicateur_droit_txt_1"), languages[config.game_language].indicateur_droit_txt_1)
-	gui.set_text(gui.get_node("indicateur_droit_txt_2"), languages[config.game_language].indicateur_droit_txt_2)
 	gui.set_text(gui.get_node("indicateur_droit_txt_3"), languages[config.game_language].indicateur_droit_txt_3)
-	gui.set_text(gui.get_node("indicateur_droit_txt_4"), languages[config.game_language].indicateur_droit_txt_4)
 
 	-- INDICATEUR DROIT
 	gui.set_text(gui.get_node("pieces_disponible_txt_header"), languages[config.game_language].pieces_disponible_txt_header)
 	gui.set_text(gui.get_node("pieces_disponible_txt_next"), languages[config.game_language].pieces_disponible_txt_next)
 	gui.set_text(gui.get_node("pieces_disponible_txt_1"), languages[config.game_language].pieces_disponible_txt_1)
-	gui.set_text(gui.get_node("pieces_disponible_txt_2"), languages[config.game_language].pieces_disponible_txt_2)
 	gui.set_text(gui.get_node("pieces_disponible_txt_3"), languages[config.game_language].pieces_disponible_txt_3)
-	gui.set_text(gui.get_node("pieces_disponible_txt_4"), languages[config.game_language].pieces_disponible_txt_4)
+
+	-- PLAY_SUDOKU
+	gui.set_text(gui.get_node("play_sudoku_header"), languages[config.game_language].play_sudoku_header)
+	gui.set_text(gui.get_node("play_sudoku_txt_next"), languages[config.game_language].play_sudoku_txt_next)
+	gui.set_text(gui.get_node("play_sudoku_txt_1"), languages[config.game_language].play_sudoku_txt_1)
+	gui.set_text(gui.get_node("play_sudoku_txt_2"), languages[config.game_language].play_sudoku_txt_2)
+	gui.set_text(gui.get_node("play_sudoku_txt_3"), languages[config.game_language].play_sudoku_txt_3)
+
+	-- CHALLENGE_LIFE
+	gui.set_text(gui.get_node("challenge_life_header"), languages[config.game_language].challenge_life_header)
+	gui.set_text(gui.get_node("challenge_life_txt_next"), languages[config.game_language].challenge_life_txt_next)
+	gui.set_text(gui.get_node("challenge_life_txt_1"), languages[config.game_language].challenge_life_txt_1)
+	gui.set_text(gui.get_node("challenge_life_txt_2"), languages[config.game_language].challenge_life_txt_2)
+	gui.set_text(gui.get_node("challenge_life_txt_4"), languages[config.game_language].challenge_life_txt_4)
+	gui.set_text(gui.get_node("challenge_life_txt_5"), languages[config.game_language].challenge_life_txt_5)
+	gui.set_text(gui.get_node("challenge_life_txt_6"), languages[config.game_language].challenge_life_txt_6)
+end
+
+function manageFingerUp(self)
+	currentLevel.platform.stopGame = false
+	gui.set_enabled(gui.get_node("slide_up"), true)
+	timer.delay(0.5, false, function() 
+		gui.animate(gui.get_node("slide_up"), gui.PROP_COLOR, vmath.vector4(1, 1, 1, 0), gui.EASING_INOUTQUAD, 2, 0.0, nil, gui.PLAYBACK_ONCE_FORWARD)
+		gui.animate(gui.get_node("slide_up"), gui.PROP_POSITION, vmath.vector3(500, 800, 0), gui.EASING_INOUTQUAD, 2, 0.0, slidUpOnce, gui.PLAYBACK_ONCE_FORWARD)
+	end)
 end
 
 function init(self)
@@ -559,9 +584,6 @@ function on_message(self, message_id, message, sender)
 		gui.set_enabled(gui.get_node("overlay_number_blocks"), true)
 		gui.set_enabled(gui.get_node("numero_pieces"), true)
 	end
-	-- Add message-handling code here
-	-- Learn more: https://defold.com/manuals/message-passing/
-	-- Remove this function if not needed
 end
 
 function on_input(self, action_id, action)
@@ -575,15 +597,22 @@ function on_input(self, action_id, action)
 			setColorFinger(self)
 			setPositionFinger(self)
 		end
+		if gui.pick_node(gui.get_node("challenge_life_next_button"), action.x, action.y) and gui.is_enabled(gui.get_node("challenge_life")) and not gui.is_enabled(gui.get_node("play_sudoku")) then
+			gui.set_enabled(gui.get_node("overlay_challenge_life"), false)
+			gui.set_enabled(gui.get_node("challenge_life"), false)
+			manageFingerUp(self)
+		end
+		if gui.pick_node(gui.get_node("play_sudoku_next_button"), action.x, action.y) and gui.is_enabled(gui.get_node("play_sudoku")) then
+			gui.set_enabled(gui.get_node("overlay_play_sudoku"), false)
+			gui.set_enabled(gui.get_node("play_sudoku"), false)
+			gui.set_enabled(gui.get_node("overlay_challenge_life"), true)
+			gui.set_enabled(gui.get_node("challenge_life"), true)
+		end
 		if gui.pick_node(gui.get_node("pieces_disponible_next_button"), action.x, action.y) and gui.is_enabled(gui.get_node("pieces_disponible")) then
 			gui.set_enabled(gui.get_node("overlay_available_blocks"), false)
 			gui.set_enabled(gui.get_node("pieces_disponible"), false)
-			currentLevel.platform.stopGame = false
-			gui.set_enabled(gui.get_node("slide_up"), true)
-			timer.delay(0.5, false, function() 
-				gui.animate(gui.get_node("slide_up"), gui.PROP_COLOR, vmath.vector4(1, 1, 1, 0), gui.EASING_INOUTQUAD, 2, 0.0, nil, gui.PLAYBACK_ONCE_FORWARD)
-				gui.animate(gui.get_node("slide_up"), gui.PROP_POSITION, vmath.vector3(500, 800, 0), gui.EASING_INOUTQUAD, 2, 0.0, slidUpOnce, gui.PLAYBACK_ONCE_FORWARD)
-			end)
+			gui.set_enabled(gui.get_node("overlay_play_sudoku"), true)
+			gui.set_enabled(gui.get_node("play_sudoku"), true)
 		end
 		if gui.pick_node(gui.get_node("indicateur_droit_next_button"), action.x, action.y) and gui.is_enabled(gui.get_node("indicateur_droit")) then
 			gui.set_enabled(gui.get_node("overlay_right_slid"), false)
@@ -603,16 +632,9 @@ function on_input(self, action_id, action)
 			gui.set_enabled(gui.get_node("overlay_left_slid"), true)
 			gui.set_enabled(gui.get_node("indicateur_gauche"), true)
 		end
+		
+		
 	end
-	-- Add input-handling code here. The game object this script is attached to
-	-- must have acquired input focus:
-	--
-	--    msg.post(".", "acquire_input_focus")
-	--
-	-- All mapped input bindings will be received. Mouse and touch input will
-	-- be received regardless of where on the screen it happened.
-	-- Learn more: https://defold.com/manuals/input/
-	-- Remove this function if not needed
 end
 
 function on_reload(self)
