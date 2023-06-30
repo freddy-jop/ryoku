@@ -137,7 +137,7 @@ function generateSupport(self)
 			msg.post(currentLevel.grid[m][i].urlBorderGroup, "enable")
 			local conformationGroup = loadConformationBonusGroup(self, currentLevel.grid[m][i])
 			if i == 11 and m == 8 then
-				print("===> conformationGroup ::: ", conformationGroup)
+				--print("===> conformationGroup ::: ", conformationGroup)
 			end
 			msg.post(currentLevel.grid[m][i].urlBorderGroup, "play_animation", {id = hash(conformationGroup)})
 			go.set(currentLevel.grid[m][i].urlBorderGroup, "tint", vmath.vector4(1, 1, 1, 0.2))

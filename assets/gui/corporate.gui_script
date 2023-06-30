@@ -24,7 +24,7 @@ function init(self)
 		end
 	else
 		self.appData.stopGame = false
-		if self.appData.game_language ~= sys.get_sys_info().language then
+		if self.appData.game_language ~= sys.get_sys_info().language and self.appData.game_language == "" then
 			if sys.get_sys_info().language then
 				self.appData.game_language = sys.get_sys_info().language
 			else

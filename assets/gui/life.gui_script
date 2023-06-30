@@ -26,6 +26,10 @@ function setParamsViFont(self)
 	gui.set_font(gui.get_node("header_life"), hash("VI_20"))
 	gui.set_font(gui.get_node("watch_video"), hash("VI_20"))
 	gui.set_font(gui.get_node("txt_recharge_life"), hash("VI_30_border"))
+
+	--HOME
+	gui.set_font(gui.get_node("txt_for_validation"), hash("VI_25"))
+	gui.set_font(gui.get_node("txt_home_consent"), hash("VI_30_border"))
 end
 
 function setParamsKrFont(self)
@@ -49,6 +53,10 @@ function setParamsKrFont(self)
 	gui.set_font(gui.get_node("header_life"), hash("KR_25"))
 	gui.set_font(gui.get_node("watch_video"), hash("KR_25"))
 	gui.set_font(gui.get_node("txt_recharge_life"), hash("KR_30_border"))
+
+	-- HOME
+	gui.set_font(gui.get_node("txt_for_validation"), hash("KR_25"))
+	gui.set_font(gui.get_node("txt_home_consent"), hash("KR_30_border"))
 end
 
 function setParamsJaFont(self)
@@ -72,6 +80,10 @@ function setParamsJaFont(self)
 	gui.set_font(gui.get_node("header_life"), hash("JA_20"))
 	gui.set_font(gui.get_node("watch_video"), hash("JA_20"))
 	gui.set_font(gui.get_node("txt_recharge_life"), hash("JA_25"))
+
+	-- HOME
+	gui.set_font(gui.get_node("txt_for_validation"), hash("JA_25"))
+	gui.set_font(gui.get_node("txt_home_consent"), hash("JA_30_border"))
 end
 
 function setParamsArbFont(self)
@@ -95,6 +107,10 @@ function setParamsArbFont(self)
 	gui.set_font(gui.get_node("header_life"), hash("ARB_25"))
 	gui.set_font(gui.get_node("watch_video"), hash("ARB_25"))
 	gui.set_font(gui.get_node("txt_recharge_life"), hash("ARB_35_border"))
+
+	-- HOME
+	gui.set_font(gui.get_node("txt_for_validation"), hash("ARB_25"))
+	gui.set_font(gui.get_node("txt_home_consent"), hash("ARB_35_border"))
 end
 
 function setParamsRuFont(self)
@@ -118,6 +134,10 @@ function setParamsRuFont(self)
 	gui.set_font(gui.get_node("header_life"), hash("RU_22"))
 	gui.set_font(gui.get_node("watch_video"), hash("RU_22"))
 	gui.set_font(gui.get_node("txt_recharge_life"), hash("RU_30_border"))
+
+	-- HOME
+	gui.set_font(gui.get_node("txt_for_validation"), hash("RU_22"))
+	gui.set_font(gui.get_node("txt_home_consent"), hash("RU_30_border"))
 end
 
 function setParamsLatineFont(self)
@@ -141,6 +161,10 @@ function setParamsLatineFont(self)
 	gui.set_font(gui.get_node("header_life"), hash("PoetsenOne25_border"))
 	gui.set_font(gui.get_node("watch_video"), hash("PoetsenOne22"))
 	gui.set_font(gui.get_node("txt_recharge_life"), hash("PoetsenOne40_border"))
+
+	-- HOME
+	gui.set_font(gui.get_node("txt_for_validation"), hash("PoetsenOne22"))
+	gui.set_font(gui.get_node("txt_home_consent"), hash("PoetsenOne40_border"))
 end
 
 function setParamsTxtForAll(self)
@@ -165,6 +189,10 @@ function setParamsTxtForAll(self)
 	gui.set_text(gui.get_node("header_life"), languages[lgConf.game_language].header_life)
 	gui.set_text(gui.get_node("watch_video"), languages[lgConf.game_language].watch_video)
 	gui.set_text(gui.get_node("txt_recharge_life"), languages[lgConf.game_language].txt_recharge_life)
+
+	-- HOME
+	gui.set_text(gui.get_node("txt_for_validation"),languages[lgConf.game_language].txt_for_validation)
+	gui.set_text(gui.get_node("txt_home_consent"), languages[lgConf.game_language].txt_home_consent)
 end
 
 function setParamsTxtArabic(self)
@@ -189,10 +217,15 @@ function setParamsTxtArabic(self)
 	gui.set_text(gui.get_node("header_life"), modifier.modifierToArab(languages[lgConfAr.game_language].header_life))
 	gui.set_text(gui.get_node("watch_video"), modifier.modifierToArab(languages[lgConfAr.game_language].watch_video))
 	gui.set_text(gui.get_node("txt_recharge_life"), modifier.modifierToArab(languages[lgConfAr.game_language].txt_recharge_life))
+
+	-- HOME
+	gui.set_text(gui.get_node("txt_for_validation"), modifier.modifierToArab(languages[lgConfAr.game_language].txt_for_validation))
+	gui.set_text(gui.get_node("txt_home_consent"), modifier.modifierToArab(languages[lgConfAr.game_language].txt_home_consent))
 end
 
 function manageLanguageOnLifeScene(self)
 	local manageConfig = sys.load(ryoku_path)
+	--pprint("==== manageConfig :: ", manageConfig)
 	if manageConfig.game_language == "ru" or manageConfig.game_language == "be" then
 		setParamsRuFont(self)
 	end
@@ -238,6 +271,16 @@ function manageAddLife(self)
 	togglePopupAddLife(self)
 end
 
+function manageGoHome(self)
+	self.toggleGoHome = true
+	if not self.displyReload then
+		self.ToggleDisplayOptions = false
+	else
+		currentLevel.platform.stopGame = true
+	end
+	togglePopupGoHome(self)
+end
+
 function toggleMusicOption(self)
 	local textureMusic = ""
 	local musicNode = gui.get_node("musique_icon")
@@ -273,6 +316,12 @@ function togglePopupAddLife(self)
 	toggleDisplayOption(self)
 end
 
+function togglePopupGoHome(self)
+	gui.set_enabled(gui.get_node("overlay_full"), self.toggleGoHome)
+	gui.set_enabled(gui.get_node("popup_go_home"), self.toggleGoHome)
+	toggleDisplayOption(self)
+end
+
 function toggleDisplayOption(self)
 	gui.set_enabled(gui.get_node("overlay"), self.ToggleDisplayOptions)
 	gui.set_enabled(gui.get_node("display_lost"), self.ToggleDisplayOptions)
@@ -295,19 +344,21 @@ function setIndexInLanguage(self)
 end
 
 function init(self)
+	local configInit = sys.load(ryoku_path)
 	self.lgList = {"fr","en","es","de","ru","pt","pl","nl","tr","it","ja","ko","vi","id","ar"}
 	msg.post(".", "acquire_input_focus")
-	gui.set_text(gui.get_node("score_life"), config.life)
+	gui.set_text(gui.get_node("score_life"), configInit.life)
 	gui.animate(gui.get_node("heart"), gui.PROP_SCALE, vmath.vector3(1.2), gui.EASING_OUTBOUNCE, 1, 0, nil, gui.PLAYBACK_ONCE_PINGPONG)
-	if config.pass_level == 0 then
+	if configInit.pass_level == 0 then
 		gui.set_enabled(gui.get_node("pass_level"), false)
 	end
-	if config.pass_level > 0 then
+	if configInit.pass_level > 0 then
 		gui.set_enabled(gui.get_node("pass_level"), true)
-		gui.set_text(gui.get_node("number_pass"), config.pass_level)
+		gui.set_text(gui.get_node("number_pass"), configInit.pass_level)
 	end
 	self.handlePassLevel = true
 	self.toggleAddLife = false
+	self.toggleGoHome = false
 	self.ToggleDisplayOptions = false
 	self.displyReload = false
 	self.displayParameter = false
@@ -435,8 +486,33 @@ function on_input(self, action_id, action)
 			if sys.save(ryoku_path, saveLg) then
 				manageLanguageOnLifeScene(self)
 			end
-			
 		end
+		if gui.pick_node(gui.get_node("home_icon"), action.x, action.y) and gui.is_enabled(gui.get_node("parameters")) and not gui.is_enabled(gui.get_node("popup_go_home")) and not gui.is_enabled(gui.get_node("popup_add_life")) and currentLevel.platform.stopGame then
+			manageGoHome(self)
+		end
+		if gui.pick_node(gui.get_node("close_home_validation"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_go_home")) and currentLevel.platform.stopGame then
+			self.toggleGoHome = false
+			if self.displyReload or self.displayParameter then
+				self.ToggleDisplayOptions = true
+			else
+				currentLevel.platform.stopGame = false
+			end
+			togglePopupGoHome(self)
+		end
+		if gui.pick_node(gui.get_node("home_validation"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_go_home")) and currentLevel.platform.stopGame then
+			self.toggleGoHome = false
+			if self.displyReload or self.displayParameter then
+				self.ToggleDisplayOptions = false
+				self.displayParameter = false
+			else
+				currentLevel.platform.stopGame = false
+			end
+			togglePopupGoHome(self)
+			timer.delay(0.2, false, function() 
+				msg.post("controller:/loader#controller", "changeScene", { newScene = "clickOnLevel" })
+			end)
+		end
+		
 	end
 end
 

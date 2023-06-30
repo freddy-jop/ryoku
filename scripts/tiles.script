@@ -404,7 +404,7 @@ function on_message(self, message_id, message, sender)
 			currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].sudokuRevealed) and 
 			currentLevel.refBlock[currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].blockNumber].isdisplaying then
 				local urlBlock = msg.url(nil, currentLevel.grid[message.tileObject.gdXY.y][message.tileObject.gdXY.x].instanceSquareId, "front")
-				print("=== ::: ", go.get_scale(urlBlock))
+				--print("=== ::: ", go.get_scale(urlBlock))
 				go.animate(urlBlock, "tint", go.PLAYBACK_ONCE_FORWARD, currentLevel.platform.initialColor, go.EASING_INSINE, 0.1, 0)
 			end
 			

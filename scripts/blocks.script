@@ -510,8 +510,8 @@ function setAllNumberColorRevealedGrid()
 end
 
 function setNumberColorByBlock(positionX, positionY)
-	print("==== positionX//2 :::: ", positionX)
-	print("==== positionY//2 :::: ", positionY)
+	--print("==== positionX//2 :::: ", positionX)
+	--print("==== positionY//2 :::: ", positionY)
 	for o = 1, #currentLevel.blocks do
 		for b = 1, #currentLevel.blocks[o] do
 			if currentLevel.grid[currentLevel.blocks[o][b].result.tileY + 1][currentLevel.blocks[o][b].result.tileX + 1].isGood and 
@@ -609,7 +609,7 @@ function manageMatchHover(self)
 								currentLevel.blocks[currentLevel.platform.numberBlock][k].positionOnGridX = currentLevel.grid[t][g].positionX
 								currentLevel.blocks[currentLevel.platform.numberBlock][k].positionOnGridY = currentLevel.grid[t][g].positionY
 								if currentLevel.blocks[currentLevel.platform.numberBlock][k].numberRevealed then
-									print("==== blockId :::: ", currentLevel.blocks[currentLevel.platform.numberBlock][k].blockId)
+									--print("==== blockId :::: ", currentLevel.blocks[currentLevel.platform.numberBlock][k].blockId)
 									if isGoodPlanned(self) then
 										setAllNumberColorRevealedGrid()
 										--setNumberColorByBlock(currentLevel.blocks[currentLevel.platform.numberBlock][k].positionOnGridX, currentLevel.blocks[currentLevel.platform.numberBlock][k].positionOnGridY)
@@ -660,7 +660,7 @@ function manageMatchHover(self)
 								if currentLevel.blocks[currentLevel.platform.numberBlock][i].numberRevealed then
 									if isGoodPlanned(self) then
 										
-										print("==== blockId//2 :::: ", currentLevel.blocks[currentLevel.platform.numberBlock][i].blockId)
+										--print("==== blockId//2 :::: ", currentLevel.blocks[currentLevel.platform.numberBlock][i].blockId)
 										setNumberColorByBlock(currentLevel.blocks[currentLevel.platform.numberBlock][i].positionOnGridX, currentLevel.blocks[currentLevel.platform.numberBlock][i].positionOnGridY)
 									end
 								end
