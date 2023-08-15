@@ -27,7 +27,13 @@ local data = {
 	scrollHorizontale = true,
 	scrollVerticale = false,
 	pendingTuto = true,
-	pass_level = 1
+	pass_level = 1,
+	gainMusic = 0.65,
+	gainSelection = 0.8,
+	gainAction = 1,
+	step_transition = 3,
+	current_transition = 0,
+	is_interstitial_transition = false
 }
 
 return data

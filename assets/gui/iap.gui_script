@@ -1,0 +1,136 @@
+local ryoku_path = sys.get_save_file("ryoku", "data_level")
+local config = sys.load(ryoku_path)
+
+local TARGET_COINS = "com.unitedsquaresgames.ryoku.target"
+local ZONE_COINS = "com.unitedsquaresgames.ryoku.zone"
+local GROUP_COINS = "com.unitedsquaresgames.ryoku.group"
+local DOKU_COINS = "com.unitedsquaresgames.ryoku.doku"
+local ADS_REMOVE = "com.unitedsquaresgames.ryoku.ads_ryoku"
+local PASS_LEVEL = "com.unitedsquaresgames.ryoku.pass_level"
+
+local function iap_listener(self, transaction, error)
+	if error == nil then
+		if transaction.state == iap.TRANS_STATE_PURCHASING then
+			print("Purchasing...")
+		elseif transaction.state == iap.TRANS_STATE_PURCHASED then
+			print("Purchased!")
+			if self.iap_category_name == "target_bonus_buy" then
+				self.iap_category_name = ""
+				iap.finish(transaction)
+				msg.post("/popup#popup", "increment_target_by_iap_buy")
+			end
+			if self.iap_category_name == "zone_bonus_buy" then
+				self.iap_category_name = ""
+				iap.finish(transaction)
+				msg.post("/popup#popup", "increment_zone_by_iap_buy")
+			end
+			if self.iap_category_name == "group_bonus_buy" then
+				self.iap_category_name = ""
+				iap.finish(transaction)
+				msg.post("/popup#popup", "increment_group_by_iap_buy")
+			end
+			if self.iap_category_name == "doku_bonus_buy" then
+				self.iap_category_name = ""
+				iap.finish(transaction)
+				msg.post("/popup#popup", "increment_sudoku_by_iap_buy")
+			end
+			if self.iap_category_name == "ads_remove_buy" then
+				self.iap_category_name = ""
+				iap.finish(transaction)
+				msg.post("/popup#popup", "remove_ads_by_iap_buy")
+			end
+			if self.iap_category_name == "pass_level_buy" then
+				self.iap_category_name = ""
+				iap.finish(transaction)
+				msg.post("/life#life", "manage_forward_level")
+			end
+		elseif transaction.state == iap.TRANS_STATE_UNVERIFIED then
+			print("Unverified!")
+		elseif transaction.state == iap.TRANS_STATE_FAILED then
+			print("Failed!")
+		elseif transaction.state == iap.TRANS_STATE_RESTORED then
+			print("Restored")
+		end
+	else
+		print(error.error)
+	end
+end
+
+function init(self)
+	-- Add initialization code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+	if not iap then
+		log("In-App Purchases not supported")
+		return
+	end
+	msg.post(".", "acquire_input_focus")
+	self.iap_category_name = ""
+	iap.list({TARGET_COINS,ZONE_COINS,GROUP_COINS,DOKU_COINS,ADS_REMOVE,PASS_LEVEL}, function(self, products, error)
+		if error == nil then
+			for i,p in pairs(products) do
+				pprint("==== product :::: ", p)
+			end
+		else
+			print(error.error)
+		end
+	end)
+	iap.set_listener(iap_listener)
+end
+
+function final(self)
+	-- Add finalization code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function update(self, dt)
+	-- Add update code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("iap_buy_target_bonus") then
+		self.iap_category_name = "target_bonus_buy"
+		iap.buy(TARGET_COINS)
+	end
+	if message_id == hash("iap_buy_zone_bonus") then
+		self.iap_category_name = "zone_bonus_buy"
+		iap.buy(ZONE_COINS)
+	end
+	if message_id == hash("iap_buy_group_bonus") then
+		self.iap_category_name = "group_bonus_buy"
+		iap.buy(GROUP_COINS)
+	end
+	if message_id == hash("iap_buy_doku_bonus") then
+		self.iap_category_name = "doku_bonus_buy"
+		iap.buy(DOKU_COINS)
+	end
+	if message_id == hash("iap_buy_ads_remove") then
+		self.iap_category_name = "ads_remove_buy"
+		iap.buy(ADS_REMOVE)
+	end
+	if message_id == hash("iap_buy_pass_level") then
+		self.iap_category_name = "pass_level_buy"
+		iap.buy(PASS_LEVEL)
+	end
+end
+
+function on_input(self, action_id, action)
+	-- Add input-handling code here. The game object this script is attached to
+	-- must have acquired input focus:
+	--
+	--    msg.post(".", "acquire_input_focus")
+	--
+	-- All mapped input bindings will be received. Mouse and touch input will
+	-- be received regardless of where on the screen it happened.
+	-- Learn more: https://defold.com/manuals/input/
+	-- Remove this function if not needed
+end
+
+function on_reload(self)
+	-- Add reload-handling code here
+	-- Learn more: https://defold.com/manuals/hot-reload/
+	-- Remove this function if not needed
+end

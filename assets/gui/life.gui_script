@@ -12,9 +12,8 @@ function setParamsViFont(self)
 	-- NETWORK
 	gui.set_font(gui.get_node("suivez_nous"), hash("VI_20"))
 	gui.set_font(gui.get_node("evaluez_nous"), hash("VI_20"))
-	gui.set_font(gui.get_node("soutenez_nous"), hash("VI_20"))
+	gui.set_font(gui.get_node("progress_txt"), hash("VI_20"))
 	gui.set_font(gui.get_node("no_ads"), hash("VI_20"))
-	gui.set_font(gui.get_node("confidentalite"), hash("VI_20"))
 	gui.set_font(gui.get_node("jump_level"), hash("VI_20"))
 
 	-- PARAMETERS
@@ -30,6 +29,23 @@ function setParamsViFont(self)
 	--HOME
 	gui.set_font(gui.get_node("txt_for_validation"), hash("VI_25"))
 	gui.set_font(gui.get_node("txt_home_consent"), hash("VI_30_border"))
+
+	--RESET PROGRESSION
+	gui.set_font(gui.get_node("header_progress"), hash("VI_20"))
+	gui.set_font(gui.get_node("progress_txt_1"), hash("VI_20"))
+	gui.set_font(gui.get_node("progress_txt_2"), hash("VI_20"))
+	gui.set_font(gui.get_node("txt_reset_confirmation"), hash("VI_30_border"))
+
+	--REMOVE ADS
+	gui.set_font(gui.get_node("header_remove_ads"), hash("VI_20"))
+	gui.set_font(gui.get_node("remove_ads_txt_1"), hash("VI_20"))
+	gui.set_font(gui.get_node("remove_ads_txt_2"), hash("VI_20"))
+	gui.set_font(gui.get_node("txt_remove_ads_confirmation"), hash("VI_30_border"))
+
+	--ERROR ADS
+	gui.set_font(gui.get_node("header_error_ads"), hash("VI_20"))
+	gui.set_font(gui.get_node("txt_error_ads"), hash("VI_20"))
+	gui.set_font(gui.get_node("txt_error_ads_validation"), hash("VI_30_border"))
 end
 
 function setParamsKrFont(self)
@@ -39,9 +55,8 @@ function setParamsKrFont(self)
 	-- NETWORK
 	gui.set_font(gui.get_node("suivez_nous"), hash("KR_25"))
 	gui.set_font(gui.get_node("evaluez_nous"), hash("KR_25"))
-	gui.set_font(gui.get_node("soutenez_nous"), hash("KR_25"))
+	gui.set_font(gui.get_node("progress_txt"), hash("KR_25"))
 	gui.set_font(gui.get_node("no_ads"), hash("KR_25"))
-	gui.set_font(gui.get_node("confidentalite"), hash("KR_25"))
 	gui.set_font(gui.get_node("jump_level"), hash("KR_25"))
 
 	-- PARAMETERS
@@ -57,6 +72,23 @@ function setParamsKrFont(self)
 	-- HOME
 	gui.set_font(gui.get_node("txt_for_validation"), hash("KR_25"))
 	gui.set_font(gui.get_node("txt_home_consent"), hash("KR_30_border"))
+
+	--RESET PROGRESSION
+	gui.set_font(gui.get_node("header_progress"), hash("KR_25"))
+	gui.set_font(gui.get_node("progress_txt_1"), hash("KR_25"))
+	gui.set_font(gui.get_node("progress_txt_2"), hash("KR_25"))
+	gui.set_font(gui.get_node("txt_reset_confirmation"), hash("KR_30_border"))
+
+	--REMOVE ADS
+	gui.set_font(gui.get_node("header_remove_ads"), hash("KR_25"))
+	gui.set_font(gui.get_node("remove_ads_txt_1"), hash("KR_25"))
+	gui.set_font(gui.get_node("remove_ads_txt_2"), hash("KR_25"))
+	gui.set_font(gui.get_node("txt_remove_ads_confirmation"), hash("KR_30_border"))
+
+	--ERROR ADS
+	gui.set_font(gui.get_node("header_error_ads"), hash("KR_25"))
+	gui.set_font(gui.get_node("txt_error_ads"), hash("KR_25"))
+	gui.set_font(gui.get_node("txt_error_ads_validation"), hash("KR_30_border"))
 end
 
 function setParamsJaFont(self)
@@ -66,9 +98,8 @@ function setParamsJaFont(self)
 	-- NETWORK
 	gui.set_font(gui.get_node("suivez_nous"), hash("JA_20"))
 	gui.set_font(gui.get_node("evaluez_nous"), hash("JA_20"))
-	gui.set_font(gui.get_node("soutenez_nous"), hash("JA_20"))
+	gui.set_font(gui.get_node("progress_txt"), hash("JA_20"))
 	gui.set_font(gui.get_node("no_ads"), hash("JA_20"))
-	gui.set_font(gui.get_node("confidentalite"), hash("JA_20"))
 	gui.set_font(gui.get_node("jump_level"), hash("JA_20"))
 
 	-- PARAMETERS
@@ -84,6 +115,23 @@ function setParamsJaFont(self)
 	-- HOME
 	gui.set_font(gui.get_node("txt_for_validation"), hash("JA_25"))
 	gui.set_font(gui.get_node("txt_home_consent"), hash("JA_30_border"))
+
+	--RESET PROGRESSION
+	gui.set_font(gui.get_node("header_progress"), hash("JA_20"))
+	gui.set_font(gui.get_node("progress_txt_1"), hash("JA_20"))
+	gui.set_font(gui.get_node("progress_txt_2"), hash("JA_20"))
+	gui.set_font(gui.get_node("txt_reset_confirmation"), hash("JA_25"))
+
+	--REMOVE ADS
+	gui.set_font(gui.get_node("header_remove_ads"), hash("JA_20"))
+	gui.set_font(gui.get_node("remove_ads_txt_1"), hash("JA_20"))
+	gui.set_font(gui.get_node("remove_ads_txt_2"), hash("JA_20"))
+	gui.set_font(gui.get_node("txt_remove_ads_confirmation"), hash("JA_25"))
+
+	--ERROR ADS
+	gui.set_font(gui.get_node("header_error_ads"), hash("JA_20"))
+	gui.set_font(gui.get_node("txt_error_ads"), hash("JA_20"))
+	gui.set_font(gui.get_node("txt_error_ads_validation"), hash("JA_25"))
 end
 
 function setParamsArbFont(self)
@@ -93,9 +141,8 @@ function setParamsArbFont(self)
 	-- NETWORK
 	gui.set_font(gui.get_node("suivez_nous"), hash("ARB_25"))
 	gui.set_font(gui.get_node("evaluez_nous"), hash("ARB_25"))
-	gui.set_font(gui.get_node("soutenez_nous"), hash("ARB_25"))
+	gui.set_font(gui.get_node("progress_txt"), hash("ARB_25"))
 	gui.set_font(gui.get_node("no_ads"), hash("ARB_25"))
-	gui.set_font(gui.get_node("confidentalite"), hash("ARB_25"))
 	gui.set_font(gui.get_node("jump_level"), hash("ARB_25"))
 
 	-- PARAMETERS
@@ -111,6 +158,23 @@ function setParamsArbFont(self)
 	-- HOME
 	gui.set_font(gui.get_node("txt_for_validation"), hash("ARB_25"))
 	gui.set_font(gui.get_node("txt_home_consent"), hash("ARB_35_border"))
+
+	--RESET PROGRESSION
+	gui.set_font(gui.get_node("header_progress"), hash("ARB_25"))
+	gui.set_font(gui.get_node("progress_txt_1"), hash("ARB_25"))
+	gui.set_font(gui.get_node("progress_txt_2"), hash("ARB_25"))
+	gui.set_font(gui.get_node("txt_reset_confirmation"), hash("ARB_35_border"))
+
+	--REMOVE ADS
+	gui.set_font(gui.get_node("header_remove_ads"), hash("ARB_25"))
+	gui.set_font(gui.get_node("remove_ads_txt_1"), hash("ARB_25"))
+	gui.set_font(gui.get_node("remove_ads_txt_2"), hash("ARB_25"))
+	gui.set_font(gui.get_node("txt_remove_ads_confirmation"), hash("ARB_35_border"))
+
+	--ERROR ADS
+	gui.set_font(gui.get_node("header_error_ads"), hash("ARB_25"))
+	gui.set_font(gui.get_node("txt_error_ads"), hash("ARB_25"))
+	gui.set_font(gui.get_node("txt_error_ads_validation"), hash("ARB_35_border"))
 end
 
 function setParamsRuFont(self)
@@ -120,9 +184,8 @@ function setParamsRuFont(self)
 	-- NETWORK
 	gui.set_font(gui.get_node("suivez_nous"), hash("RU_20"))
 	gui.set_font(gui.get_node("evaluez_nous"), hash("RU_20"))
-	gui.set_font(gui.get_node("soutenez_nous"), hash("RU_20"))
+	gui.set_font(gui.get_node("progress_txt"), hash("RU_20"))
 	gui.set_font(gui.get_node("no_ads"), hash("RU_20"))
-	gui.set_font(gui.get_node("confidentalite"), hash("RU_20"))
 	gui.set_font(gui.get_node("jump_level"), hash("RU_20"))
 
 	-- PARAMETERS
@@ -138,6 +201,23 @@ function setParamsRuFont(self)
 	-- HOME
 	gui.set_font(gui.get_node("txt_for_validation"), hash("RU_22"))
 	gui.set_font(gui.get_node("txt_home_consent"), hash("RU_30_border"))
+	
+	--RESET PROGRESSION
+	gui.set_font(gui.get_node("header_progress"), hash("RU_22"))
+	gui.set_font(gui.get_node("progress_txt_1"), hash("RU_22"))
+	gui.set_font(gui.get_node("progress_txt_2"), hash("RU_22"))
+	gui.set_font(gui.get_node("txt_reset_confirmation"), hash("RU_30_border"))
+
+	--REMOVE ADS
+	gui.set_font(gui.get_node("header_remove_ads"), hash("RU_22"))
+	gui.set_font(gui.get_node("remove_ads_txt_1"), hash("RU_22"))
+	gui.set_font(gui.get_node("remove_ads_txt_2"), hash("RU_22"))
+	gui.set_font(gui.get_node("txt_remove_ads_confirmation"), hash("RU_30_border"))
+
+	--ERROR ADS
+	gui.set_font(gui.get_node("header_error_ads"), hash("RU_22"))
+	gui.set_font(gui.get_node("txt_error_ads"), hash("RU_22"))
+	gui.set_font(gui.get_node("txt_error_ads_validation"), hash("RU_30_border"))
 end
 
 function setParamsLatineFont(self)
@@ -147,9 +227,8 @@ function setParamsLatineFont(self)
 	-- NETWORK
 	gui.set_font(gui.get_node("suivez_nous"), hash("PoetsenOne20"))
 	gui.set_font(gui.get_node("evaluez_nous"), hash("PoetsenOne20"))
-	gui.set_font(gui.get_node("soutenez_nous"), hash("PoetsenOne20"))
+	gui.set_font(gui.get_node("progress_txt"), hash("PoetsenOne20"))
 	gui.set_font(gui.get_node("no_ads"), hash("PoetsenOne20"))
-	gui.set_font(gui.get_node("confidentalite"), hash("PoetsenOne20"))
 	gui.set_font(gui.get_node("jump_level"), hash("PoetsenOne20"))
 
 	-- PARAMETERS
@@ -165,6 +244,23 @@ function setParamsLatineFont(self)
 	-- HOME
 	gui.set_font(gui.get_node("txt_for_validation"), hash("PoetsenOne22"))
 	gui.set_font(gui.get_node("txt_home_consent"), hash("PoetsenOne40_border"))
+
+	--RESET PROGRESSION
+	gui.set_font(gui.get_node("header_progress"), hash("PoetsenOne25_border"))
+	gui.set_font(gui.get_node("progress_txt_1"), hash("PoetsenOne22"))
+	gui.set_font(gui.get_node("progress_txt_2"), hash("PoetsenOne22"))
+	gui.set_font(gui.get_node("txt_reset_confirmation"), hash("PoetsenOne40_border"))
+
+	--REMOVE ADS
+	gui.set_font(gui.get_node("header_remove_ads"), hash("PoetsenOne25_border"))
+	gui.set_font(gui.get_node("remove_ads_txt_1"), hash("PoetsenOne22"))
+	gui.set_font(gui.get_node("remove_ads_txt_2"), hash("PoetsenOne22"))
+	gui.set_font(gui.get_node("txt_remove_ads_confirmation"), hash("PoetsenOne40_border"))
+
+	--ERROR ADS
+	gui.set_font(gui.get_node("header_error_ads"), hash("PoetsenOne25_border"))
+	gui.set_font(gui.get_node("txt_error_ads"), hash("PoetsenOne22"))
+	gui.set_font(gui.get_node("txt_error_ads_validation"), hash("PoetsenOne40_border"))
 end
 
 function setParamsTxtForAll(self)
@@ -175,9 +271,8 @@ function setParamsTxtForAll(self)
 	-- NETWORK
 	gui.set_text(gui.get_node("suivez_nous"), languages[lgConf.game_language].followus)
 	gui.set_text(gui.get_node("evaluez_nous"), languages[lgConf.game_language].evaluateus)
-	gui.set_text(gui.get_node("soutenez_nous"), languages[lgConf.game_language].help_us)
+	gui.set_text(gui.get_node("progress_txt"), languages[lgConf.game_language].progression)
 	gui.set_text(gui.get_node("no_ads"), languages[lgConf.game_language].no_ads)
-	gui.set_text(gui.get_node("confidentalite"), languages[lgConf.game_language].confidencial)
 	gui.set_text(gui.get_node("jump_level"), languages[lgConf.game_language].jump_level)
 
 	-- PARAMETERS
@@ -193,6 +288,23 @@ function setParamsTxtForAll(self)
 	-- HOME
 	gui.set_text(gui.get_node("txt_for_validation"),languages[lgConf.game_language].txt_for_validation)
 	gui.set_text(gui.get_node("txt_home_consent"), languages[lgConf.game_language].txt_home_consent)
+
+	--RESET PROGRESSION
+	gui.set_text(gui.get_node("header_progress"), languages[lgConf.game_language].reset_progression_title)
+	gui.set_text(gui.get_node("progress_txt_1"), languages[lgConf.game_language].reset_progression_txt_1)
+	gui.set_text(gui.get_node("progress_txt_2"), languages[lgConf.game_language].reset_progression_txt_2)
+	gui.set_text(gui.get_node("txt_reset_confirmation"), languages[lgConf.game_language].reset_progression_button)
+
+	--REMOVE ADS
+	gui.set_text(gui.get_node("header_remove_ads"), languages[lgConf.game_language].remove_ads_title)
+	gui.set_text(gui.get_node("remove_ads_txt_1"), languages[lgConf.game_language].remove_ads_txt_1)
+	gui.set_text(gui.get_node("remove_ads_txt_2"), languages[lgConf.game_language].remove_ads_txt_2)
+	gui.set_text(gui.get_node("txt_remove_ads_confirmation"), languages[lgConf.game_language].remove_ads_button)
+
+	--ERROR ADS
+	gui.set_text(gui.get_node("header_error_ads"), languages[lgConf.game_language].title_error_ads)
+	gui.set_text(gui.get_node("txt_error_ads"), languages[lgConf.game_language].txt_error_ads)
+	gui.set_text(gui.get_node("txt_error_ads_validation"), languages[lgConf.game_language].validation_error_ads)
 end
 
 function setParamsTxtArabic(self)
@@ -203,9 +315,8 @@ function setParamsTxtArabic(self)
 	-- NETWORK
 	gui.set_text(gui.get_node("suivez_nous"), modifier.modifierToArab(languages[lgConfAr.game_language].followus))
 	gui.set_text(gui.get_node("evaluez_nous"), modifier.modifierToArab(languages[lgConfAr.game_language].evaluateus))
-	gui.set_text(gui.get_node("soutenez_nous"), modifier.modifierToArab(languages[lgConfAr.game_language].help_us))
+	gui.set_text(gui.get_node("progress_txt"), modifier.modifierToArab(languages[lgConfAr.game_language].progression))
 	gui.set_text(gui.get_node("no_ads"), modifier.modifierToArab(languages[lgConfAr.game_language].no_ads))
-	gui.set_text(gui.get_node("confidentalite"), modifier.modifierToArab(languages[lgConfAr.game_language].confidencial))
 	gui.set_text(gui.get_node("jump_level"), modifier.modifierToArab(languages[lgConfAr.game_language].jump_level))
 
 	-- PARAMETERS
@@ -221,6 +332,23 @@ function setParamsTxtArabic(self)
 	-- HOME
 	gui.set_text(gui.get_node("txt_for_validation"), modifier.modifierToArab(languages[lgConfAr.game_language].txt_for_validation))
 	gui.set_text(gui.get_node("txt_home_consent"), modifier.modifierToArab(languages[lgConfAr.game_language].txt_home_consent))
+
+	--RESET PROGRESSION
+	gui.set_text(gui.get_node("header_progress"), modifier.modifierToArab(languages[lgConfAr.game_language].reset_progression_title))
+	gui.set_text(gui.get_node("progress_txt_1"), modifier.modifierToArab(languages[lgConfAr.game_language].reset_progression_txt_1))
+	gui.set_text(gui.get_node("progress_txt_2"), modifier.modifierToArab(languages[lgConfAr.game_language].reset_progression_txt_2))
+	gui.set_text(gui.get_node("txt_reset_confirmation"), modifier.modifierToArab(languages[lgConfAr.game_language].reset_progression_button))
+
+	--REMOVE ADS
+	gui.set_text(gui.get_node("header_remove_ads"), modifier.modifierToArab(languages[lgConfAr.game_language].remove_ads_title))
+	gui.set_text(gui.get_node("remove_ads_txt_1"), modifier.modifierToArab(languages[lgConfAr.game_language].remove_ads_txt_1))
+	gui.set_text(gui.get_node("remove_ads_txt_2"), modifier.modifierToArab(languages[lgConfAr.game_language].remove_ads_txt_2))
+	gui.set_text(gui.get_node("txt_remove_ads_confirmation"), modifier.modifierToArab(languages[lgConfAr.game_language].remove_ads_button))
+
+	--ERROR ADS
+	gui.set_text(gui.get_node("header_error_ads"), modifier.modifierToArab(languages[lgConfAr.game_language].title_error_ads))
+	gui.set_text(gui.get_node("txt_error_ads"), modifier.modifierToArab(languages[lgConfAr.game_language].txt_error_ads))
+	gui.set_text(gui.get_node("txt_error_ads_validation"), modifier.modifierToArab(languages[lgConfAr.game_language].validation_error_ads))
 end
 
 function manageLanguageOnLifeScene(self)
@@ -263,7 +391,7 @@ end
 
 function manageAddLife(self)
 	self.toggleAddLife = true
-	if self.displyReload then
+	if self.ToggleDisplayOptions or self.displayParameter then
 		self.ToggleDisplayOptions = false
 	else
 		currentLevel.platform.stopGame = true
@@ -273,12 +401,63 @@ end
 
 function manageGoHome(self)
 	self.toggleGoHome = true
-	if not self.displyReload then
+	if self.ToggleDisplayOptions or self.displayParameter then
+		self.ToggleDisplayOptions = false
+	end
+	togglePopupGoHome(self)
+end
+
+function manageGoRemoveAds(self)
+	self.toggleGoRemoveAds = true
+	if self.ToggleDisplayOptions or self.displayParameter then
+		self.ToggleDisplayOptions = false
+	end
+	togglePopupGoRemoveAds(self)
+end
+
+function manageErrorAds(self)
+	self.toggleGoErrorAds = true
+	if self.ToggleDisplayOptions or self.displayParameter then
 		self.ToggleDisplayOptions = false
 	else
 		currentLevel.platform.stopGame = true
 	end
-	togglePopupGoHome(self)
+	togglePopupGoErrorAds(self)
+end
+
+function manageGoResetProgression(self)
+	self.toggleGoResetProgression = true
+	if self.ToggleDisplayOptions or self.displayParameter then
+		self.ToggleDisplayOptions = false
+	end
+	togglePopupGoResetProgression(self)
+end
+
+function closeResetProgression(self)
+	self.toggleGoResetProgression = false
+	if self.displyReload or self.displayParameter then
+		self.ToggleDisplayOptions = true
+	end
+	togglePopupGoResetProgression(self)
+end
+
+function updateProgressionAndClose(self)
+	local resetDataProgression = sys.load(ryoku_path)
+	resetDataProgression.level = 1
+	resetDataProgression.life = 3
+	resetDataProgression.stopGame = false
+	resetDataProgression.sound = true
+	resetDataProgression.music = true
+	resetDataProgression.handleLevelInfo = 1
+	resetDataProgression.pendingTuto = true
+	resetDataProgression.scrollHorizontale = true
+	resetDataProgression.scrollVerticale = false
+	if sys.save(ryoku_path, resetDataProgression) then
+		closeResetProgression(self)
+		timer.delay(0.2, false, function() 
+			msg.post("controller:/loader#controller", "changeScene", { newScene = "clickOnLevel" })
+		end)
+	end
 end
 
 function toggleMusicOption(self)
@@ -291,8 +470,18 @@ function toggleMusicOption(self)
 		self.musicOn = true
 		textureMusic = hash("front_music_on")
 	end
-	gui.set_texture(musicNode, hash("parameter"))
-	gui.play_flipbook(musicNode, textureMusic)
+	local saveMusic = sys.load(ryoku_path)
+	saveMusic.music = self.musicOn
+	if self.musicOn then
+		sound.play("/sound#background_music", {delay = 0, gain = saveMusic.gainMusic})
+	end
+	if not self.musicOn then
+		sound.stop("/sound#background_music")
+	end
+	if sys.save(ryoku_path, saveMusic) then
+		gui.set_texture(musicNode, hash("parameter"))
+		gui.play_flipbook(musicNode, textureMusic)
+	end
 end
 
 function toggleSoundOption(self)
@@ -305,9 +494,12 @@ function toggleSoundOption(self)
 		self.soundOn = true
 		textureSound = hash("front_sound_on")
 	end
-	
-	gui.set_texture(soundNode, hash("parameter"))
-	gui.play_flipbook(soundNode, textureSound)
+	local saveSound = sys.load(ryoku_path)
+	saveSound.sound = self.soundOn
+	if sys.save(ryoku_path, saveSound) then
+		gui.set_texture(soundNode, hash("parameter"))
+		gui.play_flipbook(soundNode, textureSound)
+	end
 end
 
 function togglePopupAddLife(self)
@@ -319,6 +511,24 @@ end
 function togglePopupGoHome(self)
 	gui.set_enabled(gui.get_node("overlay_full"), self.toggleGoHome)
 	gui.set_enabled(gui.get_node("popup_go_home"), self.toggleGoHome)
+	toggleDisplayOption(self)
+end
+
+function togglePopupGoRemoveAds(self)
+	gui.set_enabled(gui.get_node("overlay_full"), self.toggleGoRemoveAds)
+	gui.set_enabled(gui.get_node("popup_remove_ads"), self.toggleGoRemoveAds)
+	toggleDisplayOption(self)
+end
+
+function togglePopupGoErrorAds(self)
+	gui.set_enabled(gui.get_node("overlay_full"), self.toggleGoErrorAds)
+	gui.set_enabled(gui.get_node("popup_error_ads"), self.toggleGoErrorAds)
+	toggleDisplayOption(self)
+end
+
+function togglePopupGoResetProgression(self)
+	gui.set_enabled(gui.get_node("overlay_full"), self.toggleGoResetProgression)
+	gui.set_enabled(gui.get_node("popup_reset_progress"), self.toggleGoResetProgression)
 	toggleDisplayOption(self)
 end
 
@@ -343,6 +553,20 @@ function setIndexInLanguage(self)
 	end
 end
 
+function paramatersSound(self)
+	local soundIsActive = sys.load(ryoku_path)
+	if soundIsActive.sound then
+		sound.play("/sound#validation_button", {delay = 0, gain = soundIsActive.gainSelection})
+	end
+end
+
+function receiveLifeSound(self)
+	local soundLifeIsActive = sys.load(ryoku_path)
+	if soundLifeIsActive.sound then
+		sound.play("/sound#receive_bonus", {delay = 0, gain = soundLifeIsActive.gainAction})
+	end
+end
+
 function init(self)
 	local configInit = sys.load(ryoku_path)
 	self.lgList = {"fr","en","es","de","ru","pt","pl","nl","tr","it","ja","ko","vi","id","ar"}
@@ -356,7 +580,10 @@ function init(self)
 		gui.set_enabled(gui.get_node("pass_level"), true)
 		gui.set_text(gui.get_node("number_pass"), configInit.pass_level)
 	end
-	self.handlePassLevel = true
+	if configInit.is_interstitial_transition then
+		gui.set_enabled(gui.get_node("no_pubs"), false)
+	end
+	self.handleForwardLevel = true
 	self.toggleAddLife = false
 	self.toggleGoHome = false
 	self.ToggleDisplayOptions = false
@@ -366,6 +593,9 @@ function init(self)
 	self.soundOn = true
 	manageLanguageOnLifeScene(self)
 	self.lgIndex = setIndexInLanguage(self)
+	self.toggleGoRemoveAds = false
+	self.toggleGoResetProgression = false
+	self.toggleGoErrorAds = false
 end
 
 function final(self)
@@ -381,6 +611,30 @@ function update(self, dt)
 end
 
 function on_message(self, message_id, message, sender)
+	if message_id == hash("increment_and_toggle_life_by_ads") then
+		msg.post("/life#life", "increment_life", { value = 3 })
+		receiveLifeSound(self)
+		self.toggleAddLife = false
+		if self.displyReload or self.displayParameter then
+			self.ToggleDisplayOptions = true
+		else
+			currentLevel.platform.stopGame = false
+		end
+		togglePopupAddLife(self)
+	end
+	if message_id == hash("remove_ads_by_iap_buy") then
+		receiveLifeSound(self)
+		local iapAdsRemove = sys.load(ryoku_path)
+		iapAdsRemove.is_interstitial_transition = true
+		if sys.save(ryoku_path, iapAdsRemove) then
+			gui.set_enabled(gui.get_node("no_pubs"), false)
+			self.toggleGoRemoveAds = false
+			if self.displyReload or self.displayParameter then
+				self.ToggleDisplayOptions = true
+			end
+			togglePopupGoRemoveAds(self)
+		end
+	end
 	if message_id == hash("increment_life") then
 		local saveLife = sys.load(ryoku_path)
 		saveLife.life = saveLife.life + message.value
@@ -408,11 +662,23 @@ function on_message(self, message_id, message, sender)
 	if message_id == hash("manage_getting_life") then
 		manageAddLife(self)
 	end
+	if message_id == hash("manage_forward_level") then
+		local updatedPassLevel = sys.load(ryoku_path)
+		updatedPassLevel.pass_level = updatedPassLevel.pass_level + 1
+		if updatedPassLevel.pass_level > 0 then
+			gui.set_enabled(gui.get_node("pass_level"), true)
+			gui.set_text(gui.get_node("number_pass"), updatedPassLevel.pass_level)
+		end
+		if sys.save(ryoku_path, updatedPassLevel) then
+			self.handleForwardLevel = true
+		end
+	end
 end
 
 function on_input(self, action_id, action)
 	if  action_id == hash("touch") and action.pressed then
 		if gui.pick_node(gui.get_node("reload"), action.x, action.y) and gui.is_enabled(gui.get_node("display_lost")) and gui.is_enabled(gui.get_node("lost_restart")) then
+			paramatersSound(self)
 			local checkLife = sys.load(ryoku_path)
 			if checkLife.life == 0 then
 				manageAddLife(self)
@@ -424,44 +690,55 @@ function on_input(self, action_id, action)
 				msg.post("controller:/loader#controller", "changeScene", { newScene = "restartLevel" })
 			end
 		end
-		if gui.pick_node(gui.get_node("forward_level"), action.x, action.y) and gui.is_enabled(gui.get_node("display_lost")) and config.pass_level > 0 and self.handlePassLevel then
-			self.handlePassLevel = false
-			local savePassLevel = sys.load(ryoku_path)
-			savePassLevel.pass_level = savePassLevel.pass_level - 1
-			savePassLevel.level = savePassLevel.level + 1
-			if sys.save(ryoku_path, savePassLevel) then
-				local checkLevel = sys.load(ryoku_path)
-				if list.targetLevelByBlock(checkLevel.level) == nil then
-					msg.post("controller:/loader#controller", "changeScene", { newScene = "seeYou" })
+		if gui.pick_node(gui.get_node("forward_level"), action.x, action.y) and gui.is_enabled(gui.get_node("display_lost")) and self.handleForwardLevel then
+			paramatersSound(self)
+			gui.set_scale(gui.get_node("forward_level"), vmath.vector3(1))
+			gui.animate(gui.get_node("forward_level"), gui.PROP_SCALE, vmath.vector3(0.8), gui.EASING_INOUTQUAD, 0.2, 0, function(self, node)
+				self.handleForwardLevel = false
+				local enablePassLevel = sys.load(ryoku_path)
+				if enablePassLevel.pass_level > 0 then
+					local savePassLevel = sys.load(ryoku_path)
+					savePassLevel.pass_level = savePassLevel.pass_level - 1
+					savePassLevel.level = savePassLevel.level + 1
+					if sys.save(ryoku_path, savePassLevel) then
+						local checkLevel = sys.load(ryoku_path)
+						if list.targetLevelByBlock(checkLevel.level) == nil then
+							msg.post("controller:/loader#controller", "changeScene", { newScene = "seeYou" })
+						else
+							self.handleForwardLevel = true
+							msg.post("controller:/loader#controller", "changeScene", { newScene = "clickOnLevel" })
+						end
+					end
 				else
-					msg.post("controller:/loader#controller", "changeScene", { newScene = "clickOnLevel" })
+					msg.post("/iap#iap", "iap_buy_pass_level")
 				end
-			end
+			end, gui.PLAYBACK_ONCE_PINGPONG)
+			
 		end
 		if (gui.pick_node(gui.get_node("bg_heart"), action.x, action.y) and not gui.is_enabled(gui.get_node("popup_add_life")) and not currentLevel.platform.stopGame) or 
 		(gui.pick_node(gui.get_node("bg_heart"), action.x, action.y) and gui.is_enabled(gui.get_node("display_lost"))) then
-			manageAddLife(self)
-		end
-		if gui.pick_node(gui.get_node("life_close"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_add_life")) and currentLevel.platform.stopGame then
-			self.toggleAddLife = false
-			if self.displyReload or self.displayParameter then
-				self.ToggleDisplayOptions = true
-			else
-				currentLevel.platform.stopGame = false
+			paramatersSound(self)
+			if sys.get_connectivity() == sys.NETWORK_CONNECTED_CELLULAR or sys.get_connectivity() == sys.NETWORK_CONNECTED then
+				gui.set_scale(gui.get_node("heart"), vmath.vector3(1))
+				gui.animate(gui.get_node("heart"), gui.PROP_SCALE, vmath.vector3(1.2), gui.EASING_OUTBOUNCE, 1, 0, function(self, node)
+					manageAddLife(self)
+				end, gui.PLAYBACK_ONCE_PINGPONG)
 			end
-			togglePopupAddLife(self)
+			if sys.get_connectivity() == sys.NETWORK_DISCONNECTED then
+				manageErrorAds(self)
+			end
 		end
 		if gui.pick_node(gui.get_node("life_recharge_free"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_add_life")) and currentLevel.platform.stopGame then
-			msg.post("/life#life", "increment_life", { value = 3 })
-			self.toggleAddLife = false
-			if self.displyReload or self.displayParameter then
-				self.ToggleDisplayOptions = true
-			else
-				currentLevel.platform.stopGame = false
+			paramatersSound(self)
+			if sys.get_connectivity() == sys.NETWORK_CONNECTED_CELLULAR or sys.get_connectivity() == sys.NETWORK_CONNECTED then
+				gui.set_scale(gui.get_node("life_recharge_free"), vmath.vector3(1))
+				gui.animate(gui.get_node("life_recharge_free"), gui.PROP_SCALE, vmath.vector3(0.8), gui.EASING_INOUTQUAD, 0.2, 0, function(self, node)
+					msg.post("/ads#ads", "display_rewardedvideo_ad_unit_life")
+				end, gui.PLAYBACK_ONCE_PINGPONG)
 			end
-			togglePopupAddLife(self)
 		end
 		if gui.pick_node(gui.get_node("close_parameter"), action.x, action.y) and gui.is_enabled(gui.get_node("parameters")) and gui.is_enabled(gui.get_node("display_lost")) and currentLevel.platform.stopGame then
+			paramatersSound(self)
 			self.ToggleDisplayOptions = false
 			self.displyReload = false
 			self.displayParameter = false
@@ -469,12 +746,15 @@ function on_input(self, action_id, action)
 			msg.post("/parameter#parameters", "enable_parameter")
 		end
 		if gui.pick_node(gui.get_node("sound"), action.x, action.y) and gui.is_enabled(gui.get_node("parameters")) and gui.is_enabled(gui.get_node("display_lost")) and currentLevel.platform.stopGame then
+			paramatersSound(self)
 			toggleSoundOption(self)
 		end
 		if gui.pick_node(gui.get_node("music"), action.x, action.y) and gui.is_enabled(gui.get_node("parameters")) and gui.is_enabled(gui.get_node("display_lost")) and currentLevel.platform.stopGame then
+			paramatersSound(self)
 			toggleMusicOption(self)
 		end
-		if gui.pick_node(gui.get_node("translate"), action.x, action.y) and gui.is_enabled(gui.get_node("parameters")) and gui.is_enabled(gui.get_node("display_lost")) and currentLevel.platform.stopGame then
+		if gui.pick_node(gui.get_node("translate"), action.x, action.y) and gui.is_enabled(gui.get_node("parameters")) and gui.is_enabled(gui.get_node("display_lost")) and not gui.is_enabled(gui.get_node("popup_add_life")) and currentLevel.platform.stopGame then
+			paramatersSound(self)
 			local saveLg = sys.load(ryoku_path)
 			if tonumber(self.lgIndex) == tonumber(table.maxn(self.lgList)) then
 				saveLg.game_language = "fr"
@@ -487,32 +767,133 @@ function on_input(self, action_id, action)
 				manageLanguageOnLifeScene(self)
 			end
 		end
-		if gui.pick_node(gui.get_node("home_icon"), action.x, action.y) and gui.is_enabled(gui.get_node("parameters")) and not gui.is_enabled(gui.get_node("popup_go_home")) and not gui.is_enabled(gui.get_node("popup_add_life")) and currentLevel.platform.stopGame then
-			manageGoHome(self)
+		if gui.pick_node(gui.get_node("home"), action.x, action.y) and gui.is_enabled(gui.get_node("network")) and not gui.is_enabled(gui.get_node("popup_go_home")) and not gui.is_enabled(gui.get_node("popup_add_life")) and gui.is_enabled(gui.get_node("display_lost")) and currentLevel.platform.stopGame then
+			paramatersSound(self)
+			gui.set_scale(gui.get_node("home"), vmath.vector3(1))
+			gui.animate(gui.get_node("home"), gui.PROP_SCALE, vmath.vector3(0.8), gui.EASING_INOUTQUAD, 0.2, 0, function(self, node)
+				manageGoHome(self)
+			end, gui.PLAYBACK_ONCE_PINGPONG)
 		end
 		if gui.pick_node(gui.get_node("close_home_validation"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_go_home")) and currentLevel.platform.stopGame then
+			paramatersSound(self)
 			self.toggleGoHome = false
+			if self.displyReload or self.displayParameter then
+				self.ToggleDisplayOptions = true
+			end
+			togglePopupGoHome(self)
+		end
+		if gui.pick_node(gui.get_node("home_validation"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_go_home")) and currentLevel.platform.stopGame then
+			paramatersSound(self)
+			gui.set_scale(gui.get_node("home_validation"), vmath.vector3(1))
+			gui.animate(gui.get_node("home_validation"), gui.PROP_SCALE, vmath.vector3(0.8), gui.EASING_INOUTQUAD, 0.2, 0, function(self, node)
+				self.toggleGoHome = false
+				if self.displyReload or self.displayParameter then
+					self.ToggleDisplayOptions = false
+					self.displayParameter = false
+				end
+				local interstitial_retry_level = sys.load(ryoku_path)
+				interstitial_retry_level.current_transition = interstitial_retry_level.current_transition + 1
+				if sys.save(ryoku_path, interstitial_retry_level) then
+					local interstitial_retry_level_updated = sys.load(ryoku_path)
+					if not interstitial_retry_level_updated.is_interstitial_transition and 
+					interstitial_retry_level_updated.current_transition >= interstitial_retry_level_updated.step_transition and 
+					interstitial_retry_level_updated.level > 6 then
+						msg.post("/ads#ads", "display_intersitial_ad_unit_pass_level")
+					else
+						togglePopupGoHome(self)
+						msg.post("controller:/loader#controller", "changeScene", { newScene = "clickOnLevel" })
+					end
+				end
+			end, gui.PLAYBACK_ONCE_PINGPONG)
+		end
+		if gui.pick_node(gui.get_node("star"), action.x, action.y) and gui.is_enabled(gui.get_node("network")) and gui.is_enabled(gui.get_node("display_lost")) and currentLevel.platform.stopGame then
+			paramatersSound(self)
+			gui.set_scale(gui.get_node("star"), vmath.vector3(1))
+			gui.animate(gui.get_node("star"), gui.PROP_SCALE, vmath.vector3(0.8), gui.EASING_INOUTQUAD, 0.2, 0, function(self, node) 
+				sys.open_url("market://details?id=com.unitedsquaresgames.ryoku")
+				--sys.open_url("https://play.google.com/store/apps/details?id=com.unitedsquaresgames.ryoku")
+			end, gui.PLAYBACK_ONCE_PINGPONG)
+		end
+		if gui.pick_node(gui.get_node("instagram"), action.x, action.y) and gui.is_enabled(gui.get_node("network")) and gui.is_enabled(gui.get_node("display_lost")) and currentLevel.platform.stopGame then
+			paramatersSound(self)
+			gui.set_scale(gui.get_node("instagram"), vmath.vector3(1))
+			gui.animate(gui.get_node("instagram"), gui.PROP_SCALE, vmath.vector3(0.8), gui.EASING_INOUTQUAD, 0.2, 0, function(self, node) 
+				sys.open_url("https://www.instagram.com/unitedsquaresgames/")
+			end, gui.PLAYBACK_ONCE_PINGPONG)
+		end
+		if gui.pick_node(gui.get_node("no_pubs"), action.x, action.y) and gui.is_enabled(gui.get_node("no_pubs")) and gui.is_enabled(gui.get_node("network")) and gui.is_enabled(gui.get_node("display_lost")) and currentLevel.platform.stopGame then
+			paramatersSound(self)
+			if sys.get_connectivity() == sys.NETWORK_CONNECTED_CELLULAR or sys.get_connectivity() == sys.NETWORK_CONNECTED then
+				gui.set_scale(gui.get_node("no_pubs"), vmath.vector3(1))
+				gui.animate(gui.get_node("no_pubs"), gui.PROP_SCALE, vmath.vector3(0.8), gui.EASING_INOUTQUAD, 0.2, 0, function(self, node) 
+					--msg.post("/iap#iap", "iap_buy_ads_remove")
+					manageGoRemoveAds(self)
+				end, gui.PLAYBACK_ONCE_PINGPONG)
+			end
+			if sys.get_connectivity() == sys.NETWORK_DISCONNECTED then
+				manageErrorAds(self)
+			end
+		end
+		if gui.pick_node(gui.get_node("remove_ads_confirmation"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_remove_ads")) and currentLevel.platform.stopGame then
+			paramatersSound(self)
+			if sys.get_connectivity() == sys.NETWORK_CONNECTED_CELLULAR or sys.get_connectivity() == sys.NETWORK_CONNECTED then
+				gui.set_scale(gui.get_node("remove_ads_confirmation"), vmath.vector3(1))
+				gui.animate(gui.get_node("remove_ads_confirmation"), gui.PROP_SCALE, vmath.vector3(0.8), gui.EASING_INOUTQUAD, 0.2, 0, function(self, node) 
+					msg.post("/iap#iap", "iap_buy_ads_remove")
+					--msg.post("/life#life", "remove_ads_by_iap_buy")
+				end, gui.PLAYBACK_ONCE_PINGPONG)
+			end
+		end
+		if gui.pick_node(gui.get_node("remove_ads_close"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_remove_ads")) and currentLevel.platform.stopGame then
+			paramatersSound(self)
+			self.toggleGoRemoveAds = false
+			if self.displyReload or self.displayParameter then
+				self.ToggleDisplayOptions = true
+			end
+			togglePopupGoRemoveAds(self)
+		end
+		if gui.pick_node(gui.get_node("life_close"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_add_life")) and currentLevel.platform.stopGame then
+			paramatersSound(self)
+			self.toggleAddLife = false
 			if self.displyReload or self.displayParameter then
 				self.ToggleDisplayOptions = true
 			else
 				currentLevel.platform.stopGame = false
 			end
-			togglePopupGoHome(self)
+			togglePopupAddLife(self)
 		end
-		if gui.pick_node(gui.get_node("home_validation"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_go_home")) and currentLevel.platform.stopGame then
-			self.toggleGoHome = false
+		if gui.pick_node(gui.get_node("reset_progression"), action.x, action.y) and gui.is_enabled(gui.get_node("network")) and gui.is_enabled(gui.get_node("display_lost")) and currentLevel.platform.stopGame then
+			paramatersSound(self)
+			gui.set_scale(gui.get_node("reset_progression"), vmath.vector3(1))
+			gui.animate(gui.get_node("reset_progression"), gui.PROP_SCALE, vmath.vector3(0.8), gui.EASING_INOUTQUAD, 0.2, 0, function(self, node) 
+				manageGoResetProgression(self)
+			end, gui.PLAYBACK_ONCE_PINGPONG)
+		end
+		if gui.pick_node(gui.get_node("progress_close"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_reset_progress")) and currentLevel.platform.stopGame then
+			paramatersSound(self)
+			self.toggleGoResetProgression = false
 			if self.displyReload or self.displayParameter then
-				self.ToggleDisplayOptions = false
-				self.displayParameter = false
+				self.ToggleDisplayOptions = true
+			end
+			togglePopupGoResetProgression(self)
+		end
+		if gui.pick_node(gui.get_node("reset_confirmation"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_reset_progress")) and currentLevel.platform.stopGame then
+			paramatersSound(self)
+			gui.set_scale(gui.get_node("reset_confirmation"), vmath.vector3(1))
+			gui.animate(gui.get_node("reset_confirmation"), gui.PROP_SCALE, vmath.vector3(0.8), gui.EASING_INOUTQUAD, 0.2, 0, function(self, node) 
+				updateProgressionAndClose(self)
+			end, gui.PLAYBACK_ONCE_PINGPONG)
+		end
+		if gui.pick_node(gui.get_node("error_ads_validation"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_error_ads")) and currentLevel.platform.stopGame then
+			paramatersSound(self)
+			self.toggleGoErrorAds = false
+			if self.displyReload or self.displayParameter then
+				self.ToggleDisplayOptions = true
 			else
 				currentLevel.platform.stopGame = false
 			end
-			togglePopupGoHome(self)
-			timer.delay(0.2, false, function() 
-				msg.post("controller:/loader#controller", "changeScene", { newScene = "clickOnLevel" })
-			end)
+			togglePopupGoErrorAds(self)
 		end
-		
 	end
 end
 

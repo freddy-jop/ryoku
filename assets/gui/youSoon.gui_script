@@ -1,5 +1,140 @@
+local ryoku_path = sys.get_save_file("ryoku", "data_level")
+local config = sys.load(ryoku_path)
+local languages = require("ressources.langages")
+local modifier = require("ressources.modifier")
+
+function paramatersSound(self)
+	local soundIsActive = sys.load(ryoku_path)
+	if soundIsActive.sound then
+		sound.play("/sound#validation_button", {delay = 0, gain = soundIsActive.gainSelection})
+	end
+end
+
+function setParamsViFont(self)
+	gui.set_font(gui.get_node("suivez_nous"), hash("VI_20"))
+	gui.set_font(gui.get_node("evaluez_nous"), hash("VI_20"))
+	gui.set_font(gui.get_node("progress_txt"), hash("VI_20"))
+
+	gui.set_font(gui.get_node("txt_victory"), hash("VI_30_border"))
+end
+
+function setParamsKrFont(self)
+	gui.set_font(gui.get_node("suivez_nous"), hash("KR_25"))
+	gui.set_font(gui.get_node("evaluez_nous"), hash("KR_25"))
+	gui.set_font(gui.get_node("progress_txt"), hash("KR_25"))
+
+	gui.set_font(gui.get_node("txt_victory"), hash("KR_30_border"))
+end
+
+function setParamsJaFont(self)
+	gui.set_font(gui.get_node("suivez_nous"), hash("JA_20"))
+	gui.set_font(gui.get_node("evaluez_nous"), hash("JA_20"))
+	gui.set_font(gui.get_node("progress_txt"), hash("JA_20"))
+
+	gui.set_font(gui.get_node("txt_victory"), hash("JA_25"))
+end
+
+function setParamsArbFont(self)
+	gui.set_font(gui.get_node("suivez_nous"), hash("ARB_25"))
+	gui.set_font(gui.get_node("evaluez_nous"), hash("ARB_25"))
+	gui.set_font(gui.get_node("progress_txt"), hash("ARB_25"))
+
+	gui.set_font(gui.get_node("txt_victory"), hash("ARB_35_border"))
+end
+
+function setParamsRuFont(self)
+	gui.set_font(gui.get_node("suivez_nous"), hash("RU_20"))
+	gui.set_font(gui.get_node("evaluez_nous"), hash("RU_20"))
+	gui.set_font(gui.get_node("progress_txt"), hash("RU_20"))
+
+	gui.set_font(gui.get_node("txt_victory"), hash("RU_30_border"))
+end
+
+function setParamsLatineFont(self)
+	gui.set_font(gui.get_node("suivez_nous"), hash("PoetsenOne20"))
+	gui.set_font(gui.get_node("evaluez_nous"), hash("PoetsenOne20"))
+	gui.set_font(gui.get_node("progress_txt"), hash("PoetsenOne20"))
+
+	gui.set_font(gui.get_node("txt_victory"), hash("PoetsenOne40_border"))
+end
+
+function setParamsTxtForAll(self)
+	local lgConf = sys.load(ryoku_path)
+	gui.set_text(gui.get_node("suivez_nous"), languages[lgConf.game_language].followus)
+	gui.set_text(gui.get_node("evaluez_nous"), languages[lgConf.game_language].evaluateus)
+	gui.set_text(gui.get_node("progress_txt"), languages[lgConf.game_language].progression)
+
+	gui.set_text(gui.get_node("txt_victory"), languages[lgConf.game_language].victory_game)
+end
+
+function setParamsTxtArabic(self)
+	local lgConfAr = sys.load(ryoku_path)
+	gui.set_text(gui.get_node("suivez_nous"), modifier.modifierToArab(languages[lgConfAr.game_language].followus))
+	gui.set_text(gui.get_node("evaluez_nous"), modifier.modifierToArab(languages[lgConfAr.game_language].evaluateus))
+	gui.set_text(gui.get_node("progress_txt"), modifier.modifierToArab(languages[lgConfAr.game_language].progression))
+
+	gui.set_text(gui.get_node("txt_victory"), modifier.modifierToArab(languages[lgConfAr.game_language].victory_game))
+end
+
+function progressionFinalReset(self)
+	local resetDataProgression = sys.load(ryoku_path)
+	resetDataProgression.level = 1
+	resetDataProgression.life = 3
+	resetDataProgression.stopGame = false
+	resetDataProgression.sound = true
+	resetDataProgression.music = true
+	resetDataProgression.handleLevelInfo = 1
+	resetDataProgression.pendingTuto = true
+	resetDataProgression.scrollHorizontale = true
+	resetDataProgression.scrollVerticale = false
+	if sys.save(ryoku_path, resetDataProgression) then
+		timer.delay(0.2, false, function() 
+			msg.post("controller:/loader#controller", "changeScene", { newScene = "clickOnLevel" })
+		end)
+	end
+end
+
+function manageLanguageOnFinalScene(self)
+	local manageConfig = sys.load(ryoku_path)
+	--pprint("==== manageConfig :: ", manageConfig)
+	if manageConfig.game_language == "ru" or manageConfig.game_language == "be" then
+		setParamsRuFont(self)
+	end
+	if manageConfig.game_language == "ar" then
+		setParamsArbFont(self)
+	end
+	if manageConfig.game_language == "ja" then
+		setParamsJaFont(self)
+	end
+	if manageConfig.game_language == "ko" then
+		setParamsKrFont(self)
+	end
+	if manageConfig.game_language == "vi" then
+		setParamsViFont(self)
+	end
+
+	if manageConfig.game_language == "fr" or 
+	manageConfig.game_language == "en" or 
+	manageConfig.game_language == "es" or 
+	manageConfig.game_language == "de" or 
+	manageConfig.game_language == "pt" or 
+	manageConfig.game_language == "pl" or 
+	manageConfig.game_language == "nl" or 
+	manageConfig.game_language == "tr" or 
+	manageConfig.game_language == "it" or 
+	manageConfig.game_language == "id" then
+		setParamsLatineFont(self)
+	end
+	if manageConfig.game_language == "ar" then
+		setParamsTxtArabic(self)
+	else
+		setParamsTxtForAll(self)
+	end
+end
+
 function init(self)
 	msg.post(".", "acquire_input_focus")
+	manageLanguageOnFinalScene(self)
 	-- Add initialization code here
 	-- Learn more: https://defold.com/manuals/script/
 	-- Remove this function if not needed
@@ -25,8 +160,27 @@ end
 
 function on_input(self, action_id, action)
 	if action_id == hash("touch") and action.pressed then
-		if gui.pick_node(gui.get_node(hash("play_store")), action.x, action.y) then
-			gui.animate(gui.get_node("back_app_store"), "color.w", 1, gui.EASING_INOUTQUAD, 0.8, 0, nil, gui.PLAYBACK_ONCE_PINGPONG)
+		if gui.pick_node(gui.get_node("reset_progression"), action.x, action.y) then
+			paramatersSound(self)
+			gui.set_scale(gui.get_node("reset_progression"), vmath.vector3(1))
+			gui.animate(gui.get_node("reset_progression"), gui.PROP_SCALE, vmath.vector3(0.8), gui.EASING_INOUTQUAD, 0.2, 0, function(self, node) 
+				progressionFinalReset(self)
+			end, gui.PLAYBACK_ONCE_PINGPONG)
+		end
+		if gui.pick_node(gui.get_node("star"), action.x, action.y) then
+			paramatersSound(self)
+			gui.set_scale(gui.get_node("star"), vmath.vector3(1))
+			gui.animate(gui.get_node("star"), gui.PROP_SCALE, vmath.vector3(0.8), gui.EASING_INOUTQUAD, 0.2, 0, function(self, node) 
+				sys.open_url("market://details?id=com.unitedsquaresgames.ryoku")
+				--sys.open_url("https://play.google.com/store/apps/details?id=com.unitedsquaresgames.ryoku")
+			end, gui.PLAYBACK_ONCE_PINGPONG)
+		end
+		if gui.pick_node(gui.get_node("instagram"), action.x, action.y) then
+			paramatersSound(self)
+			gui.set_scale(gui.get_node("instagram"), vmath.vector3(1))
+			gui.animate(gui.get_node("instagram"), gui.PROP_SCALE, vmath.vector3(0.8), gui.EASING_INOUTQUAD, 0.2, 0, function(self, node) 
+				sys.open_url("https://www.instagram.com/unitedsquaresgames/")
+			end, gui.PLAYBACK_ONCE_PINGPONG)
 		end
 	end
 	-- Add input-handling code here. The game object this script is attached to

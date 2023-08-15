@@ -613,7 +613,8 @@ function scaleColumnGrid(columnDimension)
 	end
 	if columnDimension == 12 then
 		currentLevel.platform.blockHeight = 400
-		return 0.3125
+		--return 0.3125
+		return 0.308
 	end
 	if columnDimension == 16 then
 		currentLevel.platform.blockHeight = 370

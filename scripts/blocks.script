@@ -5,6 +5,7 @@ local config = sys.load(ryoku_path)
 local currentLevel = require("levels.template")
 local puzzles = require("construct.puzzles")
 local groupColor = require("construct.groupsColors")
+local render_helper = require("render.render_helper")
 go.property("blockNumber", 0)
 go.property("factoryLink", hash(""))
 go.property("sliderPosition", vmath.vector3())
@@ -761,7 +762,6 @@ function pendingTutoScrollUp(self)
 	
 end
 
-
 function init(self)
 	self.position = vmath.vector3(0,0,1)
 	self.positionFactory = vmath.vector3(0,0,1)
@@ -783,7 +783,6 @@ function init(self)
 	self.isTickRoundedPlaced50 = false
 	self.isTickRoundedPlaced3000 = false
 	msg.post(".", "acquire_input_focus")
-	
 end
 
 function final(self)
@@ -805,6 +804,7 @@ function update(self, dt)
 			setConformation()
 			checkGroupPopulated(self)
 			currentLevel.platform.isDragUp = false
+			sound.play("/sound#pose_block", {delay = 0.2, gain = config.gainAction})
 		end
 	end
 	if currentLevel.platform.tickRoundedPlaced >= 600 and self.isTickRoundedPlaced50 then
@@ -839,14 +839,15 @@ function on_message(self, message_id, message, sender)
 end
 
 function on_input(self, action_id, action)
+	local actionBlock = render_helper.action_to_position(action)
 	if action.pressed and not currentLevel.platform.slider.whenPoseAndReplacingBlockIsDone and not currentLevel.platform.stopGame then
 		currentLevel.platform.actionDx = 0
-		if currentLevel.platform.slider.y0 > action.y 
-		and currentLevel.platform.slider.y1 < action.y 
+		if currentLevel.platform.slider.y0 > actionBlock.y 
+		and currentLevel.platform.slider.y1 < actionBlock.y 
 		and not currentLevel.platform.slider.isTouchSlide 
 		and not currentLevel.platform.isCollisionable 
 		and not currentLevel.platform.isDragUp then
-			currentLevel.platform.slider.positionTouchSlide = vmath.vector3(action.x, action.y, 0)
+			currentLevel.platform.slider.positionTouchSlide = vmath.vector3(actionBlock.x, actionBlock.y, 0)
 			currentLevel.platform.slider.isTouchSlide = true
 			currentLevel.platform.processing = true
 			currentLevel.platform.slider.isSlideLeftRight = false
@@ -866,11 +867,11 @@ function on_input(self, action_id, action)
 		and currentLevel.platform.totalBlockAvailable > 3
 		and not currentLevel.platform.slider.isSlideLeftRight
 		and not currentLevel.platform.slidToLeft
-		and action.x < currentLevel.platform.slider.positionTouchSlide.x
-		and currentLevel.platform.slider.positionTouchSlide.x - action.x > 10
+		and actionBlock.x < currentLevel.platform.slider.positionTouchSlide.x
+		and currentLevel.platform.slider.positionTouchSlide.x - actionBlock.x > 10
 		and math.abs(currentLevel.platform.actionDx) > math.abs(currentLevel.platform.actionDy) 
-		and pendingTutoScrollLeft(self, action.x) then
-			currentLevel.platform.slider.positionStartLeftRight = vmath.vector3(action.x, action.y, 0)
+		and pendingTutoScrollLeft(self, actionBlock.x) then
+			currentLevel.platform.slider.positionStartLeftRight = vmath.vector3(actionBlock.x, actionBlock.y, 0)
 			currentLevel.platform.slider.isSlideLeftRight = true
 			currentLevel.platform.slider.directionSlider = -1
 		end
@@ -880,11 +881,11 @@ function on_input(self, action_id, action)
 		and currentLevel.platform.totalBlockAvailable > 3
 		and not currentLevel.platform.slider.isSlideLeftRight
 		and not currentLevel.platform.slidToRight
-		and action.x > currentLevel.platform.slider.positionTouchSlide.x
-		and action.x - currentLevel.platform.slider.positionTouchSlide.x > 10 
+		and actionBlock.x > currentLevel.platform.slider.positionTouchSlide.x
+		and actionBlock.x - currentLevel.platform.slider.positionTouchSlide.x > 10 
 		and math.abs(currentLevel.platform.actionDx) > math.abs(currentLevel.platform.actionDy)
-		and pendingTutoScrollLeft(self, action.x) then
-			currentLevel.platform.slider.positionStartLeftRight = vmath.vector3(action.x, action.y, 0)
+		and pendingTutoScrollLeft(self, actionBlock.x) then
+			currentLevel.platform.slider.positionStartLeftRight = vmath.vector3(actionBlock.x, actionBlock.y, 0)
 			currentLevel.platform.slider.isSlideLeftRight = true
 			currentLevel.platform.slider.directionSlider = 1
 		end
@@ -893,8 +894,8 @@ function on_input(self, action_id, action)
 		if currentLevel.platform.slider.isTouchSlide
 		and not currentLevel.platform.slider.isSlideLeftRight
 		and not currentLevel.platform.isDragUp
-		and action.y > currentLevel.platform.slider.positionTouchSlide.y
-		and action.y - currentLevel.platform.slider.positionTouchSlide.y > 5 
+		and actionBlock.y > currentLevel.platform.slider.positionTouchSlide.y
+		and actionBlock.y - currentLevel.platform.slider.positionTouchSlide.y > 5 
 		and math.abs(currentLevel.platform.actionDy) > math.abs(currentLevel.platform.actionDx) 
 		and pendingTutoScrollUp(self) then
 			currentLevel.platform.slider.isSlideLeftRight = true
@@ -914,8 +915,8 @@ function on_input(self, action_id, action)
 					currentLevel.platform.slider.dragBlock = true
 					self.tetrisSelection = currentLevel.refBlock[i].factoryBlockId
 					self.factoryTetrisId = currentLevel.refBlock[i].factoryTetrisId
-					self.position.x = action.x
-					self.position.y = action.y
+					self.position.x = actionBlock.x
+					self.position.y = actionBlock.y
 					
 					local factory = go.get_position(self.tetrisSelection)
 
@@ -937,14 +938,15 @@ function on_input(self, action_id, action)
 						end
 					end
 					generateScaleIn(self)
+					--msg.post("/level#main", "dragup_block");
 				end 
 			end
 		end
 		-- PENDING MODIFY --
 		if currentLevel.platform.slider.dragBlock and self.tetrisSelection then
-			local dragX = action.x - (((currentLevel.platform.sizeSquare * currentLevel.platform.scaleGrid) * puzzles[currentLevel.refBlock[self.blockNumber].selectDimension].elevationX)/3)
+			local dragX = actionBlock.x - (((currentLevel.platform.sizeSquare * currentLevel.platform.scaleGrid) * puzzles[currentLevel.refBlock[self.blockNumber].selectDimension].elevationX)/3)
 
-			local dragY = action.y + self.elevation + ((currentLevel.platform.sizeSquare * currentLevel.platform.scaleGrid) * puzzles[currentLevel.refBlock[self.blockNumber].selectDimension].elevationY)
+			local dragY = actionBlock.y + self.elevation + ((currentLevel.platform.sizeSquare * currentLevel.platform.scaleGrid) * puzzles[currentLevel.refBlock[self.blockNumber].selectDimension].elevationY)
 
 			local dragPosition = vmath.vector3(dragX, dragY, 1)
 
@@ -1008,6 +1010,7 @@ function on_input(self, action_id, action)
 					currentLevel.platform.isBlockMatch = false
 					currentLevel.platform.isDragUp = false
 					currentLevel.platform.slider.isSlideLeftRight = false
+					sound.play("/sound#return_block", {delay = 0, gain = config.gainAction})
 				end
 				if self.isOut == 0 then
 					setAllNumberColorRevealedGrid()

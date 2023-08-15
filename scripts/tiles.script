@@ -102,6 +102,7 @@ function selectConformation(squareSelected)
 end
 
 function startTargetBonus(self, url, property)
+	soundSelectBonus(self)
 	msg.post(self.targetGrid.gridSpriteId, "play_animation", {id = hash("PLAIN_TARGET")})
 	currentLevel.grid[self.targetGrid.gdXY.y][self.targetGrid.gdXY.x].isGrey = false
 
@@ -117,6 +118,7 @@ function startTargetBonus(self, url, property)
 end
 
 function startTargetBonusNotDisplaying(self)
+	soundSelectBonus(self)
 	msg.post(self.targetGrid.gridSpriteId, "play_animation", {id = hash("PLAIN_TARGET")})
 	currentLevel.grid[self.targetGrid.gdXY.y][self.targetGrid.gdXY.x].isGrey = false
 
@@ -132,6 +134,7 @@ function startTargetBonusNotDisplaying(self)
 end
 
 function startAdjacentBonus(self, url, property)
+	soundSelectBonus(self)
 	local limitGrid = currentLevel.platform.column
 	if self.currentTile.gdXY.y - 1 > 0 then
 		if currentLevel.grid[self.currentTile.gdXY.y - 1][self.currentTile.gdXY.x].isGrey and not currentLevel.grid[self.currentTile.gdXY.y - 1][self.currentTile.gdXY.x].revelatedAdjacentBonus then
@@ -218,6 +221,7 @@ function loadConformationBonusGroup(self, currentTile)
 end
 
 function startGroupBonus(self, url, property)
+	soundSelectBonus(self)
 	for m = 1, #currentLevel.grid do
 		for i = 1, #currentLevel.grid[m] do
 			if not currentLevel.grid[m][i].revealed 
@@ -252,7 +256,9 @@ function init(self)
 	self.currentSubBlock = nil
 	self.pendingGood = true
 	self.toggleUpdate = true
+
 	go.set_position(self.fullPosition)
+
 	local gridId = factory.create("#grid", self.fullPosition, nil, { gridPosition = currentLevel.grid[self.tileposition.y][self.tileposition.x].gdXY, fullGrid = currentLevel.grid[self.tileposition.y][self.tileposition.x].xy }, nil)
 	currentLevel.grid[self.tileposition.y][self.tileposition.x].gridId = gridId
 	
@@ -268,75 +274,92 @@ function final(self)
 end
 
 function update(self, dt)
-if currentLevel.platform.handleManageTarget then
-	if currentLevel.grid[self.tileposition.y][self.tileposition.x].isGood == true and 
-	currentLevel.grid[self.tileposition.y][self.tileposition.x].isPendingGood == true and 
-	not currentLevel.grid[self.tileposition.y][self.tileposition.x].groupLocked then
-		if self.tileposition.y == 1 and self.tileposition.x == 1 then
-			currentLevel.grid[self.tileposition.y][self.tileposition.x].isPendingGood = false
-			local topLeft = selectConformation(availableSquareByGroup(self, getAvailableGroupById(self, squares.targets[1].topLeft)))
-			if topLeft then
-				return loadConformationSquare(self, topLeft)
+	if currentLevel.platform.handleManageTarget then
+		if currentLevel.grid[self.tileposition.y][self.tileposition.x].isGood == true and 
+		currentLevel.grid[self.tileposition.y][self.tileposition.x].isPendingGood == true and 
+		not currentLevel.grid[self.tileposition.y][self.tileposition.x].groupLocked then
+			if self.tileposition.y == 1 and self.tileposition.x == 1 then
+				currentLevel.grid[self.tileposition.y][self.tileposition.x].isPendingGood = false
+				local topLeft = selectConformation(availableSquareByGroup(self, getAvailableGroupById(self, squares.targets[1].topLeft)))
+				if topLeft then
+					return loadConformationSquare(self, topLeft)
+				end
 			end
-		end
-		if self.tileposition.y == 1 and self.tileposition.x > 1 and self.tileposition.x < currentLevel.platform.column then
-			currentLevel.grid[self.tileposition.y][self.tileposition.x].isPendingGood = false
-			local topBorder = selectConformation(availableSquareByGroup(self, getAvailableGroupById(self, squares.targets[5].topBorder)))
-			if topBorder then
-				return loadConformationSquare(self, topBorder)
+			if self.tileposition.y == 1 and self.tileposition.x > 1 and self.tileposition.x < currentLevel.platform.column then
+				currentLevel.grid[self.tileposition.y][self.tileposition.x].isPendingGood = false
+				local topBorder = selectConformation(availableSquareByGroup(self, getAvailableGroupById(self, squares.targets[5].topBorder)))
+				if topBorder then
+					return loadConformationSquare(self, topBorder)
+				end
 			end
-		end
-		if self.tileposition.y > 1 and self.tileposition.x == 1 and self.tileposition.y < currentLevel.platform.column then
-			currentLevel.grid[self.tileposition.y][self.tileposition.x].isPendingGood = false
-			local leftBorder = selectConformation(availableSquareByGroup(self, getAvailableGroupById(self, squares.targets[8].leftBorder)))
-			if leftBorder then
-				return loadConformationSquare(self, leftBorder)
+			if self.tileposition.y > 1 and self.tileposition.x == 1 and self.tileposition.y < currentLevel.platform.column then
+				currentLevel.grid[self.tileposition.y][self.tileposition.x].isPendingGood = false
+				local leftBorder = selectConformation(availableSquareByGroup(self, getAvailableGroupById(self, squares.targets[8].leftBorder)))
+				if leftBorder then
+					return loadConformationSquare(self, leftBorder)
+				end
 			end
-		end
-		if self.tileposition.y == currentLevel.platform.column and self.tileposition.x == 1 then
-			currentLevel.grid[self.tileposition.y][self.tileposition.x].isPendingGood = false
-			local bottomLeft = selectConformation(availableSquareByGroup(self, getAvailableGroupById(self, squares.targets[4].bottomLeft)))
-			if bottomLeft then
-				return loadConformationSquare(self, bottomLeft)
+			if self.tileposition.y == currentLevel.platform.column and self.tileposition.x == 1 then
+				currentLevel.grid[self.tileposition.y][self.tileposition.x].isPendingGood = false
+				local bottomLeft = selectConformation(availableSquareByGroup(self, getAvailableGroupById(self, squares.targets[4].bottomLeft)))
+				if bottomLeft then
+					return loadConformationSquare(self, bottomLeft)
+				end
 			end
-		end
-		if self.tileposition.y == 1 and self.tileposition.x == currentLevel.platform.column then
-			currentLevel.grid[self.tileposition.y][self.tileposition.x].isPendingGood = false
-			local topRight = selectConformation(availableSquareByGroup(self, getAvailableGroupById(self, squares.targets[2].topRight)))
-			if topRight then
-				return loadConformationSquare(self, topRight)
+			if self.tileposition.y == 1 and self.tileposition.x == currentLevel.platform.column then
+				currentLevel.grid[self.tileposition.y][self.tileposition.x].isPendingGood = false
+				local topRight = selectConformation(availableSquareByGroup(self, getAvailableGroupById(self, squares.targets[2].topRight)))
+				if topRight then
+					return loadConformationSquare(self, topRight)
+				end
 			end
-		end
-		if self.tileposition.y == currentLevel.platform.column and self.tileposition.x > 1 and self.tileposition.x < currentLevel.platform.column then
-			currentLevel.grid[self.tileposition.y][self.tileposition.x].isPendingGood = false
-			local bottomBorder = selectConformation(availableSquareByGroup(self, getAvailableGroupById(self, squares.targets[7].bottomBorder)))
-			if bottomBorder then
-				return loadConformationSquare(self, bottomBorder)
+			if self.tileposition.y == currentLevel.platform.column and self.tileposition.x > 1 and self.tileposition.x < currentLevel.platform.column then
+				currentLevel.grid[self.tileposition.y][self.tileposition.x].isPendingGood = false
+				local bottomBorder = selectConformation(availableSquareByGroup(self, getAvailableGroupById(self, squares.targets[7].bottomBorder)))
+				if bottomBorder then
+					return loadConformationSquare(self, bottomBorder)
+				end
 			end
-		end
-		if self.tileposition.y > 1 and self.tileposition.x == currentLevel.platform.column and self.tileposition.y < currentLevel.platform.column then
-			currentLevel.grid[self.tileposition.y][self.tileposition.x].isPendingGood = false
-			local rightBorder = selectConformation(availableSquareByGroup(self, getAvailableGroupById(self, squares.targets[6].rightBorder)))
-			if rightBorder then
-				return loadConformationSquare(self, rightBorder)
+			if self.tileposition.y > 1 and self.tileposition.x == currentLevel.platform.column and self.tileposition.y < currentLevel.platform.column then
+				currentLevel.grid[self.tileposition.y][self.tileposition.x].isPendingGood = false
+				local rightBorder = selectConformation(availableSquareByGroup(self, getAvailableGroupById(self, squares.targets[6].rightBorder)))
+				if rightBorder then
+					return loadConformationSquare(self, rightBorder)
+				end
 			end
-		end
-		if self.tileposition.y == currentLevel.platform.column and self.tileposition.x == currentLevel.platform.column then
-			currentLevel.grid[self.tileposition.y][self.tileposition.x].isPendingGood = false
-			local bottomRight = selectConformation(availableSquareByGroup(self, getAvailableGroupById(self, squares.targets[3].bottomRight)))
-			if bottomRight then
-				return loadConformationSquare(self, bottomRight)
+			if self.tileposition.y == currentLevel.platform.column and self.tileposition.x == currentLevel.platform.column then
+				currentLevel.grid[self.tileposition.y][self.tileposition.x].isPendingGood = false
+				local bottomRight = selectConformation(availableSquareByGroup(self, getAvailableGroupById(self, squares.targets[3].bottomRight)))
+				if bottomRight then
+					return loadConformationSquare(self, bottomRight)
+				end
 			end
-		end
-		if self.tileposition.y > 1 and self.tileposition.x > 1 and self.tileposition.x < currentLevel.platform.column and self.tileposition.y < currentLevel.platform.column then
-			currentLevel.grid[self.tileposition.y][self.tileposition.x].isPendingGood = false
-			local plain = selectConformation(availableSquareByGroup(self, getAvailableGroupById(self, squares.targets[9].plain)))
-			if plain then
-				return loadConformationSquare(self, plain)
+			if self.tileposition.y > 1 and self.tileposition.x > 1 and self.tileposition.x < currentLevel.platform.column and self.tileposition.y < currentLevel.platform.column then
+				currentLevel.grid[self.tileposition.y][self.tileposition.x].isPendingGood = false
+				local plain = selectConformation(availableSquareByGroup(self, getAvailableGroupById(self, squares.targets[9].plain)))
+				if plain then
+					return loadConformationSquare(self, plain)
+				end
 			end
 		end
 	end
 end
+
+function revelatedSudokuTileBlock(self)
+	for a = 1, #currentLevel.blocks do
+		for b = 1, #currentLevel.blocks[a] do
+			if currentLevel.blocks[a][b].result.tileX + 1 == self.currentTile.gdXY.x and currentLevel.blocks[a][b].result.tileY + 1 == self.currentTile.gdXY.y then
+				currentLevel.blocks[a][b].numberRevealed = true
+			end
+		end
+	end
+end
+
+function soundSelectBonus(self)
+	local soundSelectBonus = sys.load(ryoku_path)
+	if soundSelectBonus.sound then
+		sound.play("/sound#select_bonus", {delay = 0, gain = soundSelectBonus.gainAction})
+	end
 end
 
 function on_message(self, message_id, message, sender)
@@ -450,11 +473,13 @@ function on_message(self, message_id, message, sender)
 		self.targetGrid = message.tileBonus[1]
 		self.currentTile = message.tileBonus[1]
 		currentLevel.grid[targetGrid.gdXY.y][targetGrid.gdXY.x].revealed = true
+		revelatedSudokuTileBlock(self)
 		local saveTargetBonus = sys.load(ryoku_path)
 		if saveTargetBonus.target > 0 then
 			saveTargetBonus.target = saveTargetBonus.target - 1
 			if sys.save(ryoku_path, saveTargetBonus) then
 				msg.post("/powerup#powerup", "increment_target")
+				msg.post("/powerup#powerup", "manage_sudoku_counter")
 			end
 		end
 		if currentLevel.refBlock[currentLevel.grid[targetGrid.gdXY.y][targetGrid.gdXY.x].blockNumber].isdisplaying then

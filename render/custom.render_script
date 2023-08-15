@@ -1,6 +1,9 @@
 local helper = require("render.helper")
 local msgs = require("render.msgs")
 
+local ryoku_path = sys.get_save_file("ryoku", "data_level")
+local config = sys.load(ryoku_path)
+
 local RT_SIZE = 100
 local MAX_SIZE = 1024
 

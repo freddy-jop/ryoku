@@ -1,3 +1,4 @@
+local ryoku_path = sys.get_save_file("ryoku", "data_level")
 function changeScene(self, pCurrentScene)
 	if pCurrentScene ~= self.currentScene then
 		if self.currentScene ~= "" then

@@ -20,7 +20,7 @@ background_color {
 nodes {
   position {
     x: 110.0
-    y: 120.0
+    y: 90.0
     z: 0.0
     w: 1.0
   }
@@ -73,6 +73,7 @@ nodes {
   custom_type: 0
   enabled: true
   visible: true
+  material: ""
 }
 nodes {
   position {
@@ -131,6 +132,7 @@ nodes {
   custom_type: 0
   enabled: false
   visible: true
+  material: ""
 }
 nodes {
   position {
@@ -197,11 +199,12 @@ nodes {
   custom_type: 0
   enabled: true
   visible: true
+  material: ""
 }
 nodes {
   position {
     x: 250.0
-    y: 120.0
+    y: 90.0
     z: 0.0
     w: 1.0
   }
@@ -254,6 +257,7 @@ nodes {
   custom_type: 0
   enabled: true
   visible: true
+  material: ""
 }
 nodes {
   position {
@@ -312,6 +316,7 @@ nodes {
   custom_type: 0
   enabled: false
   visible: true
+  material: ""
 }
 nodes {
   position {
@@ -378,11 +383,12 @@ nodes {
   custom_type: 0
   enabled: true
   visible: true
+  material: ""
 }
 nodes {
   position {
     x: 390.0
-    y: 120.0
+    y: 90.0
     z: 0.0
     w: 1.0
   }
@@ -435,6 +441,7 @@ nodes {
   custom_type: 0
   enabled: true
   visible: true
+  material: ""
 }
 nodes {
   position {
@@ -493,6 +500,7 @@ nodes {
   custom_type: 0
   enabled: false
   visible: true
+  material: ""
 }
 nodes {
   position {
@@ -559,11 +567,12 @@ nodes {
   custom_type: 0
   enabled: true
   visible: true
+  material: ""
 }
 nodes {
   position {
     x: 530.0
-    y: 120.0
+    y: 90.0
     z: 0.0
     w: 1.0
   }
@@ -616,6 +625,7 @@ nodes {
   custom_type: 0
   enabled: true
   visible: true
+  material: ""
 }
 nodes {
   position {
@@ -674,6 +684,7 @@ nodes {
   custom_type: 0
   enabled: false
   visible: true
+  material: ""
 }
 nodes {
   position {
@@ -740,6 +751,7 @@ nodes {
   custom_type: 0
   enabled: true
   visible: true
+  material: ""
 }
 nodes {
   position {
@@ -797,6 +809,7 @@ nodes {
   custom_type: 0
   enabled: true
   visible: true
+  material: ""
 }
 nodes {
   position {
@@ -863,6 +876,7 @@ nodes {
   custom_type: 0
   enabled: true
   visible: true
+  material: ""
 }
 material: "/builtins/materials/gui.material"
 adjust_reference: ADJUST_REFERENCE_PARENT

@@ -5,6 +5,7 @@ local config = sys.load(ryoku_path)
 local currentLevel = require("levels.template")
 local squares = require("construct.conformation")
 local groupColor = require("construct.groupsColors")
+local render_helper = require("render.render_helper")
 --https://defold.com/manuals/factory/
 --https://paletton.com/#uid=15A0u0kictn8hMuduAjmcpgq0kQ
 -- w: 1920 -- 640
@@ -95,7 +96,9 @@ end
 
 function generateSupport(self)
 	local sliderSize = go.get("/slider#sprite", "size")
-	--local widthScreen = sys.get_config("display.width")
+	local widthScreen = sys.get_config("display.width")
+	local heightScreen = sys.get_config("display.height")
+
 	local widthScreen = sliderSize.x
 	local startWith = ((widthScreen - ((currentLevel.platform.sizeSquare * currentLevel.platform.scaleGrid) * currentLevel.platform.column)) / 2) + ((currentLevel.platform.sizeSquare * currentLevel.platform.scaleGrid)/2)
 	local startHeight = currentLevel.platform.blockHeight + ((currentLevel.platform.sizeSquare * currentLevel.platform.scaleGrid) * currentLevel.platform.column)
@@ -126,8 +129,7 @@ function generateSupport(self)
 
 			if i == 1 and m == 1 then
 				currentLevel.platform.firstTileGrid = vmath.vector3(x,y, 0.1)
-			end
-			
+			end 
 			currentLevel.grid[m][i].gdXY = vmath.vector3(i, m, 0) 
 
 			self.instanceId = factory.create("/level#plain", nil, nil, { tileposition = currentLevel.grid[m][i].gdXY, fullPosition = currentLevel.grid[m][i].xy }, currentLevel.platform.scaleGrid)
@@ -204,6 +206,16 @@ function initializeBonusGrid(self)
 	end
 end
 
+-- function triggerBackgroundGrid(self)
+-- 	for m = 1, #currentLevel.grid do
+-- 		for i = 1, #currentLevel.grid[m] do
+-- 			if not currentLevel.grid[m][i].isGood and currentLevel.grid[m][i].isGrey then -- PLAYBACK_LOOP_PINGPONG
+-- 				go.animate(currentLevel.grid[m][i].gridSpriteId, "tint", go.PLAYBACK_ONCE_PINGPONG, currentLevel.platform.grey.bad, go.EASING_INOUTQUART, 0.1, 0)
+-- 			end
+-- 		end
+-- 	end
+-- end
+
 function selectSquare(self, actionX, actionY)
 	local squareList = {}
 	for m = 1, #currentLevel.grid do
@@ -236,7 +248,15 @@ function showBonus(self, square, bonusName)
 	msg.post(targetTile, bonusName, { tileBonus = square })
 end
 
+function soundFinalizeLostLevel(self)
+	local soundSelectBonus = sys.load(ryoku_path)
+	if soundSelectBonus.sound then
+		sound.play("/sound#final_lost", {delay = 0, gain = soundSelectBonus.gainAction})
+	end
+end
+
 function finalizeLostLevel(self)
+	soundFinalizeLostLevel(self)
 	for i = 1, #currentLevel.groups do
 		local groupNumber = currentLevel.groups[i].number
 		for m = 1, #currentLevel.grid do
@@ -318,7 +338,7 @@ end
 
 function init(self)
 	msg.post("@render:", "clear_color", { color = vmath.vector4(0.949, 0.952, 0.956, 0) })
-	--pprint("===> get_save_file :: ", sys.get_save_file("ryoku", "ryoku_config"))
+	
 	self.tickInit = 0
 	self.tickRoundedInit = 0
 	if config.level == 1 then
@@ -352,12 +372,25 @@ function init(self)
 		end
 	end
 	msg.post("/powerup#powerup", "manage_sudoku_counter")
+	if config.music then
+		sound.play("/sound#background_music", {delay = 0, gain = config.gainMusic})
+	end
+	if not config.music then
+		sound.stop("/sound#background_music")
+	end
 end
 
 function final(self)
 end
 
 function unload(self)
+end
+
+function soundSelectBonusSudoku(self)
+	local soundSelectBonus = sys.load(ryoku_path)
+	if soundSelectBonus.sound then
+		sound.play("/sound#select_bonus", {delay = 0, gain = soundSelectBonus.gainSelection})
+	end
 end
 
 function update(self, dt)
@@ -397,7 +430,19 @@ function update(self, dt)
 		
 		finalizeLostLevel(self)
 		timer.delay(((currentLevel.platform.column * 2)/10) + 1, false, function() 
-			msg.post("/life#life", "display_option_lost")
+			local interstitial_life = sys.load(ryoku_path)
+			interstitial_life.current_transition = interstitial_life.current_transition + 1
+			if sys.save(ryoku_path, interstitial_life) then
+				local interstitial_life_updated = sys.load(ryoku_path)
+				if not interstitial_life_updated.is_interstitial_transition and 
+				interstitial_life_updated.current_transition >= interstitial_life_updated.step_transition and 
+				interstitial_life_updated.level > 6 and 
+				interstitial_life_updated.life ~= 0 then
+					msg.post("/ads#ads", "display_intersitial_ad_unit_retry_level")
+				else
+					msg.post("/life#life", "display_option_lost")
+				end
+			end
 		end)
 	end
 	-- if currentLevel.platform.actionLostLevel and not currentLevel.platform.isBlockMatch then
@@ -415,6 +460,7 @@ function update(self, dt)
 	if currentLevel.platform.totalGroupDisplaying == currentLevel.platform.column then
 		local finalizeTotaletile = countRevelatetile(self)
 		if finalizeTotaletile == (currentLevel.platform.column * currentLevel.platform.column) and not self.intializeParticulePulse then
+			sound.play("/sound#final_bullet", {delay = 0, gain = config.gainAction})
 			pulseParticuleFinal(self)
 			self.intializeParticulePulse = true
 		end
@@ -426,7 +472,11 @@ function on_message(self, message_id, message, sender)
 		currentLevel.platform.bonusName = message.bonusName
 		initializeBonusGrid(self)
 	end
+	-- if message_id == hash("dragup_block") then
+	-- 	triggerBackgroundGrid(self)
+	-- end
 	if message_id == hash("run_sudoku_bonus") then
+		soundSelectBonusSudoku(self)
 		local listSquareDisplaying = {}
 		for i = 1, #currentLevel.refBlock do
 			if currentLevel.refBlock[i].isdisplaying and currentLevel.refBlock[i].isActive then
@@ -450,7 +500,8 @@ end
 
 function on_input(self, action_id, action)
 	if action.pressed and currentLevel.platform.bonusName ~= "" then
-		local square = selectSquare(self, action.x, action.y)
+		local actionSquare = render_helper.action_to_position(action)
+		local square = selectSquare(self, actionSquare.x, actionSquare.y)
 		if #square == 1 then
 			if currentLevel.platform.bonusName == "adjacent_bonus"
 			or currentLevel.platform.bonusName == "target_bonus"

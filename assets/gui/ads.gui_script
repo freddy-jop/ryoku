@@ -1,0 +1,221 @@
+local ryoku_path = sys.get_save_file("ryoku", "data_level")
+
+local function admob_callback(self, message_id, message)
+	if message_id == admob.MSG_INITIALIZATION then
+		self.initialized = true
+		if message.event == admob.EVENT_COMPLETE then
+			print("EVENT_COMPLETE: Initialization complete")
+		elseif message.event == admob.EVENT_JSON_ERROR then
+			print("EVENT_JSON_ERROR: Internal NE json error "..message.error)
+		end
+	elseif message_id == admob.MSG_REWARDED then
+		if message.event == admob.EVENT_CLOSED then
+			print("EVENT_CLOSED: Rewarded AD closed")
+		elseif message.event == admob.EVENT_FAILED_TO_SHOW then
+			print("EVENT_FAILED_TO_SHOW: Rewarded AD failed to show\nCode: "..message.code.."\nError: "..message.error)
+		elseif message.event == admob.EVENT_OPENING then
+			-- on android this event fire only when ADS activity closed =(
+			print("EVENT_OPENING: Rewarded AD is opening")
+		elseif message.event == admob.EVENT_FAILED_TO_LOAD then
+			print("EVENT_FAILED_TO_LOAD: Rewarded AD failed to load\nCode: "..message.code.."\nError: "..message.error)
+		elseif message.event == admob.EVENT_LOADED then
+			print("EVENT_LOADED: Rewarded AD loaded")
+			if admob.is_rewarded_loaded() then
+				admob.show_rewarded()
+			end
+		elseif message.event == admob.EVENT_NOT_LOADED then
+			print("EVENT_NOT_LOADED: can't call show_rewarded() before EVENT_LOADED\nError: "..message.error)
+		elseif message.event == admob.EVENT_EARNED_REWARD then
+			print("EVENT_EARNED_REWARD: Reward: " .. tostring(message.amount) .. " " .. tostring(message.type))
+			if self.bonusName == "life_bonus" or tostring(message.type) == "Reward_life" then
+				self.bonusName = ""
+				msg.post("/life#life", "increment_and_toggle_life_by_ads")
+			elseif self.bonusName == "adjacent_bonus" or tostring(message.type) == "Reward_adjacent" then
+				self.bonusName = ""
+				msg.post("/popup#popup", "increment_zone_by_ads")
+			elseif self.bonusName == "target_bonus" or tostring(message.type) == "Reward_target" then
+				self.bonusName = ""
+				msg.post("/popup#popup", "increment_target_by_ads")
+			elseif self.bonusName == "group_bonus" or tostring(message.type) == "Reward_group" then
+				self.bonusName = ""
+				msg.post("/popup#popup", "increment_group_by_ads")
+			elseif self.bonusName == "sudoku_bonus" or tostring(message.type) == "Reward_sudoku" then
+				self.bonusName = ""
+				msg.post("/popup#popup", "increment_sudoku_by_ads")
+			end
+		elseif message.event == admob.EVENT_IMPRESSION_RECORDED then
+			print("EVENT_IMPRESSION_RECORDED: Rewarded did record impression")
+		elseif message.event == admob.EVENT_CLICKED then
+			print("EVENT_CLICKED: Rewarded clicked")
+		elseif message.event == admob.EVENT_JSON_ERROR then
+			print("EVENT_JSON_ERROR: Internal NE json error: "..message.error)
+		end
+	elseif message_id == admob.MSG_INTERSTITIAL then
+		if message.event == admob.EVENT_CLOSED then
+			print("EVENT_CLOSED: Interstitial AD closed")
+		elseif message.event == admob.EVENT_FAILED_TO_SHOW then
+			print("EVENT_FAILED_TO_SHOW: Interstitial AD failed to show\nCode: "..message.code.."\nError: "..message.error)
+		elseif message.event == admob.EVENT_OPENING then
+			-- on android this event fire only when ADS activity closed =(
+			print("EVENT_OPENING: Interstitial AD is opening")
+		elseif message.event == admob.EVENT_FAILED_TO_LOAD then
+			print("EVENT_FAILED_TO_LOAD: Interstitial AD failed to load\nCode: "..message.code.."\nError: "..message.error)
+			if self.transitionName == "pass_level" then
+				self.transitionName = ""
+				local transitionName_pass_level = sys.load(ryoku_path)
+				transitionName_pass_level.current_transition = 0
+				if sys.save(ryoku_path, transitionName_pass_level) then
+					msg.post("controller:/loader#controller", "changeScene", { newScene = "clickOnLevel" })
+				end
+			end
+			if self.transitionName == "retry_level" then
+				self.transitionName = ""
+				local transitionName_retry_level = sys.load(ryoku_path)
+				transitionName_retry_level.current_transition = 0
+				if sys.save(ryoku_path, transitionName_retry_level) then
+					msg.post("/life#life", "display_option_lost")
+				end
+			end
+		elseif message.event == admob.EVENT_LOADED then
+			print("EVENT_LOADED: Interstitial AD loaded")
+			if admob.is_interstitial_loaded() then
+				admob.show_interstitial()
+			end
+		elseif message.event == admob.EVENT_NOT_LOADED then
+			print("EVENT_NOT_LOADED: can't call show_interstitial() before EVENT_LOADED\nError: "..message.error)
+			if self.transitionName == "pass_level" then
+				self.transitionName = ""
+				local transitionName_pass_level = sys.load(ryoku_path)
+				transitionName_pass_level.current_transition = 0
+				if sys.save(ryoku_path, transitionName_pass_level) then
+					msg.post("controller:/loader#controller", "changeScene", { newScene = "clickOnLevel" })
+				end
+			end
+			if self.transitionName == "retry_level" then
+				self.transitionName = ""
+				local transitionName_retry_level = sys.load(ryoku_path)
+				transitionName_retry_level.current_transition = 0
+				if sys.save(ryoku_path, transitionName_retry_level) then
+					msg.post("/life#life", "display_option_lost")
+				end
+			end
+		elseif message.event == admob.EVENT_IMPRESSION_RECORDED then
+			print("EVENT_IMPRESSION_RECORDED: Interstitial did record impression")
+			if self.transitionName == "pass_level" then
+				self.transitionName = ""
+				local transitionName_pass_level = sys.load(ryoku_path)
+				transitionName_pass_level.current_transition = 0
+				if sys.save(ryoku_path, transitionName_pass_level) then
+					msg.post("controller:/loader#controller", "changeScene", { newScene = "clickOnLevel" })
+				end
+			end
+			if self.transitionName == "retry_level" then
+				self.transitionName = ""
+				local transitionName_retry_level = sys.load(ryoku_path)
+				transitionName_retry_level.current_transition = 0
+				if sys.save(ryoku_path, transitionName_retry_level) then
+					msg.post("/life#life", "display_option_lost")
+				end
+			end
+		elseif message.event == admob.EVENT_CLICKED then
+			print("EVENT_CLICKED: Interstitial clicked")
+		elseif message.event == admob.EVENT_JSON_ERROR then
+			print("EVENT_JSON_ERROR: Internal NE json error: "..message.error)
+		end
+	end
+end
+
+function init(self)
+	local engine_info = sys.get_engine_info()
+	self.is_debug = engine_info.is_debug
+	self.bonusName = ""
+	self.transitionName = ""
+	if self.is_debug then
+		self.rewardedvideo_ad_unit_adjacent = "ca-app-pub-3940256099942544/5224354917"
+		self.rewardedvideo_ad_unit_target = "ca-app-pub-3940256099942544/5224354917"
+		self.rewardedvideo_ad_unit_group = "ca-app-pub-3940256099942544/5224354917"
+		self.rewardedvideo_ad_unit_sudoku = "ca-app-pub-3940256099942544/5224354917"
+		self.rewardedvideo_ad_unit_life = "ca-app-pub-3940256099942544/5224354917"
+		self.interstitial_waiting_start = "ca-app-pub-3940256099942544/8691691433"
+	else
+		self.rewardedvideo_ad_unit_adjacent = "ca-app-pub-8402825416529930/3751908401"
+		self.rewardedvideo_ad_unit_target = "ca-app-pub-8402825416529930/5963138777"
+		self.rewardedvideo_ad_unit_group = "ca-app-pub-8402825416529930/9136097029"
+		self.rewardedvideo_ad_unit_sudoku = "ca-app-pub-8402825416529930/4622136943"
+		self.rewardedvideo_ad_unit_life = "ca-app-pub-8402825416529930/8103583933"
+		self.interstitial_waiting_start = "ca-app-pub-8402825416529930/9399040657"
+	end
+	if admob then
+		-- Set callback before initialization
+		admob.set_callback(admob_callback)
+		admob.initialize()
+		-- Read documentation about privacy settings and use the following method if you need to apply it
+		-- https://developers.google.com/admob/ios/ccpa
+		-- https://developers.google.com/admob/android/ccpa
+		admob.set_privacy_settings(true)
+	end
+	-- Add initialization code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function final(self)
+	-- Add finalization code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function update(self, dt)
+	-- Add update code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("display_rewardedvideo_ad_unit_life") then
+		self.bonusName = "life_bonus"
+		admob.load_rewarded(self.rewardedvideo_ad_unit_life)
+	end
+	if message_id == hash("display_rewardedvideo_ad_unit_adjacent") then
+		self.bonusName = "adjacent_bonus"
+		admob.load_rewarded(self.rewardedvideo_ad_unit_adjacent)
+	end
+	if message_id == hash("display_rewardedvideo_ad_unit_target") then
+		self.bonusName = "target_bonus"
+		admob.load_rewarded(self.rewardedvideo_ad_unit_target)
+	end
+	if message_id == hash("display_rewardedvideo_ad_unit_group") then
+		self.bonusName = "group_bonus"
+		admob.load_rewarded(self.rewardedvideo_ad_unit_group)
+	end
+	if message_id == hash("display_rewardedvideo_ad_unit_sudoku") then
+		self.bonusName = "sudoku_bonus"
+		admob.load_rewarded(self.rewardedvideo_ad_unit_sudoku)
+	end
+	if message_id == hash("display_intersitial_ad_unit_pass_level") then
+		self.transitionName = "pass_level"
+		admob.load_interstitial(self.interstitial_waiting_start)
+	end
+	if message_id == hash("display_intersitial_ad_unit_retry_level") then
+		self.transitionName = "retry_level"
+		admob.load_interstitial(self.interstitial_waiting_start)
+	end
+end
+
+function on_input(self, action_id, action)
+	-- Add input-handling code here. The game object this script is attached to
+	-- must have acquired input focus:
+	--
+	--    msg.post(".", "acquire_input_focus")
+	--
+	-- All mapped input bindings will be received. Mouse and touch input will
+	-- be received regardless of where on the screen it happened.
+	-- Learn more: https://defold.com/manuals/input/
+	-- Remove this function if not needed
+end
+
+function on_reload(self)
+	-- Add reload-handling code here
+	-- Learn more: https://defold.com/manuals/hot-reload/
+	-- Remove this function if not needed
+end

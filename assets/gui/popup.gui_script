@@ -70,6 +70,19 @@ function setRuFont(self)
 
 	gui.set_font(gui.get_node("txt_recharge_free_sudoku"), hash("RU_30_border"))
 	gui.set_font(gui.get_node("txt_recharge_pay_sudoku"), hash("RU_30_border"))
+
+	--ERROR ADS
+	gui.set_font(gui.get_node("header_error_ads"), hash("RU_22"))
+	gui.set_font(gui.get_node("txt_error_ads"), hash("RU_22"))
+	gui.set_font(gui.get_node("txt_error_ads_validation"), hash("RU_30_border"))
+
+	--ERROR CHALLENGE
+	gui.set_font(gui.get_node("header_info"), hash("RU_22"))
+	gui.set_font(gui.get_node("situation_info"), hash("RU_22"))
+	gui.set_font(gui.get_node("request_info"), hash("RU_22"))
+	gui.set_font(gui.get_node("warn_info"), hash("RU_22"))
+	gui.set_font(gui.get_node("help_bonus"), hash("RU_22"))
+	gui.set_font(gui.get_node("ok_button"), hash("RU_30_border"))
 end
 
 function setArbFont(self)
@@ -136,6 +149,19 @@ function setArbFont(self)
 
 	gui.set_font(gui.get_node("txt_recharge_free_sudoku"), hash("ARB_35_border"))
 	gui.set_font(gui.get_node("txt_recharge_pay_sudoku"), hash("ARB_35_border"))
+
+	--ERROR ADS
+	gui.set_font(gui.get_node("header_error_ads"), hash("ARB_25"))
+	gui.set_font(gui.get_node("txt_error_ads"), hash("ARB_25"))
+	gui.set_font(gui.get_node("txt_error_ads_validation"), hash("ARB_35_border"))
+
+	--ERROR CHALLENGE
+	gui.set_font(gui.get_node("header_info"), hash("ARB_25"))
+	gui.set_font(gui.get_node("situation_info"), hash("ARB_25"))
+	gui.set_font(gui.get_node("request_info"), hash("ARB_25"))
+	gui.set_font(gui.get_node("warn_info"), hash("ARB_25"))
+	gui.set_font(gui.get_node("help_bonus"), hash("ARB_25"))
+	gui.set_font(gui.get_node("ok_button"), hash("ARB_35_border"))
 end
 
 function setJaFont(self)
@@ -202,6 +228,19 @@ function setJaFont(self)
 
 	gui.set_font(gui.get_node("txt_recharge_free_sudoku"), hash("JA_30_border"))
 	gui.set_font(gui.get_node("txt_recharge_pay_sudoku"), hash("JA_30_border"))
+
+	--ERROR ADS
+	gui.set_font(gui.get_node("header_error_ads"), hash("JA_20"))
+	gui.set_font(gui.get_node("txt_error_ads"), hash("JA_20"))
+	gui.set_font(gui.get_node("txt_error_ads_validation"), hash("JA_25"))
+
+	--ERROR CHALLENGE
+	gui.set_font(gui.get_node("header_info"), hash("JA_25"))
+	gui.set_font(gui.get_node("situation_info"), hash("JA_20"))
+	gui.set_font(gui.get_node("request_info"), hash("JA_20"))
+	gui.set_font(gui.get_node("warn_info"), hash("JA_20"))
+	gui.set_font(gui.get_node("help_bonus"), hash("JA_20"))
+	gui.set_font(gui.get_node("ok_button"), hash("JA_30_border"))
 end
 
 function setKrFont(self)
@@ -268,6 +307,19 @@ function setKrFont(self)
 
 	gui.set_font(gui.get_node("txt_recharge_free_sudoku"), hash("KR_30_border"))
 	gui.set_font(gui.get_node("txt_recharge_pay_sudoku"), hash("KR_30_border"))
+
+	--ERROR ADS
+	gui.set_font(gui.get_node("header_error_ads"), hash("KR_25"))
+	gui.set_font(gui.get_node("txt_error_ads"), hash("KR_25"))
+	gui.set_font(gui.get_node("txt_error_ads_validation"), hash("KR_30_border"))
+
+	--ERROR CHALLENGE
+	gui.set_font(gui.get_node("header_info"), hash("KR_25"))
+	gui.set_font(gui.get_node("situation_info"), hash("KR_25"))
+	gui.set_font(gui.get_node("request_info"), hash("KR_25"))
+	gui.set_font(gui.get_node("warn_info"), hash("KR_25"))
+	gui.set_font(gui.get_node("help_bonus"), hash("KR_25"))
+	gui.set_font(gui.get_node("ok_button"), hash("KR_30_border"))
 end
 
 function setViFont(self)
@@ -334,6 +386,19 @@ function setViFont(self)
 
 	gui.set_font(gui.get_node("txt_recharge_free_sudoku"), hash("VI_30_border"))
 	gui.set_font(gui.get_node("txt_recharge_pay_sudoku"), hash("VI_30_border"))
+
+	--ERROR ADS
+	gui.set_font(gui.get_node("header_error_ads"), hash("VI_20"))
+	gui.set_font(gui.get_node("txt_error_ads"), hash("VI_20"))
+	gui.set_font(gui.get_node("txt_error_ads_validation"), hash("VI_30_border"))
+
+	--ERROR CHALLENGE
+	gui.set_font(gui.get_node("header_info"), hash("VI_25"))
+	gui.set_font(gui.get_node("situation_info"), hash("VI_20"))
+	gui.set_font(gui.get_node("request_info"), hash("VI_20"))
+	gui.set_font(gui.get_node("warn_info"), hash("VI_20"))
+	gui.set_font(gui.get_node("help_bonus"), hash("VI_20"))
+	gui.set_font(gui.get_node("ok_button"), hash("VI_30_border"))
 end
 
 function setLatineFont(self)
@@ -400,6 +465,19 @@ function setLatineFont(self)
 
 	gui.set_font(gui.get_node("txt_recharge_free_sudoku"), hash("PoetsenOne40_border"))
 	gui.set_font(gui.get_node("txt_recharge_pay_sudoku"), hash("PoetsenOne40_border"))
+
+	--ERROR ADS
+	gui.set_font(gui.get_node("header_error_ads"), hash("PoetsenOne25_border"))
+	gui.set_font(gui.get_node("txt_error_ads"), hash("PoetsenOne22"))
+	gui.set_font(gui.get_node("txt_error_ads_validation"), hash("PoetsenOne40_border"))
+
+	--ERROR CHALLENGE
+	gui.set_font(gui.get_node("header_info"), hash("PoetsenOne25_border"))
+	gui.set_font(gui.get_node("situation_info"), hash("PoetsenOne22"))
+	gui.set_font(gui.get_node("request_info"), hash("PoetsenOne22"))
+	gui.set_font(gui.get_node("warn_info"), hash("PoetsenOne22"))
+	gui.set_font(gui.get_node("help_bonus"), hash("PoetsenOne22"))
+	gui.set_font(gui.get_node("ok_button"), hash("PoetsenOne40_border"))
 end
 
 function setTxtForAll(self)
@@ -467,6 +545,19 @@ function setTxtForAll(self)
 
 	gui.set_text(gui.get_node("txt_recharge_free_sudoku"), languages[lgConfPopupLatin.game_language].label_button_recharge)
 	gui.set_text(gui.get_node("txt_recharge_pay_sudoku"), languages[lgConfPopupLatin.game_language].label_button_recharge)
+
+	--ERROR ADS
+	gui.set_text(gui.get_node("header_error_ads"), languages[lgConfPopupLatin.game_language].title_error_ads)
+	gui.set_text(gui.get_node("txt_error_ads"), languages[lgConfPopupLatin.game_language].txt_error_ads)
+	gui.set_text(gui.get_node("txt_error_ads_validation"), languages[lgConfPopupLatin.game_language].validation_error_ads)
+
+	--INFO CHALLENGE
+	gui.set_text(gui.get_node("header_info"), languages[lgConfPopupLatin.game_language].header_info)
+	gui.set_text(gui.get_node("situation_info"), languages[lgConfPopupLatin.game_language].situation_info)
+	gui.set_text(gui.get_node("request_info"), languages[lgConfPopupLatin.game_language].request_info)
+	gui.set_text(gui.get_node("warn_info"), languages[lgConfPopupLatin.game_language].warn_info)
+	gui.set_text(gui.get_node("help_bonus"), languages[lgConfPopupLatin.game_language].help_bonus)
+	gui.set_text(gui.get_node("ok_button"), languages[lgConfPopupLatin.game_language].ok_button)
 end
 
 function setTxtArabic(self)
@@ -534,6 +625,19 @@ function setTxtArabic(self)
 
 	gui.set_text(gui.get_node("txt_recharge_free_sudoku"), modifier.modifierToArab(languages[lgConfPopupAr.game_language].label_button_recharge))
 	gui.set_text(gui.get_node("txt_recharge_pay_sudoku"), modifier.modifierToArab(languages[lgConfPopupAr.game_language].label_button_recharge))
+
+	--ERROR ADS
+	gui.set_text(gui.get_node("header_error_ads"), modifier.modifierToArab(languages[lgConfPopupAr.game_language].title_error_ads))
+	gui.set_text(gui.get_node("txt_error_ads"), modifier.modifierToArab(languages[lgConfPopupAr.game_language].txt_error_ads))
+	gui.set_text(gui.get_node("txt_error_ads_validation"), modifier.modifierToArab(languages[lgConfPopupAr.game_language].validation_error_ads))
+
+	--INFO CHALLENGE
+	gui.set_text(gui.get_node("header_info"), modifier.modifierToArab(languages[lgConfPopupAr.game_language].header_info))
+	gui.set_text(gui.get_node("situation_info"), modifier.modifierToArab(languages[lgConfPopupAr.game_language].situation_info))
+	gui.set_text(gui.get_node("request_info"), modifier.modifierToArab(languages[lgConfPopupAr.game_language].request_info))
+	gui.set_text(gui.get_node("warn_info"), modifier.modifierToArab(languages[lgConfPopupAr.game_language].warn_info))
+	gui.set_text(gui.get_node("help_bonus"), modifier.modifierToArab(languages[lgConfPopupAr.game_language].help_bonus))
+	gui.set_text(gui.get_node("ok_button"), modifier.modifierToArab(languages[lgConfPopupAr.game_language].ok_button))
 end
 
 function setInformationReperes(self)
@@ -587,10 +691,24 @@ function managePopupLg(self)
 	end
 	if manageConfigPopup.game_language == "ar" then
 		setTxtArabic(self)
-		setInformationReperesArabic(self)
+		--setInformationReperesArabic(self)
 	else
 		setTxtForAll(self)
-		setInformationReperes(self)
+		--setInformationReperes(self)
+	end
+end
+
+function receiveBonusSound(self)
+	local soundBonusIsActive = sys.load(ryoku_path)
+	if soundBonusIsActive.sound then
+		sound.play("/sound#receive_bonus", {delay = 0, gain = soundBonusIsActive.gainAction})
+	end
+end
+
+function validationSound(self)
+	local soundIsActive = sys.load(ryoku_path)
+	if soundIsActive.sound then
+		sound.play("/sound#validation_button", {delay = 0, gain = soundIsActive.gainSelection})
 	end
 end
 
@@ -598,6 +716,7 @@ function init(self)
 	msg.post(".", "acquire_input_focus")
 	managePopupLg(self)
 	gui.set_render_order(0)
+	self.initialized = false
 end
 
 function final(self)
@@ -610,29 +729,143 @@ function update(self, dt)
 end
 
 function on_message(self, message_id, message, sender)
+	if message_if == hash("zone_popup_error_ads") then
+		gui.set_enabled(gui.get_node("overlay"), true)
+		gui.set_enabled(gui.get_node("popup_error_ads"), true)
+	end
 	if message_id == hash("zone_popup_pay") then
 		managePopupLg(self)
 		gui.set_enabled(gui.get_node("overlay"), true)
 		gui.set_enabled(gui.get_node("popup_adjacent_pay"), true)
+	end
+	if message_id == hash("zone_popup_free") then
+		managePopupLg(self)
+		gui.set_enabled(gui.get_node("overlay"), true)
+		gui.set_enabled(gui.get_node("popup_adjacent_free"), true)
 	end
 	if message_id == hash("target_popup_pay") then
 		managePopupLg(self)
 		gui.set_enabled(gui.get_node("overlay"), true)
 		gui.set_enabled(gui.get_node("popup_target_pay"), true)
 	end
+	if message_id == hash("target_popup_free") then
+		managePopupLg(self)
+		gui.set_enabled(gui.get_node("overlay"), true)
+		gui.set_enabled(gui.get_node("popup_target_free"), true)
+	end
 	if message_id == hash("group_popup_pay") then
 		managePopupLg(self)
 		gui.set_enabled(gui.get_node("overlay"), true)
 		gui.set_enabled(gui.get_node("popup_group_pay"), true)
+	end
+	if message_id == hash("group_popup_free") then
+		managePopupLg(self)
+		gui.set_enabled(gui.get_node("overlay"), true)
+		gui.set_enabled(gui.get_node("popup_group_free"), true)
 	end
 	if message_id == hash("sudoku_popup_pay") then
 		managePopupLg(self)
 		gui.set_enabled(gui.get_node("overlay"), true)
 		gui.set_enabled(gui.get_node("popup_sudoku_pay"), true)
 	end
+	if message_id == hash("sudoku_popup_free") then
+		managePopupLg(self)
+		gui.set_enabled(gui.get_node("overlay"), true)
+		gui.set_enabled(gui.get_node("popup_sudoku_free"), true)
+	end
 	if message_id == hash("display_info") then
+		managePopupLg(self)
 		gui.set_enabled(gui.get_node("overlay_info"), true)
 		gui.set_enabled(gui.get_node("popup_info_powerup"), true)
+	end
+	if message_id == hash("increment_zone_by_ads") then
+		currentLevel.platform.stopGame = false
+		receiveBonusSound(self)
+		local rechargeZone = sys.load(ryoku_path)
+		rechargeZone.adjacent = rechargeZone.adjacent + 1
+		if sys.save(ryoku_path, rechargeZone) then
+			msg.post("/powerup#powerup", "increment_zone")
+		end
+		gui.set_enabled(gui.get_node("popup_adjacent_free"), false)
+		gui.set_enabled(gui.get_node("overlay"), false)
+	end
+	if message_id == hash("increment_target_by_ads") then
+		currentLevel.platform.stopGame = false
+		receiveBonusSound(self)
+		local rechargeTarget = sys.load(ryoku_path)
+		rechargeTarget.target = rechargeTarget.target + 1
+		if sys.save(ryoku_path, rechargeTarget) then
+			msg.post("/powerup#powerup", "increment_target")
+		end
+		gui.set_enabled(gui.get_node("popup_target_free"), false)
+		gui.set_enabled(gui.get_node("overlay"), false)
+	end
+	if message_id == hash("increment_group_by_ads") then
+		currentLevel.platform.stopGame = false
+		receiveBonusSound(self)
+		local rechargeGroup = sys.load(ryoku_path)
+		rechargeGroup.group = rechargeGroup.group + 1
+		if sys.save(ryoku_path, rechargeGroup) then
+			msg.post("/powerup#powerup", "increment_group")
+		end
+		gui.set_enabled(gui.get_node("popup_group_free"), false)
+		gui.set_enabled(gui.get_node("overlay"), false)
+	end
+	if message_id == hash("increment_sudoku_by_ads") then
+		currentLevel.platform.stopGame = false
+		receiveBonusSound(self)
+		local rechargeSudoku = sys.load(ryoku_path)
+		rechargeSudoku.sudoku = rechargeSudoku.sudoku + 1
+		if sys.save(ryoku_path, rechargeSudoku) then
+			msg.post("/powerup#powerup", "increment_sudoku")
+		end
+		gui.set_enabled(gui.get_node("popup_sudoku_free"), false)
+		gui.set_enabled(gui.get_node("overlay"), false)
+	end
+	if message_id == hash("increment_target_by_iap_buy") then
+		currentLevel.platform.stopGame = false
+		receiveBonusSound(self)
+		local rechargeTargetBuy = sys.load(ryoku_path)
+		rechargeTargetBuy.target = rechargeTargetBuy.target + 3
+		if sys.save(ryoku_path, rechargeTargetBuy) then
+			msg.post("/powerup#powerup", "increment_target")
+		end
+		gui.set_enabled(gui.get_node("popup_target_pay"), false)
+		gui.set_enabled(gui.get_node("overlay"), false)
+	end
+	if message_id == hash("increment_zone_by_iap_buy") then
+		currentLevel.platform.stopGame = false
+		receiveBonusSound(self)
+		local rechargeZoneBuy = sys.load(ryoku_path)
+		rechargeZoneBuy.adjacent = rechargeZoneBuy.adjacent + 3
+		if sys.save(ryoku_path, rechargeZoneBuy) then
+			msg.post("/powerup#powerup", "increment_zone")
+		end
+		gui.set_enabled(gui.get_node("popup_adjacent_pay"), false)
+		gui.set_enabled(gui.get_node("overlay"), false)
+	end
+	if message_id == hash("increment_group_by_iap_buy") then
+		currentLevel.platform.stopGame = false
+		receiveBonusSound(self)
+		local rechargeGroupBuy = sys.load(ryoku_path)
+		rechargeGroupBuy.group = rechargeGroupBuy.group + 3
+		if sys.save(ryoku_path, rechargeGroupBuy) then
+			msg.post("/powerup#powerup", "increment_group")
+		end
+		gui.set_enabled(gui.get_node("popup_group_pay"), false)
+		gui.set_enabled(gui.get_node("overlay"), false)
+	end
+	
+	if message_id == hash("increment_sudoku_by_iap_buy") then
+		currentLevel.platform.stopGame = false
+		receiveBonusSound(self)
+		local rechargeSudokuBuy = sys.load(ryoku_path)
+		rechargeSudokuBuy.sudoku = rechargeSudokuBuy.sudoku + 3
+		if sys.save(ryoku_path, rechargeSudokuBuy) then
+			msg.post("/powerup#powerup", "increment_sudoku")
+		end
+		gui.set_enabled(gui.get_node("popup_sudoku_pay"), false)
+		gui.set_enabled(gui.get_node("overlay"), false)
 	end
 end
 
@@ -641,100 +874,147 @@ function on_input(self, action_id, action)
 		-- popup powerup zone
 		if gui.pick_node(gui.get_node("adjacent_close_pay"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_adjacent_pay")) then
 			gui.set_enabled(gui.get_node("popup_adjacent_pay"), false)
+			validationSound(self)
 			timer.delay(0.5, false, function() 
 				managePopupLg(self)
 				gui.set_enabled(gui.get_node("popup_adjacent_free"), true)
 			end)
 		end
+		if gui.pick_node(gui.get_node("adjacent_recharge_pay"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_adjacent_pay")) then
+			validationSound(self)
+			if sys.get_connectivity() == sys.NETWORK_CONNECTED_CELLULAR or sys.get_connectivity() == sys.NETWORK_CONNECTED then
+				gui.set_scale(gui.get_node("adjacent_recharge_pay"), vmath.vector3(1))
+				gui.animate(gui.get_node("adjacent_recharge_pay"), gui.PROP_SCALE, vmath.vector3(0.8), gui.EASING_INOUTQUAD, 0.2, 0, function(self, node)
+					msg.post("/iap#iap", "iap_buy_zone_bonus")
+				end, gui.PLAYBACK_ONCE_PINGPONG)
+			end
+		end
 		if gui.pick_node(gui.get_node("adjacent_close_free"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_adjacent_free")) then
 			currentLevel.platform.stopGame = false
+			validationSound(self)
 			gui.set_enabled(gui.get_node("popup_adjacent_free"), false)
 			gui.set_enabled(gui.get_node("overlay"), false)
 		end
 		if gui.pick_node(gui.get_node("adjacent_recharge_free"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_adjacent_free")) then
-			currentLevel.platform.stopGame = false
-			local rechargeZone = sys.load(ryoku_path)
-			rechargeZone.adjacent = rechargeZone.adjacent + 1
-			if sys.save(ryoku_path, rechargeZone) then
-				msg.post("/powerup#powerup", "increment_zone")
+			validationSound(self)
+			if sys.get_connectivity() == sys.NETWORK_CONNECTED_CELLULAR or sys.get_connectivity() == sys.NETWORK_CONNECTED then
+				gui.set_scale(gui.get_node("adjacent_recharge_free"), vmath.vector3(1))
+				gui.animate(gui.get_node("adjacent_recharge_free"), gui.PROP_SCALE, vmath.vector3(0.8), gui.EASING_INOUTQUAD, 0.2, 0, function(self, node)
+					msg.post("/ads#ads", "display_rewardedvideo_ad_unit_adjacent")
+				end, gui.PLAYBACK_ONCE_PINGPONG)
 			end
-			gui.set_enabled(gui.get_node("popup_adjacent_free"), false)
-			gui.set_enabled(gui.get_node("overlay"), false)
 		end
 		-- popup powerup target
 		if gui.pick_node(gui.get_node("target_close_pay"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_target_pay")) then
 			gui.set_enabled(gui.get_node("popup_target_pay"), false)
+			validationSound(self)
 			timer.delay(0.5, false, function() 
 				managePopupLg(self)
 				gui.set_enabled(gui.get_node("popup_target_free"), true)
 			end)
 		end
+		if gui.pick_node(gui.get_node("target_recharge_pay"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_target_pay")) then
+			validationSound(self)
+			if sys.get_connectivity() == sys.NETWORK_CONNECTED_CELLULAR or sys.get_connectivity() == sys.NETWORK_CONNECTED then
+				gui.set_scale(gui.get_node("target_recharge_pay"), vmath.vector3(1))
+				gui.animate(gui.get_node("target_recharge_pay"), gui.PROP_SCALE, vmath.vector3(0.8), gui.EASING_INOUTQUAD, 0.2, 0, function(self, node)
+					msg.post("/iap#iap", "iap_buy_target_bonus")
+				end, gui.PLAYBACK_ONCE_PINGPONG)
+			end
+		end
 		if gui.pick_node(gui.get_node("target_close_free"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_target_free")) then
 			currentLevel.platform.stopGame = false
+			validationSound(self)
 			gui.set_enabled(gui.get_node("popup_target_free"), false)
 			gui.set_enabled(gui.get_node("overlay"), false)
 		end
 		if gui.pick_node(gui.get_node("target_recharge_free"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_target_free")) then
-			currentLevel.platform.stopGame = false
-			local rechargeTarget = sys.load(ryoku_path)
-			rechargeTarget.target = rechargeTarget.target + 1
-			if sys.save(ryoku_path, rechargeTarget) then
-				msg.post("/powerup#powerup", "increment_target")
+			validationSound(self)
+			if sys.get_connectivity() == sys.NETWORK_CONNECTED_CELLULAR or sys.get_connectivity() == sys.NETWORK_CONNECTED then
+				gui.set_scale(gui.get_node("target_recharge_free"), vmath.vector3(1))
+				gui.animate(gui.get_node("target_recharge_free"), gui.PROP_SCALE, vmath.vector3(0.8), gui.EASING_INOUTQUAD, 0.2, 0, function(self, node)
+					msg.post("/ads#ads", "display_rewardedvideo_ad_unit_target")
+				end, gui.PLAYBACK_ONCE_PINGPONG)
 			end
-			gui.set_enabled(gui.get_node("popup_target_free"), false)
-			gui.set_enabled(gui.get_node("overlay"), false)
 		end
 		-- popup powerup group
 		if gui.pick_node(gui.get_node("group_close_pay"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_group_pay")) then
 			gui.set_enabled(gui.get_node("popup_group_pay"), false)
+			validationSound(self)
 			timer.delay(0.5, false, function() 
 				managePopupLg(self)
 				gui.set_enabled(gui.get_node("popup_group_free"), true)
 			end)
 		end
+		if gui.pick_node(gui.get_node("group_recharge_pay"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_group_pay")) then
+			validationSound(self)
+			if sys.get_connectivity() == sys.NETWORK_CONNECTED_CELLULAR or sys.get_connectivity() == sys.NETWORK_CONNECTED then
+				gui.set_scale(gui.get_node("group_recharge_pay"), vmath.vector3(1))
+				gui.animate(gui.get_node("group_recharge_pay"), gui.PROP_SCALE, vmath.vector3(0.8), gui.EASING_INOUTQUAD, 0.2, 0, function(self, node)
+					msg.post("/iap#iap", "iap_buy_group_bonus")
+				end, gui.PLAYBACK_ONCE_PINGPONG)
+			end
+		end
 		if gui.pick_node(gui.get_node("group_close_free"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_group_free")) then
 			currentLevel.platform.stopGame = false
+			validationSound(self)
 			gui.set_enabled(gui.get_node("popup_group_free"), false)
 			gui.set_enabled(gui.get_node("overlay"), false)
 		end
 		if gui.pick_node(gui.get_node("group_recharge_free"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_group_free")) then
-			currentLevel.platform.stopGame = false
-			local rechargeGroup = sys.load(ryoku_path)
-			rechargeGroup.group = rechargeGroup.group + 1
-			if sys.save(ryoku_path, rechargeGroup) then
-				msg.post("/powerup#powerup", "increment_group")
+			validationSound(self)
+			if sys.get_connectivity() == sys.NETWORK_CONNECTED_CELLULAR or sys.get_connectivity() == sys.NETWORK_CONNECTED then
+				gui.set_scale(gui.get_node("group_recharge_free"), vmath.vector3(1))
+				gui.animate(gui.get_node("group_recharge_free"), gui.PROP_SCALE, vmath.vector3(0.8), gui.EASING_INOUTQUAD, 0.2, 0, function(self, node)
+					msg.post("/ads#ads", "display_rewardedvideo_ad_unit_group")
+				end, gui.PLAYBACK_ONCE_PINGPONG)
 			end
-			gui.set_enabled(gui.get_node("popup_group_free"), false)
-			gui.set_enabled(gui.get_node("overlay"), false)
 		end
 
 		-- popup powerup sudoku
 		if gui.pick_node(gui.get_node("sudoku_close_pay"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_sudoku_pay")) then
 			gui.set_enabled(gui.get_node("popup_sudoku_pay"), false)
+			validationSound(self)
 			timer.delay(0.5, false, function() 
 				managePopupLg(self)
 				gui.set_enabled(gui.get_node("popup_sudoku_free"), true)
 			end)
 		end
+		if gui.pick_node(gui.get_node("sudoku_recharge_pay"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_sudoku_pay")) then
+			validationSound(self)
+			if sys.get_connectivity() == sys.NETWORK_CONNECTED_CELLULAR or sys.get_connectivity() == sys.NETWORK_CONNECTED then
+				gui.set_scale(gui.get_node("sudoku_recharge_pay"), vmath.vector3(1))
+				gui.animate(gui.get_node("sudoku_recharge_pay"), gui.PROP_SCALE, vmath.vector3(0.8), gui.EASING_INOUTQUAD, 0.2, 0, function(self, node)
+					msg.post("/iap#iap", "iap_buy_doku_bonus")
+				end, gui.PLAYBACK_ONCE_PINGPONG)
+			end
+		end
 		if gui.pick_node(gui.get_node("sudoku_close_free"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_sudoku_free")) then
 			currentLevel.platform.stopGame = false
+			validationSound(self)
 			gui.set_enabled(gui.get_node("popup_sudoku_free"), false)
 			gui.set_enabled(gui.get_node("overlay"), false)
 		end
 		if gui.pick_node(gui.get_node("sudoku_recharge_free"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_sudoku_free")) then
-			currentLevel.platform.stopGame = false
-			local rechargeSudoku = sys.load(ryoku_path)
-			rechargeSudoku.sudoku = rechargeSudoku.sudoku + 1
-			if sys.save(ryoku_path, rechargeSudoku) then
-				msg.post("/powerup#powerup", "increment_sudoku")
+			validationSound(self)
+			if sys.get_connectivity() == sys.NETWORK_CONNECTED_CELLULAR or sys.get_connectivity() == sys.NETWORK_CONNECTED then
+				gui.set_scale(gui.get_node("sudoku_recharge_free"), vmath.vector3(1))
+				gui.animate(gui.get_node("sudoku_recharge_free"), gui.PROP_SCALE, vmath.vector3(0.8), gui.EASING_INOUTQUAD, 0.2, 0, function(self, node)
+					msg.post("/ads#ads", "display_rewardedvideo_ad_unit_sudoku")
+				end, gui.PLAYBACK_ONCE_PINGPONG)
 			end
-			gui.set_enabled(gui.get_node("popup_sudoku_free"), false)
-			gui.set_enabled(gui.get_node("overlay"), false)
 		end
 		if gui.pick_node(gui.get_node("info_button"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_info_powerup")) then
 			currentLevel.platform.stopGame = false
+			validationSound(self)
 			gui.set_enabled(gui.get_node("popup_info_powerup"), false)
 			gui.set_enabled(gui.get_node("overlay_info"), false)
+		end
+		if gui.pick_node(gui.get_node("error_ads_validation"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_error_ads")) and currentLevel.platform.stopGame then
+			currentLevel.platform.stopGame = false
+			validationSound(self)
+			gui.set_enabled(gui.get_node("overlay"), false)
+			gui.set_enabled(gui.get_node("popup_error_ads"), false)
 		end
 	end
 end

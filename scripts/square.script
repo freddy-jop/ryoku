@@ -74,6 +74,18 @@ function closureParticule(self, url, property)
 	end
 end
 
+function pulseParticuleForRevelatedAndSudoku(self, url, property)
+	timer.delay(0.4, false, function() 
+		local sudokuFront = msg.url(nil, currentLevel.grid[self.collisionTileObject.gdXY.y][self.collisionTileObject.gdXY.x].instanceSquareId, "front")
+		go.animate(sudokuFront, "scale", go.PLAYBACK_ONCE_PINGPONG, vmath.vector3(0.7), go.EASING_INOUTQUART, 0.4, 0)
+		local soundIsActive = sys.load(ryoku_path)
+		if soundIsActive.sound then
+			sound.play("/sound#select_bonus", {delay = 0, gain = soundIsActive.gainAction})
+		end
+	end)
+	
+end
+
 function reinitializeSelectionBlock(self)
 	for g=1, #currentLevel.selectionBlock do
 		if currentLevel.selectionBlock[g].l1.x > currentLevel.refBlock[self.block].positionBlock.x 
@@ -178,7 +190,7 @@ function on_message(self, message_id, message, sender)
 			go.animate("#back", "tint", go.PLAYBACK_ONCE_FORWARD, groupColor[currentLevel.groups[currentLevel.grid[currentLevel.blocks[self.block][self.tileNumber].result.tileY + 1][currentLevel.blocks[self.block][self.tileNumber].result.tileX + 1].groupId].groupColorId].colorBrique, go.EASING_INSINE, 0.15, 0, showAdjacentTilePlaced)
 			if currentLevel.grid[self.collisionTileObject.gdXY.y][self.collisionTileObject.gdXY.x].revealed or 
 			currentLevel.grid[self.collisionTileObject.gdXY.y][self.collisionTileObject.gdXY.x].sudokuRevealed then
-				go.animate("#front", "tint", go.PLAYBACK_ONCE_FORWARD, groupColor[currentLevel.groups[currentLevel.grid[currentLevel.blocks[self.block][self.tileNumber].result.tileY + 1][currentLevel.blocks[self.block][self.tileNumber].result.tileX + 1].groupId].groupColorId].colorBrique, go.EASING_INSINE, 0.15, 0)
+				go.animate("#front", "tint", go.PLAYBACK_ONCE_FORWARD, groupColor[currentLevel.groups[currentLevel.grid[currentLevel.blocks[self.block][self.tileNumber].result.tileY + 1][currentLevel.blocks[self.block][self.tileNumber].result.tileX + 1].groupId].groupColorId].colorBrique, go.EASING_INSINE, 0.15, 0, pulseParticuleForRevelatedAndSudoku)
 			end
 		else
 			currentLevel.blocks[self.block][self.tileNumber].isColored = false
@@ -224,6 +236,7 @@ function on_message(self, message_id, message, sender)
 			msg.post(front, "play_animation", {id = hash(string.upper(message.tileMatch.number))})
 			go.animate(front, "tint", go.PLAYBACK_ONCE_FORWARD, groupColor[currentLevel.groups[message.tileMatch.groupId].groupColorId].colorBrique, go.EASING_INSINE, 0.2, (((message.tileMatch.positionX+1)+(message.tileMatch.positionY+1))/10))
 			go.animate(front, "scale", go.PLAYBACK_ONCE_FORWARD, 1, go.EASING_OUTELASTIC, 0.8, (((message.tileMatch.positionX+1)+(message.tileMatch.positionY+1))/10), setRevelation)
+			sound.play("/sound#display_number", {delay = (((message.tileMatch.positionX+1)+(message.tileMatch.positionY+1))/10), gain = config.gainAction})
 		end
 	end
 	

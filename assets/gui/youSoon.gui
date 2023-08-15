@@ -4,8 +4,48 @@ fonts {
   font: "/assets/fonts/PoetsenOne40_border.font"
 }
 fonts {
-  name: "PoetsenOne25_border"
-  font: "/assets/fonts/PoetsenOne25_border.font"
+  name: "PoetsenOne20"
+  font: "/assets/fonts/PoetsenOne20.font"
+}
+fonts {
+  name: "RU_20"
+  font: "/assets/fonts/RU_20.font"
+}
+fonts {
+  name: "RU_30_border"
+  font: "/assets/fonts/RU_30_border.font"
+}
+fonts {
+  name: "ARB_25"
+  font: "/assets/fonts/ARB_25.font"
+}
+fonts {
+  name: "ARB_35_border"
+  font: "/assets/fonts/ARB_35_border.font"
+}
+fonts {
+  name: "VI_20"
+  font: "/assets/fonts/VI_20.font"
+}
+fonts {
+  name: "VI_30_border"
+  font: "/assets/fonts/VI_30_border.font"
+}
+fonts {
+  name: "KR_25"
+  font: "/assets/fonts/KR_25.font"
+}
+fonts {
+  name: "KR_30_border"
+  font: "/assets/fonts/KR_30_border.font"
+}
+fonts {
+  name: "JA_20"
+  font: "/assets/fonts/JA_20.font"
+}
+fonts {
+  name: "JA_25"
+  font: "/assets/fonts/JA_25.font"
 }
 textures {
   name: "restart"
@@ -24,7 +64,7 @@ background_color {
 nodes {
   position {
     x: 320.0
-    y: 841.0
+    y: 833.0
     z: 0.0
     w: 1.0
   }
@@ -41,7 +81,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 600.0
+    x: 350.0
     y: 90.0
     z: 0.0
     w: 1.0
@@ -54,9 +94,9 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "SEE YOU BY NEXT LEVEL!"
+  text: "VICTORY!"
   font: "PoetsenOne40_border"
-  id: "next_level"
+  id: "txt_victory"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -85,11 +125,12 @@ nodes {
   custom_type: 0
   enabled: true
   visible: true
+  material: ""
 }
 nodes {
   position {
-    x: 214.0
-    y: 1062.0
+    x: 120.0
+    y: 140.0
     z: 0.0
     w: 1.0
   }
@@ -106,8 +147,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 87.0
-    y: 120.0
+    x: 80.0
+    y: 80.0
     z: 0.0
     w: 1.0
   }
@@ -119,13 +160,13 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "restart/ryoku_restart"
-  id: "logo"
+  texture: "social/instagram_re"
+  id: "instagram"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  layer: ""
+  layer: "front"
   inherit_alpha: true
   slice9 {
     x: 0.0
@@ -142,11 +183,12 @@ nodes {
   custom_type: 0
   enabled: true
   visible: true
+  material: ""
 }
 nodes {
   position {
-    x: 362.0
-    y: 1062.0
+    x: 0.0
+    y: -70.0
     z: 0.0
     w: 1.0
   }
@@ -163,72 +205,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 200.0
-    y: 100.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.9490196
-    y: 0.76862746
-    z: 0.40784314
-    w: 1.0
-  }
-  type: TYPE_TEXT
-  blend_mode: BLEND_MODE_ALPHA
-  text: "Ryoku"
-  font: "PoetsenOne40_border"
-  id: "ryoku"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  outline {
-    x: 0.3254902
-    y: 0.3372549
-    z: 0.22352941
-    w: 1.0
-  }
-  shadow {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  adjust_mode: ADJUST_MODE_FIT
-  line_break: false
-  layer: ""
-  inherit_alpha: true
-  alpha: 1.0
-  outline_alpha: 1.0
-  shadow_alpha: 1.0
-  template_node_child: false
-  text_leading: 1.0
-  text_tracking: 0.0
-  custom_type: 0
-  enabled: true
-  visible: true
-}
-nodes {
-  position {
-    x: 320.0
-    y: 310.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 500.0
+    x: 180.0
     y: 50.0
     z: 0.0
     w: 1.0
@@ -241,9 +218,9 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "Suivez-nous!"
-  font: "PoetsenOne25_border"
-  id: "followus"
+  text: ""
+  font: "PoetsenOne20"
+  id: "suivez_nous"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -260,11 +237,12 @@ nodes {
     w: 1.0
   }
   adjust_mode: ADJUST_MODE_FIT
-  line_break: false
+  line_break: true
+  parent: "instagram"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
-  outline_alpha: 0.0
+  outline_alpha: 1.0
   shadow_alpha: 1.0
   template_node_child: false
   text_leading: 1.0
@@ -272,125 +250,12 @@ nodes {
   custom_type: 0
   enabled: true
   visible: true
-}
-nodes {
-  position {
-    x: 540.0
-    y: 225.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 100.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: "social/instagram"
-  id: "instagram"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  adjust_mode: ADJUST_MODE_FIT
-  layer: ""
-  inherit_alpha: true
-  slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 1.0
-  template_node_child: false
-  size_mode: SIZE_MODE_AUTO
-  custom_type: 0
-  enabled: true
-  visible: true
-}
-nodes {
-  position {
-    x: 430.0
-    y: 225.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 100.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: "social/tiktok"
-  id: "tiktok"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  adjust_mode: ADJUST_MODE_FIT
-  layer: ""
-  inherit_alpha: true
-  slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 1.0
-  template_node_child: false
-  size_mode: SIZE_MODE_AUTO
-  custom_type: 0
-  enabled: true
-  visible: true
+  material: ""
 }
 nodes {
   position {
     x: 320.0
-    y: 225.0
+    y: 140.0
     z: 0.0
     w: 1.0
   }
@@ -407,8 +272,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 200.0
-    y: 100.0
+    x: 80.0
+    y: 80.0
     z: 0.0
     w: 1.0
   }
@@ -420,13 +285,13 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "social/facebook"
-  id: "facebook"
+  texture: "social/evaluez"
+  id: "star"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  layer: ""
+  layer: "front"
   inherit_alpha: true
   slice9 {
     x: 0.0
@@ -438,185 +303,209 @@ nodes {
   clipping_visible: true
   clipping_inverted: false
   alpha: 1.0
-  template_node_child: false
-  size_mode: SIZE_MODE_AUTO
-  custom_type: 0
-  enabled: true
-  visible: true
-}
-nodes {
-  position {
-    x: 210.0
-    y: 225.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 100.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: "social/snapchat"
-  id: "snapchat"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  adjust_mode: ADJUST_MODE_FIT
-  layer: ""
-  inherit_alpha: true
-  slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 1.0
-  template_node_child: false
-  size_mode: SIZE_MODE_AUTO
-  custom_type: 0
-  enabled: true
-  visible: true
-}
-nodes {
-  position {
-    x: 100.0
-    y: 225.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 200.0
-    y: 100.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: "social/youtube"
-  id: "youtube"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  adjust_mode: ADJUST_MODE_FIT
-  layer: ""
-  inherit_alpha: true
-  slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 1.0
-  template_node_child: false
-  size_mode: SIZE_MODE_AUTO
-  custom_type: 0
-  enabled: true
-  visible: true
-}
-nodes {
-  position {
-    x: 310.0
-    y: 574.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 300.0
-    y: 300.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.81960785
-    y: 0.8392157
-    z: 0.8627451
-    w: 1.0
-  }
-  type: TYPE_PIE
-  blend_mode: BLEND_MODE_ALPHA
-  texture: ""
-  id: "back_app_store"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  adjust_mode: ADJUST_MODE_FIT
-  layer: ""
-  inherit_alpha: true
-  outerBounds: PIEBOUNDS_ELLIPSE
-  innerRadius: 0.0
-  perimeterVertices: 50
-  pieFillAngle: 360.0
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 0.0
   template_node_child: false
   size_mode: SIZE_MODE_MANUAL
   custom_type: 0
   enabled: true
   visible: true
+  material: ""
 }
 nodes {
   position {
-    x: 320.0
-    y: 574.0
+    x: 0.0
+    y: -70.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 180.0
+    y: 50.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.3254902
+    y: 0.41568628
+    z: 0.5254902
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: ""
+  font: "PoetsenOne20"
+  id: "evaluez_nous"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: true
+  parent: "star"
+  layer: ""
+  inherit_alpha: true
+  alpha: 1.0
+  outline_alpha: 1.0
+  shadow_alpha: 1.0
+  template_node_child: false
+  text_leading: 1.0
+  text_tracking: 0.0
+  custom_type: 0
+  enabled: true
+  visible: true
+  material: ""
+}
+nodes {
+  position {
+    x: 520.0
+    y: 140.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 80.0
+    y: 80.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "social/progession"
+  id: "reset_progression"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  layer: "front"
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_MANUAL
+  custom_type: 0
+  enabled: true
+  visible: true
+  material: ""
+}
+nodes {
+  position {
+    x: 0.0
+    y: -70.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 180.0
+    y: 50.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.3254902
+    y: 0.41568628
+    z: 0.5254902
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: ""
+  font: "PoetsenOne20"
+  id: "progress_txt"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: true
+  parent: "reset_progression"
+  layer: ""
+  inherit_alpha: true
+  alpha: 1.0
+  outline_alpha: 1.0
+  shadow_alpha: 1.0
+  template_node_child: false
+  text_leading: 1.0
+  text_tracking: 0.0
+  custom_type: 0
+  enabled: true
+  visible: true
+  material: ""
+}
+nodes {
+  position {
+    x: 314.0
+    y: 978.0
     z: 0.0
     w: 1.0
   }
@@ -646,8 +535,8 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "social/play_store"
-  id: "play_store"
+  texture: "social/king"
+  id: "king"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -669,6 +558,10 @@ nodes {
   custom_type: 0
   enabled: true
   visible: true
+  material: ""
+}
+layers {
+  name: "front"
 }
 material: "/builtins/materials/gui.material"
 adjust_reference: ADJUST_REFERENCE_PARENT

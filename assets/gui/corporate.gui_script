@@ -33,7 +33,6 @@ function init(self)
 			sys.save(ryoku_path, self.appData)
 		end
 		--self.appData.game_language = "ru"
-
 		sys.save(ryoku_path, self.appData)
 	end
 	self.currentLevel = list.targetLevelByBlock(self.appData.level)
