@@ -3,7 +3,7 @@ title = Ryoku
 custom_resources = ressources/data_level.lua, levels/
 bundle_resources = 
 write_log = 1
-version = 1.0.1
+version = 1.1.0
 publisher = United Squares Games
 developer = Jopha Fredy
 dependencies#0 = https://github.com/defold/extension-admob/archive/master.zip
@@ -38,15 +38,30 @@ icons_asset = /assets/Assets.car
 bundle_identifier = com.example.todo
 
 [android]
-app_icon_36x36 = 
-app_icon_48x48 = 
-app_icon_72x72 = 
-app_icon_96x96 = 
-app_icon_144x144 = 
-app_icon_192x192 = 
+app_icon_36x36 = /images/icons/ryoku_jopha_fredy_36x36.png
+app_icon_48x48 = /images/icons/ryoku_jopha_fredy_48x48.png
+app_icon_72x72 = /images/icons/ryoku_jopha_fredy_72x72.png
+app_icon_96x96 = /images/icons/ryoku_jopha_fredy_96x96.png
+app_icon_144x144 = /images/icons/ryoku_jopha_fredy_144x144.png
+app_icon_192x192 = /images/icons/ryoku_jopha_fredy_192x192.png
 input_method = HiddenInputField
 package = com.unitedsquaresgames.ryoku
 immersive_mode = 1
+push_icon_small_xxxhdpi = /images/icons/ryoku_jopha_fredy_192x192.png
+push_icon_small_xxhdpi = /images/icons/ryoku_jopha_fredy_144x144.png
+push_icon_small_xhdpi = /images/icons/ryoku_jopha_fredy_96x96.png
+push_icon_small_mdpi = /images/icons/ryoku_jopha_fredy_48x48.png
+push_icon_small_hdpi = /images/icons/ryoku_jopha_fredy_72x72.png
+push_icon_small_ldpi = /images/icons/ryoku_jopha_fredy_36x36.png
+push_icon_large_ldpi = /images/icons/ryoku_jopha_fredy_36x36.png
+push_icon_large_mdpi = /images/icons/ryoku_jopha_fredy_48x48.png
+push_icon_large_hdpi = /images/icons/ryoku_jopha_fredy_72x72.png
+push_icon_large_xhdpi = /images/icons/ryoku_jopha_fredy_96x96.png
+push_icon_large_xxhdpi = /images/icons/ryoku_jopha_fredy_144x144.png
+push_icon_large_xxxhdpi = /images/icons/ryoku_jopha_fredy_192x192.png
+push_icon_small = /images/icons/ryoku_jopha_fredy_36x36.png
+push_icon_large = /images/icons/ryoku_jopha_fredy_72x72.png
+version_code = 2
 
 [script]
 shared_state = 1
@@ -75,7 +90,5 @@ max_count = 160
 max_emitter_count = 160
 
 [admob]
-app_id_ios = ca-app-pub-3940256099942544~1458002511
 app_id_android = ca-app-pub-8402825416529930~3537196112
-ios_tracking_usage_description = Your data will be used to provide you a better and personalized ad experience.
 

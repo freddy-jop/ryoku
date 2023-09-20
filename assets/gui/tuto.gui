@@ -67,6 +67,26 @@ fonts {
   name: "VI_20"
   font: "/assets/fonts/VI_20.font"
 }
+fonts {
+  name: "ZH_20"
+  font: "/assets/fonts/ZH_20.font"
+}
+fonts {
+  name: "ZH_25"
+  font: "/assets/fonts/ZH_25.font"
+}
+fonts {
+  name: "HI_22"
+  font: "/assets/fonts/HI_22.font"
+}
+fonts {
+  name: "HI_40_border"
+  font: "/assets/fonts/HI_40_border.font"
+}
+fonts {
+  name: "HI_25_border"
+  font: "/assets/fonts/HI_25_border.font"
+}
 textures {
   name: "popup"
   texture: "/assets/atlas/popup.atlas"

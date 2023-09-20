@@ -7,7 +7,6 @@ local puzzle = require("construct.puzzles")
 local colorList = require("construct.groupsColors")
 local currentLevel = require("levels.template")
 local blocksStart = blockList[#patterGrid].path
---local numberListBlock = require("ressources.listBlocksLevels")
 local languages = require("ressources.langages")
 local modifier = require("ressources.modifier")
 
@@ -443,54 +442,6 @@ function boomer(self)
 	end, gui.PLAYBACK_ONCE_FORWARD)
 end
 
-function setRestartRuFont(self)
-	-- gui.set_font(gui.get_node("bad_error"), hash("RU_30_border"))
-	-- gui.set_font(gui.get_node("relance"), hash("RU_30_border"))
-	-- gui.set_font(gui.get_node("followus"), hash("RU_30_border"))
-end
-
-function setRestartArbFont(self)
-	-- gui.set_font(gui.get_node("bad_error"), hash("ARB_25"))
-	-- gui.set_font(gui.get_node("relance"), hash("ARB_25"))
-	-- gui.set_font(gui.get_node("followus"), hash("ARB_25"))
-end
-
-function setRestartJaFont(self)
-	-- gui.set_font(gui.get_node("bad_error"), hash("JA_25"))
-	-- gui.set_font(gui.get_node("relance"), hash("JA_25"))
-	-- gui.set_font(gui.get_node("followus"), hash("JA_25"))
-end
-
-function setRestartKrFont(self)
-	-- gui.set_font(gui.get_node("bad_error"), hash("KR_25"))
-	-- gui.set_font(gui.get_node("relance"), hash("KR_25"))
-	-- gui.set_font(gui.get_node("followus"), hash("KR_25"))
-end
-
-function setRestartViFont(self)
-	-- gui.set_font(gui.get_node("bad_error"), hash("VI_25"))
-	-- gui.set_font(gui.get_node("relance"), hash("VI_25"))
-	-- gui.set_font(gui.get_node("followus"), hash("VI_25"))
-end
-
-function setRestartLatineFont(self)
-	-- gui.set_font(gui.get_node("bad_error"), hash("PoetsenOne25_border"))
-	-- gui.set_font(gui.get_node("relance"), hash("PoetsenOne25_border"))
-	-- gui.set_font(gui.get_node("followus"), hash("PoetsenOne25_border"))
-end
-
-function setTxtRestartArabic(self)
-	-- gui.set_text(gui.get_node("bad_error"), modifier.modifierToArab(languages[config.game_language].bad_error))
-	-- gui.set_text(gui.get_node("relance"), modifier.modifierToArab(languages[config.game_language].relance))
-	-- gui.set_text(gui.get_node("followus"), modifier.modifierToArab(languages[config.game_language].followus))
-end
-
-function setTxtRestartForAll(self)
-	-- gui.set_text(gui.get_node("bad_error"),languages[config.game_language].bad_error)
-	-- gui.set_text(gui.get_node("relance"), languages[config.game_language].relance)
-	-- gui.set_text(gui.get_node("followus"), languages[config.game_language].followus)
-end
-
 function setBlockNumberSudoku(grdY,grdX)
 	for h = 1, #currentLevel.blocks do
 		for g = 1, #currentLevel.blocks[h] do
@@ -525,39 +476,6 @@ function randomSudokuNumber(self)
 end
 
 function init(self)
-	if config.game_language == "ru" or config.game_language == "be" then
-		setRestartRuFont(self)
-	end
-	if config.game_language == "ar" then
-		setRestartArbFont(self)
-	end
-	if config.game_language == "ja" then
-		setRestartJaFont(self)
-	end
-	if config.game_language == "ko" then
-		setRestartKrFont(self)
-	end
-	if config.game_language == "vi" then
-		setRestartViFont(self)
-	end
-	if config.game_language == "fr" or 
-	config.game_language == "en" or 
-	config.game_language == "es" or 
-	config.game_language == "de" or 
-	config.game_language == "pt" or 
-	config.game_language == "pl" or 
-	config.game_language == "nl" or 
-	config.game_language == "tr" or 
-	config.game_language == "it" or 
-	config.game_language == "id" then
-		setRestartLatineFont(self)
-	end
-	if config.game_language == "ar" then
-		setTxtRestartArabic(self)
-	else
-		setTxtRestartForAll(self)
-	end
-	
 	currentLevel.blocks = {}
 	currentLevel.refBlock = {}
 	currentLevel.grid = {}
@@ -588,33 +506,4 @@ function init(self)
 	
 	self.chrono = 360
 	boomer(self)
-end
-
-function final(self)
-	-- Add finalization code here
-	-- Learn more: https://defold.com/manuals/script/
-	-- Remove this function if not needed
-end
-
-function update(self, dt)
-	-- Add update code here
-	-- Learn more: https://defold.com/manuals/script/
-	-- Remove this function if not needed
-end
-
-function on_message(self, message_id, message, sender)
-	-- Add message-handling code here
-	-- Learn more: https://defold.com/manuals/message-passing/
-	-- Remove this function if not needed
-end
-
-function on_input(self, action_id, action)
-	-- if action_id == hash("touch") and action.pressed then
-	-- 	if gui.pick_node(gui.get_node(hash("home")), action.x, action.y) then
-	-- 		msg.post("controller:/loader#controller", "changeScene", { newScene = "clickOnLevel" })
-	-- 	end
-	-- 	if gui.pick_node(gui.get_node(hash("restart")), action.x, action.y) then
-	-- 		msg.post("controller:/loader#controller", "changeScene", { newScene = "playLevel" })
-	-- 	end
-	-- end
 end

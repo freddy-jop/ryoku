@@ -34,6 +34,14 @@ function setParamsJaFont(self)
 	gui.set_font(gui.get_node("txt_victory"), hash("JA_25"))
 end
 
+function setParamsZhFont(self)
+	gui.set_font(gui.get_node("suivez_nous"), hash("ZH_20"))
+	gui.set_font(gui.get_node("evaluez_nous"), hash("ZH_20"))
+	gui.set_font(gui.get_node("progress_txt"), hash("ZH_20"))
+
+	gui.set_font(gui.get_node("txt_victory"), hash("ZH_25"))
+end
+
 function setParamsArbFont(self)
 	gui.set_font(gui.get_node("suivez_nous"), hash("ARB_25"))
 	gui.set_font(gui.get_node("evaluez_nous"), hash("ARB_25"))
@@ -56,6 +64,14 @@ function setParamsLatineFont(self)
 	gui.set_font(gui.get_node("progress_txt"), hash("PoetsenOne20"))
 
 	gui.set_font(gui.get_node("txt_victory"), hash("PoetsenOne40_border"))
+end
+
+function setParamsHindiFont(self)
+	gui.set_font(gui.get_node("suivez_nous"), hash("HI_20"))
+	gui.set_font(gui.get_node("evaluez_nous"), hash("HI_20"))
+	gui.set_font(gui.get_node("progress_txt"), hash("HI_20"))
+
+	gui.set_font(gui.get_node("txt_victory"), hash("HI_40_border"))
 end
 
 function setParamsTxtForAll(self)
@@ -112,7 +128,13 @@ function manageLanguageOnFinalScene(self)
 	if manageConfig.game_language == "vi" then
 		setParamsViFont(self)
 	end
-
+	if manageConfig.game_language == "zh" then
+		setParamsZhFont(self)
+	end
+	if manageConfig.game_language == "hi" then
+		setParamsHindiFont(self)
+	end
+	
 	if manageConfig.game_language == "fr" or 
 	manageConfig.game_language == "en" or 
 	manageConfig.game_language == "es" or 
@@ -122,6 +144,12 @@ function manageLanguageOnFinalScene(self)
 	manageConfig.game_language == "nl" or 
 	manageConfig.game_language == "tr" or 
 	manageConfig.game_language == "it" or 
+	manageConfig.game_language == "da" or
+	manageConfig.game_language == "fi" or 
+	manageConfig.game_language == "hu" or 
+	manageConfig.game_language == "is" or 
+	manageConfig.game_language == "no" or 
+	manageConfig.game_language == "sv" or
 	manageConfig.game_language == "id" then
 		setParamsLatineFont(self)
 	end
@@ -135,27 +163,6 @@ end
 function init(self)
 	msg.post(".", "acquire_input_focus")
 	manageLanguageOnFinalScene(self)
-	-- Add initialization code here
-	-- Learn more: https://defold.com/manuals/script/
-	-- Remove this function if not needed
-end
-
-function final(self)
-	-- Add finalization code here
-	-- Learn more: https://defold.com/manuals/script/
-	-- Remove this function if not needed
-end
-
-function update(self, dt)
-	-- Add update code here
-	-- Learn more: https://defold.com/manuals/script/
-	-- Remove this function if not needed
-end
-
-function on_message(self, message_id, message, sender)
-	-- Add message-handling code here
-	-- Learn more: https://defold.com/manuals/message-passing/
-	-- Remove this function if not needed
 end
 
 function on_input(self, action_id, action)
@@ -183,19 +190,4 @@ function on_input(self, action_id, action)
 			end, gui.PLAYBACK_ONCE_PINGPONG)
 		end
 	end
-	-- Add input-handling code here. The game object this script is attached to
-	-- must have acquired input focus:
-	--
-	--    msg.post(".", "acquire_input_focus")
-	--
-	-- All mapped input bindings will be received. Mouse and touch input will
-	-- be received regardless of where on the screen it happened.
-	-- Learn more: https://defold.com/manuals/input/
-	-- Remove this function if not needed
-end
-
-function on_reload(self)
-	-- Add reload-handling code here
-	-- Learn more: https://defold.com/manuals/hot-reload/
-	-- Remove this function if not needed
 end

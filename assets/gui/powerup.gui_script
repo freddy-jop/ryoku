@@ -1,7 +1,5 @@
 local ryoku_path = sys.get_save_file("ryoku", "data_level")
 local config = sys.load(ryoku_path)
---local list = require("ressources.listLevel")
---local currentLevel = list[config.level].path
 local currentLevel = require("levels.template")
 
 function getAllSudokuBlocks(self)
@@ -184,12 +182,6 @@ function manageSudokuCounter(self)
 	end
 end
 
-function final(self)
-	-- Add finalization code here
-	-- Learn more: https://defold.com/manuals/script/
-	-- Remove this function if not needed
-end
-
 function update(self, dt)
 	if self.isTickRoundedInfos3000 then
 		currentLevel.platform.tickInfos = currentLevel.platform.tickInfos + dt
@@ -218,13 +210,9 @@ function update(self, dt)
 			end, gui.PLAYBACK_ONCE_PINGPONG)
 		end
 		self.isTickRoundedInfos3000 = false
-		--currentLevel.platform.handleManageInfos = false
 		currentLevel.platform.tickInfos = 0
 		currentLevel.platform.tickRoundedInfos = 0
 	end
-	-- if currentLevel.platform.handleManageTarget or currentLevel.platform.initialManageTarget then
-	-- 	manageSudokuCounter(self)
-	-- end
 end
 
 function on_message(self, message_id, message, sender)
@@ -325,15 +313,16 @@ function on_input(self, action_id, action)
 		end
 		if gui.pick_node(gui.get_node("adjacent"), action.x, action.y) and clickIfEnable.enable_adjacent and not currentLevel.platform.stopGame and clickIfEnable.adjacent == 0 then
 			useBonusAndSound(self)
-			currentLevel.platform.stopGame = true
 			if sys.get_connectivity() == sys.NETWORK_CONNECTED_CELLULAR or sys.get_connectivity() == sys.NETWORK_CONNECTED then
+				currentLevel.platform.stopGame = true
 				gui.set_scale(gui.get_node("adjacent"), vmath.vector3(1))
 				gui.animate(gui.get_node("adjacent"), gui.PROP_SCALE, vmath.vector3(0.8), gui.EASING_INOUTQUAD, 0.5, 0, function(self, node) 
 					msg.post("/popup#popup", "zone_popup_pay")
 				end, gui.PLAYBACK_ONCE_PINGPONG)
 			end
 			if sys.get_connectivity() == sys.NETWORK_DISCONNECTED then
-				msg.post("/popup#popup", "zone_popup_error_ads")
+				currentLevel.platform.stopGame = true
+				msg.post("/popup#popup", "player_popup_error_ads")
 			end
 		end
 		if gui.pick_node(gui.get_node("target"), action.x, action.y) and clickIfEnable.enable_target and not currentLevel.platform.stopGame and clickIfEnable.target > 0 then
@@ -345,15 +334,16 @@ function on_input(self, action_id, action)
 		end
 		if gui.pick_node(gui.get_node("target"), action.x, action.y) and clickIfEnable.enable_target and not currentLevel.platform.stopGame and clickIfEnable.target == 0 then
 			useBonusAndSound(self)
-			currentLevel.platform.stopGame = true
 			if sys.get_connectivity() == sys.NETWORK_CONNECTED_CELLULAR or sys.get_connectivity() == sys.NETWORK_CONNECTED then
+				currentLevel.platform.stopGame = true
 				gui.set_scale(gui.get_node("target"), vmath.vector3(1))
 				gui.animate(gui.get_node("target"), gui.PROP_SCALE, vmath.vector3(0.8), gui.EASING_INOUTQUAD, 0.5, 0, function(self, node) 
 					msg.post("/popup#popup", "target_popup_pay")
 				end, gui.PLAYBACK_ONCE_PINGPONG)
 			end
 			if sys.get_connectivity() == sys.NETWORK_DISCONNECTED then
-				msg.post("/popup#popup", "zone_popup_error_ads")
+				currentLevel.platform.stopGame = true
+				msg.post("/popup#popup", "player_popup_error_ads")
 			end
 		end
 		if gui.pick_node(gui.get_node("group"), action.x, action.y) and clickIfEnable.enable_group and not currentLevel.platform.stopGame and clickIfEnable.group > 0 then
@@ -365,15 +355,16 @@ function on_input(self, action_id, action)
 		end
 		if gui.pick_node(gui.get_node("group"), action.x, action.y) and clickIfEnable.enable_group and not currentLevel.platform.stopGame and clickIfEnable.group == 0 then
 			useBonusAndSound(self)
-			currentLevel.platform.stopGame = true
 			if sys.get_connectivity() == sys.NETWORK_CONNECTED_CELLULAR or sys.get_connectivity() == sys.NETWORK_CONNECTED then
+				currentLevel.platform.stopGame = true
 				gui.set_scale(gui.get_node("group"), vmath.vector3(1))
 				gui.animate(gui.get_node("group"), gui.PROP_SCALE, vmath.vector3(0.8), gui.EASING_INOUTQUAD, 0.5, 0, function(self, node) 
 					msg.post("/popup#popup", "group_popup_pay")
 				end, gui.PLAYBACK_ONCE_PINGPONG)
 			end
 			if sys.get_connectivity() == sys.NETWORK_DISCONNECTED then
-				msg.post("/popup#popup", "zone_popup_error_ads")
+				currentLevel.platform.stopGame = true
+				msg.post("/popup#popup", "player_popup_error_ads")
 			end
 		end
 		if gui.pick_node(gui.get_node("sudoku"), action.x, action.y) and clickIfEnable.enable_sudoku and not currentLevel.platform.stopGame and clickIfEnable.sudoku > 0 then
@@ -385,22 +376,17 @@ function on_input(self, action_id, action)
 		end
 		if gui.pick_node(gui.get_node("sudoku"), action.x, action.y) and clickIfEnable.enable_sudoku and not currentLevel.platform.stopGame and clickIfEnable.sudoku == 0 then
 			useBonusAndSound(self)
-			currentLevel.platform.stopGame = true
 			if sys.get_connectivity() == sys.NETWORK_CONNECTED_CELLULAR or sys.get_connectivity() == sys.NETWORK_CONNECTED then
+				currentLevel.platform.stopGame = true
 				gui.set_scale(gui.get_node("sudoku"), vmath.vector3(1))
 				gui.animate(gui.get_node("sudoku"), gui.PROP_SCALE, vmath.vector3(0.8), gui.EASING_INOUTQUAD, 0.5, 0, function(self, node) 
 					msg.post("/popup#popup", "sudoku_popup_pay")
 				end, gui.PLAYBACK_ONCE_PINGPONG)
 			end
 			if sys.get_connectivity() == sys.NETWORK_DISCONNECTED then
-				msg.post("/popup#popup", "zone_popup_error_ads")
+				currentLevel.platform.stopGame = true
+				msg.post("/popup#popup", "player_popup_error_ads")
 			end
 		end
 	end
-end
-
-function on_reload(self)
-	-- Add reload-handling code here
-	-- Learn more: https://defold.com/manuals/hot-reload/
-	-- Remove this function if not needed
 end

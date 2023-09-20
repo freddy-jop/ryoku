@@ -1,7 +1,5 @@
 local ryoku_path = sys.get_save_file("ryoku", "data_level")
 local config = sys.load(ryoku_path)
---local list = require("ressources.listLevel")
---local currentLevel = list[config.level].path
 local currentLevel = require("levels.template")
 local languages = require("ressources.langages")
 
@@ -14,18 +12,9 @@ function selectCurrentRefblock(factoryId)
 end
 
 function init(self)
-	-- Add initialization code here
-	-- Learn more: https://defold.com/manuals/script/
-	-- Remove this function if not needed
 	self.selection_1 = ""
 	self.selection_2 = ""
 	self.selection_3 = ""
-end
-
-function final(self)
-	-- Add finalization code here
-	-- Learn more: https://defold.com/manuals/script/
-	-- Remove this function if not needed
 end
 
 function update(self, dt)
@@ -66,28 +55,4 @@ function update(self, dt)
 		currentLevel.selectionBlock[1].selectionFactoryBlockId = ""
 		gui.set_text(gui.get_node("set_selection_1"), "")
 	end
-end
-
-function on_message(self, message_id, message, sender)
-	-- Add message-handling code here
-	-- Learn more: https://defold.com/manuals/message-passing/
-	-- Remove this function if not needed
-end
-
-function on_input(self, action_id, action)
-	-- Add input-handling code here. The game object this script is attached to
-	-- must have acquired input focus:
-	--
-	--    msg.post(".", "acquire_input_focus")
-	--
-	-- All mapped input bindings will be received. Mouse and touch input will
-	-- be received regardless of where on the screen it happened.
-	-- Learn more: https://defold.com/manuals/input/
-	-- Remove this function if not needed
-end
-
-function on_reload(self)
-	-- Add reload-handling code here
-	-- Learn more: https://defold.com/manuals/hot-reload/
-	-- Remove this function if not needed
 end

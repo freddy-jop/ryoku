@@ -91,6 +91,62 @@ fonts {
   name: "RU_13"
   font: "/assets/fonts/RU_14.font"
 }
+fonts {
+  name: "ZH_20"
+  font: "/assets/fonts/ZH_20.font"
+}
+fonts {
+  name: "ZH_25"
+  font: "/assets/fonts/ZH_25.font"
+}
+fonts {
+  name: "ZH_30_border"
+  font: "/assets/fonts/ZH_30_border.font"
+}
+fonts {
+  name: "JA_80_border"
+  font: "/assets/fonts/JA_80_border.font"
+}
+fonts {
+  name: "ZH_80_border"
+  font: "/assets/fonts/ZH_80_border.font"
+}
+fonts {
+  name: "KR_80_border"
+  font: "/assets/fonts/KR_80_border.font"
+}
+fonts {
+  name: "ARB_80_border"
+  font: "/assets/fonts/ARB_80_border.font"
+}
+fonts {
+  name: "RU_85_border"
+  font: "/assets/fonts/RU_85_border.font"
+}
+fonts {
+  name: "VI_80_border"
+  font: "/assets/fonts/VI_80_border.font"
+}
+fonts {
+  name: "HI_60_border"
+  font: "/assets/fonts/HI_60_border.font"
+}
+fonts {
+  name: "HI_20"
+  font: "/assets/fonts/HI_20.font"
+}
+fonts {
+  name: "HI_25_border"
+  font: "/assets/fonts/HI_25_border.font"
+}
+fonts {
+  name: "HI_22"
+  font: "/assets/fonts/HI_22.font"
+}
+fonts {
+  name: "HI_40_border"
+  font: "/assets/fonts/HI_40_border.font"
+}
 textures {
   name: "life"
   texture: "/assets/atlas/life.atlas"
@@ -2324,7 +2380,7 @@ nodes {
 }
 nodes {
   position {
-    x: -60.0
+    x: -81.0
     y: 207.0
     z: 0.0
     w: 1.0
@@ -2342,7 +2398,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 220.0
+    x: 240.0
     y: 50.0
     z: 0.0
     w: 1.0

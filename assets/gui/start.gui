@@ -47,6 +47,22 @@ fonts {
   name: "VI_80_border"
   font: "/assets/fonts/VI_80_border.font"
 }
+fonts {
+  name: "ZH_30_border"
+  font: "/assets/fonts/ZH_30_border.font"
+}
+fonts {
+  name: "ZH_80_border"
+  font: "/assets/fonts/ZH_80_border.font"
+}
+fonts {
+  name: "HI_30_border"
+  font: "/assets/fonts/HI_30_border.font"
+}
+fonts {
+  name: "HI_85_border"
+  font: "/assets/fonts/HI_85_border.font"
+}
 textures {
   name: "start"
   texture: "/assets/atlas/start.atlas"
@@ -117,6 +133,7 @@ nodes {
   custom_type: 0
   enabled: true
   visible: true
+  material: ""
 }
 nodes {
   position {
@@ -183,6 +200,7 @@ nodes {
   custom_type: 0
   enabled: true
   visible: true
+  material: ""
 }
 nodes {
   position {
@@ -249,6 +267,7 @@ nodes {
   custom_type: 0
   enabled: true
   visible: true
+  material: ""
 }
 material: "/builtins/materials/gui.material"
 adjust_reference: ADJUST_REFERENCE_PARENT

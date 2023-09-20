@@ -1,75 +1,9 @@
 local ryoku_path = sys.get_save_file("ryoku", "data_level")
 local config = sys.load(ryoku_path)
---local list = require("ressources.listLevel")
---local currentLevel = list[config.level].path
 local currentLevel = require("levels.template")
--- function toggleMusic(self)
--- 	local textureMusic = ""
--- 	local musicNode = gui.get_node("music_config")
--- 	if self.musicOn then
--- 		self.musicOn = false
--- 		textureMusic = hash("music_off")
--- 	else
--- 		self.musicOn = true
--- 		textureMusic = hash("music_on")
--- 	end
--- 	gui.set_texture(musicNode, hash("parameter"))
--- 	gui.play_flipbook(musicNode, textureMusic)
--- end
--- 
--- function toggleSound(self)
--- 	local textureSound = ""
--- 	local soundNode = gui.get_node("sound_config")
--- 	if self.soundOn then
--- 		self.soundOn = false
--- 		textureSound = hash("sound_off")
--- 	else
--- 		self.soundOn = true
--- 		textureSound = hash("sound_on")
--- 	end
--- 	gui.set_texture(soundNode, hash("parameter"))
--- 	gui.play_flipbook(soundNode, textureSound)
--- end
--- 
--- function showParameter(isEnable)
--- 	gui.set_enabled(gui.get_node("sound_config"), isEnable)
--- 	gui.set_enabled(gui.get_node("music_config"), isEnable)
--- 	gui.set_enabled(gui.get_node("exit"), isEnable)
--- end
--- 
--- function setOpenParameter(self, node)
--- 	if not self.openParameter then
--- 		self.openParameter = true
--- 		self.initOpenDisplay = true
--- 		if self.initOpenDisplay then
--- 			showParameter(true)
--- 		end
--- 	end
--- end
--- function setCloseParameter(self, node)
--- 	if self.openParameter then
--- 		self.openParameter = false
--- 	end
--- end
+
 function init(self)
 	msg.post(".", "acquire_input_focus")
-	--self.openParameter = false
-	--self.musicOn = true
-	--self.soundOn = true
-	--self.initOpenDisplay = false
-	--showParameter(false)
-end
-
-function final(self)
-	-- Add finalization code here
-	-- Learn more: https://defold.com/manuals/script/
-	-- Remove this function if not needed
-end
-
-function update(self, dt)
-	-- Add update code here
-	-- Learn more: https://defold.com/manuals/script/
-	-- Remove this function if not needed
 end
 
 function on_message(self, message_id, message, sender)
@@ -77,9 +11,6 @@ function on_message(self, message_id, message, sender)
 		currentLevel.platform.stopGame = false
 		gui.set_enabled(gui.get_node(hash("bg_parameters")), true)
 	end
-	-- Add message-handling code here
-	-- Learn more: https://defold.com/manuals/message-passing/
-	-- Remove this function if not needed
 end
 
 function on_input(self, action_id, action)
@@ -89,41 +20,5 @@ function on_input(self, action_id, action)
 			gui.set_enabled(gui.get_node(hash("bg_parameters")), false)
 			msg.post("/life#life", "display_option_parameter")
 		end
--- 		if gui.pick_node(gui.get_node(hash("bg_parameters")), action.x, action.y) then
--- 			if gui.pick_node(gui.get_node(hash("parameter_button")), action.x, action.y) and not self.openParameter then
--- 				gui.animate(gui.get_node("bg_parameters"), gui.PROP_SIZE, vmath.vector3(65, 250, 0), gui.EASING_INOUTQUAD, 0.4, 0.0, setOpenParameter)
--- 			end
--- 			if gui.pick_node(gui.get_node(hash("parameter_button")), action.x, action.y) and self.openParameter then
--- 				gui.animate(gui.get_node("bg_parameters"), gui.PROP_SIZE, vmath.vector3(65, 65, 0), gui.EASING_INOUTQUAD, 0.4, 0.0, setCloseParameter)
--- 				self.initOpenDisplay = false
--- 				if not self.initOpenDisplay then
--- 					showParameter(false)
--- 				end
--- 			end
--- 			
--- 			if gui.pick_node(gui.get_node(hash("sound_config")), action.x, action.y) then
--- 				toggleSound(self)
--- 			end
--- 			
--- 			if gui.pick_node(gui.get_node(hash("music_config")), action.x, action.y) then
--- 				toggleMusic(self)
--- 			end
--- 
--- 			if gui.pick_node(gui.get_node("exit"), action.x, action.y) then
--- 				msg.post("controller:/loader#controller", "changeScene", { newScene = "clickOnLevel" })
--- 			end
--- 		else
--- 			gui.animate(gui.get_node("bg_parameters"), gui.PROP_SIZE, vmath.vector3(65, 65, 0), gui.EASING_INOUTQUAD, 0.4, 0.0, setCloseParameter)
--- 			self.initOpenDisplay = false
--- 			if not self.initOpenDisplay then
--- 				showParameter(false)
--- 			end
--- 		end
 	end
-end
-
-function on_reload(self)
-	-- Add reload-handling code here
-	-- Learn more: https://defold.com/manuals/hot-reload/
-	-- Remove this function if not needed
 end

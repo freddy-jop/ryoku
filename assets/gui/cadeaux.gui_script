@@ -1,7 +1,5 @@
 local ryoku_path = sys.get_save_file("ryoku", "data_level")
 local config = sys.load(ryoku_path)
---local list = require("ressources.listLevel")
---local currentLevel = list[config.level].path
 local currentLevel = require("levels.template")
 local languages = require("ressources.langages")
 local modifier = require("ressources.modifier")
@@ -84,6 +82,32 @@ function setJaCadeauxFont(self)
 	gui.set_font(gui.get_node("txt_prendre_cadeaux_sudoku"), hash("JA_30_border"))
 end
 
+function setZhCadeauxFont(self)
+	-- ZONE
+	gui.set_font(gui.get_node("cadeaux_zone_actif"),  hash("ZH_25"))
+	gui.set_font(gui.get_node("cadeaux_zone_rule"), hash("ZH_25"))
+	gui.set_font(gui.get_node("cadeaux_zone_prendre"), hash("ZH_25"))
+	gui.set_font(gui.get_node("txt_prendre_cadeaux_zone"), hash("ZH_30_border"))
+
+	-- GROUP
+	gui.set_font(gui.get_node("cadeaux_group_actif"), hash("ZH_25"))
+	gui.set_font(gui.get_node("cadeaux_group_rule"), hash("ZH_25"))
+	gui.set_font(gui.get_node("cadeaux_group_prendre"), hash("ZH_25"))
+	gui.set_font(gui.get_node("txt_prendre_cadeaux_group"), hash("ZH_30_border"))
+
+	-- TARGET
+	gui.set_font(gui.get_node("cadeaux_target_actif"), hash("ZH_25"))
+	gui.set_font(gui.get_node("cadeaux_target_rule"), hash("ZH_25"))
+	gui.set_font(gui.get_node("cadeaux_target_prendre"), hash("ZH_25"))
+	gui.set_font(gui.get_node("txt_prendre_cadeaux_target"), hash("ZH_30_border"))
+
+	-- SUDOKU
+	gui.set_font(gui.get_node("cadeaux_sudoku_actif"), hash("ZH_25"))
+	gui.set_font(gui.get_node("cadeaux_sudoku_rule"), hash("ZH_25"))
+	gui.set_font(gui.get_node("cadeaux_sudoku_prendre"), hash("ZH_25"))
+	gui.set_font(gui.get_node("txt_prendre_cadeaux_sudoku"), hash("ZH_30_border"))
+end
+
 function setRuCadeauxFont(self)
 	-- ZONE
 	gui.set_font(gui.get_node("cadeaux_zone_actif"),  hash("RU_22"))
@@ -160,6 +184,32 @@ function setLatineCadeauxFont(self)
 	gui.set_font(gui.get_node("cadeaux_sudoku_rule"), hash("PoetsenOne22"))
 	gui.set_font(gui.get_node("cadeaux_sudoku_prendre"), hash("PoetsenOne22"))
 	gui.set_font(gui.get_node("txt_prendre_cadeaux_sudoku"), hash("PoetsenOne40_border"))
+end
+
+function setHindiCadeauxFont(self)
+	-- ZONE
+	gui.set_font(gui.get_node("cadeaux_zone_actif"),  hash("HI_22"))
+	gui.set_font(gui.get_node("cadeaux_zone_rule"), hash("HI_22"))
+	gui.set_font(gui.get_node("cadeaux_zone_prendre"), hash("HI_22"))
+	gui.set_font(gui.get_node("txt_prendre_cadeaux_zone"), hash("HI_40_border"))
+
+	-- GROUP
+	gui.set_font(gui.get_node("cadeaux_group_actif"), hash("HI_22"))
+	gui.set_font(gui.get_node("cadeaux_group_rule"), hash("HI_22"))
+	gui.set_font(gui.get_node("cadeaux_group_prendre"), hash("HI_22"))
+	gui.set_font(gui.get_node("txt_prendre_cadeaux_group"), hash("HI_40_border"))
+
+	-- TARGET
+	gui.set_font(gui.get_node("cadeaux_target_actif"), hash("HI_22"))
+	gui.set_font(gui.get_node("cadeaux_target_rule"), hash("HI_22"))
+	gui.set_font(gui.get_node("cadeaux_target_prendre"), hash("HI_22"))
+	gui.set_font(gui.get_node("txt_prendre_cadeaux_target"), hash("HI_40_border"))
+
+	-- SUDOKU
+	gui.set_font(gui.get_node("cadeaux_sudoku_actif"), hash("HI_22"))
+	gui.set_font(gui.get_node("cadeaux_sudoku_rule"), hash("HI_22"))
+	gui.set_font(gui.get_node("cadeaux_sudoku_prendre"), hash("HI_22"))
+	gui.set_font(gui.get_node("txt_prendre_cadeaux_sudoku"), hash("HI_40_border"))
 end
 
 function setTxtCadeauxArabic(self)
@@ -257,6 +307,14 @@ function manageCadeauxLg(self)
 	if config.game_language == "vi" then
 		setViCadeauxFont(self)
 	end
+	if config.game_language == "zh" then
+		setZhCadeauxFont(self)
+	end
+
+	if config.game_language == "hi" then
+		setHindiCadeauxFont(self)
+	end
+	
 	if config.game_language == "fr" or 
 	config.game_language == "en" or 
 	config.game_language == "es" or 
@@ -266,6 +324,12 @@ function manageCadeauxLg(self)
 	config.game_language == "nl" or 
 	config.game_language == "tr" or 
 	config.game_language == "it" or 
+	config.game_language == "da" or
+	config.game_language == "fi" or 
+	config.game_language == "hu" or 
+	config.game_language == "is" or 
+	config.game_language == "no" or 
+	config.game_language == "sv" or
 	config.game_language == "id" then
 		setLatineCadeauxFont(self)
 	end
@@ -407,10 +471,4 @@ function on_input(self, action_id, action)
 			end, gui.PLAYBACK_ONCE_PINGPONG)
 		end
 	end
-end
-
-function on_reload(self)
-	-- Add reload-handling code here
-	-- Learn more: https://defold.com/manuals/hot-reload/
-	-- Remove this function if not needed
 end

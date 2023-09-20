@@ -1146,7 +1146,7 @@ local listLevels = {
 	},
 	{
 		levelNumber = 287,
-		block = 10
+		block = 12
 	},
 	{
 		levelNumber = 288,
@@ -2190,6 +2190,14 @@ local listLevels = {
 	},
 	{
 		levelNumber = 548,
+		block = 12
+	},
+	{
+		levelNumber = 549,
+		block = 10
+	},
+	{
+		levelNumber = 550,
 		block = 12
 	}
 }

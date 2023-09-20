@@ -67,6 +67,30 @@ fonts {
   name: "VI_20"
   font: "/assets/fonts/VI_20.font"
 }
+fonts {
+  name: "ZH_20"
+  font: "/assets/fonts/ZH_20.font"
+}
+fonts {
+  name: "ZH_25"
+  font: "/assets/fonts/ZH_25.font"
+}
+fonts {
+  name: "ZH_30_border"
+  font: "/assets/fonts/ZH_30_border.font"
+}
+fonts {
+  name: "HI_25_border"
+  font: "/assets/fonts/HI_25_border.font"
+}
+fonts {
+  name: "HI_40_border"
+  font: "/assets/fonts/HI_40_border.font"
+}
+fonts {
+  name: "HI_22"
+  font: "/assets/fonts/HI_22.font"
+}
 textures {
   name: "popup"
   texture: "/assets/atlas/popup.atlas"
@@ -3085,7 +3109,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 200.0
+    x: 100.0
     y: 100.0
     z: 0.0
     w: 1.0
@@ -3098,7 +3122,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "powersup/adjacent_popup"
+  texture: "powersup/sudoku"
   id: "sudoku_free_header"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -3118,7 +3142,7 @@ nodes {
   clipping_inverted: false
   alpha: 1.0
   template_node_child: false
-  size_mode: SIZE_MODE_AUTO
+  size_mode: SIZE_MODE_MANUAL
   custom_type: 0
   enabled: true
   visible: true
@@ -5616,73 +5640,6 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -58.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 300.0
-    y: 30.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 0.3254902
-    y: 0.41568628
-    z: 0.5254902
-    w: 1.0
-  }
-  type: TYPE_TEXT
-  blend_mode: BLEND_MODE_ALPHA
-  text: ""
-  font: "PoetsenOne22"
-  id: "offer_sudoku_pay_facile"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  outline {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  shadow {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  adjust_mode: ADJUST_MODE_FIT
-  line_break: false
-  parent: "popup_sudoku_pay"
-  layer: ""
-  inherit_alpha: true
-  alpha: 1.0
-  outline_alpha: 1.0
-  shadow_alpha: 1.0
-  template_node_child: false
-  text_leading: 1.0
-  text_tracking: 0.0
-  custom_type: 0
-  enabled: true
-  visible: true
-  material: ""
-}
-nodes {
-  position {
-    x: 0.0
     y: 134.0
     z: 0.0
     w: 1.0
@@ -5700,7 +5657,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 200.0
+    x: 100.0
     y: 100.0
     z: 0.0
     w: 1.0
@@ -5713,7 +5670,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "powersup/adjacent_popup"
+  texture: "powersup/sudoku"
   id: "sudoku_pay_header"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -5733,7 +5690,7 @@ nodes {
   clipping_inverted: false
   alpha: 1.0
   template_node_child: false
-  size_mode: SIZE_MODE_AUTO
+  size_mode: SIZE_MODE_MANUAL
   custom_type: 0
   enabled: true
   visible: true
@@ -5797,6 +5754,73 @@ nodes {
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 0.0
+  shadow_alpha: 1.0
+  template_node_child: false
+  text_leading: 1.0
+  text_tracking: 0.0
+  custom_type: 0
+  enabled: true
+  visible: true
+  material: ""
+}
+nodes {
+  position {
+    x: 0.0
+    y: -58.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 300.0
+    y: 30.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.3254902
+    y: 0.41568628
+    z: 0.5254902
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: ""
+  font: "PoetsenOne22"
+  id: "offer_sudoku_pay_facile"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: false
+  parent: "popup_sudoku_pay"
+  layer: ""
+  inherit_alpha: true
+  alpha: 1.0
+  outline_alpha: 1.0
   shadow_alpha: 1.0
   template_node_child: false
   text_leading: 1.0
@@ -6677,7 +6701,7 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "popup/back_info"
-  id: "popup_error_ads"
+  id: "popup_error_game_ads"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -6754,7 +6778,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "popup_error_ads"
+  parent: "popup_error_game_ads"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
@@ -6821,7 +6845,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: true
-  parent: "popup_error_ads"
+  parent: "popup_error_game_ads"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
@@ -6869,12 +6893,12 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "popup/recharge"
-  id: "error_ads_validation"
+  id: "error_ads_game_validation"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  parent: "popup_error_ads"
+  parent: "popup_error_game_ads"
   layer: ""
   inherit_alpha: true
   slice9 {
@@ -6947,7 +6971,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "error_ads_validation"
+  parent: "error_ads_game_validation"
   layer: ""
   inherit_alpha: true
   alpha: 1.0

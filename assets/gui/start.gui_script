@@ -8,7 +8,6 @@ local colorList = require("construct.groupsColors")
 local currentLevel = require("levels.template")
 local blocksStart = blockList[#patterGrid].path
 local languages = require("ressources.langages")
---local numberListBlock = require("ressources.listBlocksLevels")
 
 local modifier = require("ressources.modifier")
 
@@ -20,563 +19,37 @@ local region9x9 = require("levels.region9x9")
 
 local block12x12 = require("construct.block12")
 
--- dimensions du plateau de jeu
-local width = 9
-local height = 9
+-- function generateNextLevel(listLevel)
+-- 	local nextLevel = math.random(1, #listLevel)
+-- 
+-- 	local fragment = {listLevel[nextLevel][1],listLevel[nextLevel][2]-1}
+-- 	local getIndexLevel = listLevel[nextLevel][1]
+-- 	if listLevel[nextLevel][2]-1 == 0 then
+-- 		table.remove(listLevel,nextLevel)
+-- 	else
+-- 		table.remove(listLevel,nextLevel)
+-- 		table.insert(listLevel,nextLevel, fragment)
+-- 	end
+-- 	return getIndexLevel
+-- end
+-- 
+-- 
+-- function generateListLevel()
+-- 	local indexNumber = {{3,4},{4,20},{5,18},{6,150},{7,47},{8,109},{9,49},{10,121},{12,17}}
+-- 	local gridListLevel = {}
+-- 
+-- 	math.randomseed(os.time())
+-- 	for i = 15, 548 do
+-- 		local fragmentLevel = {
+-- 			levelNumber = i,
+-- 			block = generateNextLevel(indexNumber)
+-- 		}
+-- 		table.insert(gridListLevel, fragmentLevel)
+-- 		pprint(json.encode(fragmentLevel))
+-- 		io.write("\n")
+-- 	end
+-- end
 
--- initialise un tableau vide pour le plateau de jeu
-local board = {}
-for i = 1, height do
-	board[i] = {}
-	for j = 1, width do
-		board[i][j] = 0
-	end
-end
-
-local matrice6x6 = {
-	{0,0,0,0,0,0},
-	{0,0,0,0,0,0},
-	{0,0,0,0,0,0},
-	{0,0,0,0,0,0},
-	{0,0,0,0,0,0},
-	{0,0,0,0,0,0}
-}
-
-local matrice7x7 = {
-	{0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0}
-}
-
-local matrice8x8 = {
-	{0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0}
-}
-
-local matrice9x9 = {
-	{0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0}
-}
-
-local matrice10x10 = {
-	{0,0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0,0}
-}
-
-local matrice12x12 = {
-	{0,0,0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0,0,0}
-}
-
---matrice 9x9: len9
---r1 => 1
---c1 => 1
---matrice[r1][c1]
---rotation 90 droite:
---matrice[c1][r1-(len9+1)]
---rotation 180 droite
---matrice[r1-(len9+1)][c1-(len9+1)]
---rotation 270 droite
---matrice[c1-(len9+1)][r1-(len9+1)]
-
-function generateNextLevel(listLevel)
-	local nextLevel = math.random(1, #listLevel)
-
-	local fragment = {listLevel[nextLevel][1],listLevel[nextLevel][2]-1}
-	local getIndexLevel = listLevel[nextLevel][1]
-	if listLevel[nextLevel][2]-1 == 0 then
-		table.remove(listLevel,nextLevel)
-	else
-		table.remove(listLevel,nextLevel)
-		table.insert(listLevel,nextLevel, fragment)
-	end
-	return getIndexLevel
-end
-
-
-function generateListLevel()
-	local indexNumber = {{3,4},{4,20},{5,18},{6,150},{7,47},{8,109},{9,49},{10,121},{12,17}}
-	local gridListLevel = {}
-
-	math.randomseed(os.time())
-	for i = 15, 548 do
-		local fragmentLevel = {
-			levelNumber = i,
-			block = generateNextLevel(indexNumber)
-		}
-		table.insert(gridListLevel, fragmentLevel)
-		pprint(json.encode(fragmentLevel))
-		io.write("\n")
-	end
-	--pprint("====>> listLevel :::", listLevel)
-	--pprint("====>> indexNumber :::", indexNumber)
-	--pprint("====>> gridListLevel :::", #gridListLevel)
-	--local testJsonList = json.encode(gridListLevel)
-	--pprint("====> testJsonList ::: ", testJsonList)
-end
-
-function matrice90(st,ed)
-	local blockList90 = {}
-	print("=====> ", #block12x12)
-	for i = 1, 5 do
-		local newBlock90 = {
-			{0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0}
-		}
-		for j = 1, #block12x12[i] do
-			for k = 1, #block12x12[i][j] do
-				newBlock90[k][math.abs(j-(#block12x12[i][j] + 1))] = block12x12[i][j][k]
-				if #block12x12[i] == j and #block12x12[i][j] == k then
-					table.insert(blockList90, newBlock90)
-				end
-			end
-		end
-	end
-	local testJson = json.encode(blockList90)
-	pprint("====> testJson ::: ", testJson)
-end
-
-function matrice180(st,ed)
-	local blockList180 = {}
-	for i = 1, 5 do
-		local newBlock180 = {
-			{0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0}
-		}
-		for j = 1, #block12x12[i] do
-			for k = 1, #block12x12[i][j] do
-				newBlock180[math.abs(j-(#block12x12[i][j] + 1))][math.abs(k-(#block12x12[i][j] + 1))] = block12x12[i][j][k]
-				if #block12x12[i] == j and #block12x12[i][j] == k then
-					table.insert(blockList180, newBlock180)
-				end
-			end
-		end
-	end
-	local testJson = json.encode(blockList180)
-	pprint("====> testJson ::: ", testJson)
-end
-
-function matrice270(st,ed)
-	local blockList270 = {}
-	for i = 1, 5 do
-		local newBlock270 = {
-			{0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0}
-		}
-		for j = 1, #block12x12[i] do
-			for k = 1, #block12x12[i][j] do
-				newBlock270[math.abs(k-(#block12x12[i][j] + 1))][math.abs(j-(#block12x12[i][j] + 1))] = block12x12[i][j][k]
-				if #block12x12[i] == j and #block12x12[i][j] == k then
-					table.insert(blockList270, newBlock270)
-				end
-			end
-		end
-	end
-	local testJson = json.encode(blockList270)
-	pprint("====> testJson ::: ", testJson)
-end
-
-local pieces = {
-	{
-		{1,0,0},
-		{1,0,0},
-		{0,0,0}
-	},
-	{
-		{1,1,0},
-		{0,0,0},
-		{0,0,0}
-	},
-	{
-		{1,0,0},
-		{1,1,0},
-		{0,0,0}
-	},
-	{
-		{1,1,0},
-		{1,0,0},
-		{0,0,0}
-	},
-	{
-		{1,1,0},
-		{0,1,0},
-		{0,0,0}
-	},
-	{
-		{0,1,0},
-		{1,1,0},
-		{0,0,0}
-	},
-	{
-		{1,0,0},
-		{1,0,0},
-		{1,0,0}
-	},
-	{
-		{1,1,1},
-		{0,0,0},
-		{0,0,0}
-	},
-	{
-		{1,1,0},
-		{0,1,1},
-		{0,0,0}
-	},
-	{
-		{1,0,0},
-		{1,1,0},
-		{0,1,0}
-	},
-	{
-		{0,1,0},
-		{1,1,0},
-		{1,0,0}
-	},
-	{
-		{0,1,1},
-		{1,1,0},
-		{0,0,0}
-	},
-	{
-		{1,1,0},
-		{1,1,0},
-		{0,0,0}
-	},
-	{
-		{1,0,0},
-		{1,0,0},
-		{1,1,0}
-	},
-	{
-		{1,0,0},
-		{1,1,1},
-		{0,0,0}
-	},
-	{
-		{0,1,0},
-		{0,1,0},
-		{1,1,0}
-	},
-	{
-		{0,0,1},
-		{1,1,1},
-		{0,0,0}
-	},
-	{
-		{1,1,0},
-		{0,1,0},
-		{0,1,0}
-	},
-	{
-		{0,1,0},
-		{1,1,1},
-		{0,0,0}
-	},
-	{
-		{0,1,0},
-		{1,1,0},
-		{0,1,0}
-	},
-	{
-		{1,1,1},
-		{0,1,0},
-		{0,0,0}
-	},
-	{
-		{0,1,0},
-		{0,1,1},
-		{0,1,0}
-	},
-	{
-		{1,1,1},
-		{1,0,1},
-		{0,0,0}
-	},
-	{
-		{1,1,0},
-		{1,0,0},
-		{1,1,0}
-	},
-	{
-		{1,0,1},
-		{1,1,1},
-		{0,0,0}
-	},
-	{
-		{0,1,1},
-		{0,0,1},
-		{0,1,1}
-	},
-	{
-		{1,0,0},
-		{1,1,0},
-		{0,1,1}
-	},
-	{
-		{0,0,1},
-		{0,1,1},
-		{1,1,0}
-	},
-	{
-		{1,1,0},
-		{0,1,1},
-		{0,0,1}
-	},
-	{
-		{0,1,1},
-		{1,1,0},
-		{1,0,0}
-	},
-	{
-		{0,1,0},
-		{1,1,0},
-		{1,1,0}
-	},
-	{
-		{1,1,1},
-		{0,1,1},
-		{0,0,0}
-	},
-	{
-		{1,1,0},
-		{1,1,0},
-		{1,0,0}
-	},
-	{
-		{1,1,0},
-		{1,1,1},
-		{0,0,0}
-	},
-	{
-		{0,1,0},
-		{1,1,1},
-		{0,1,0}
-	},
-	{
-		{0,1,1},
-		{1,1,0},
-		{0,1,0}
-	},
-	{
-		{1,0,0},
-		{1,1,1},
-		{0,1,0}
-	},
-	{
-		{0,1,0},
-		{0,1,1},
-		{1,1,0}
-	},
-	{
-		{0,1,0},
-		{1,1,1},
-		{0,0,1}
-	},
-	{
-		{1,1,0},
-		{0,1,1},
-		{0,1,0}
-	},
-	{
-		{0,1,0},
-		{0,1,0},
-		{1,1,1}
-	},
-	{
-		{0,0,1},
-		{1,1,1},
-		{0,0,1}
-	},
-	{
-		{1,1,1},
-		{0,1,0},
-		{0,1,0}
-	},
-	{
-		{1,0,0},
-		{1,1,1},
-		{1,0,0}
-	}
-}
-
--- fonction pour afficher le plateau de jeu
-function printBoard()
-	for i = 1, height do
-		for j = 1, width do
-			io.write(board[i][j] .. " ")
-		end
-		io.write("\n")
-	end
-end
-
--- fonction pour vérifier si une pièce peut être placée sur le plateau
-function canPlacePiece(piece, x, y)
-	for i = 1, #piece do
-		for j = 1, #piece[1] do
-			if piece[i][j] == 1 then
-				local boardX = x + j - 1
-				local boardY = y + i - 1
-				if boardX < 1 or boardX > width or boardY > height or board[boardY][boardX] ~= 0 then
-					return false
-				end
-			end
-		end
-	end
-	return true
-end
-
-function resolve()
-	for m = 1, #board do
-		for p = 1, #board[m] do
-			if board[m][p] == 0 then
-				return false
-			end
-			if #board == m and #board[m] == p then
-				return true
-			end
-		end
-	end
-end
-
--- fonction pour placer une pièce sur le plateau
-function placePiece(piece, x, y)
-	for i = 1, #piece do
-		for j = 1, #piece[1] do
-			if piece[i][j] == 1 then
-				board[y+i-1][x+j-1] = y
-			end
-		end
-	end
-end
-function manageBlockRang()
-	-- boucle de jeu principale
-	while true do
-		-- choisit une pièce au hasard dans la liste
-		math.randomseed(os.time())
-		local piece = pieces[math.random(#pieces)]
-
-		-- choisit une position au hasard pour la pièce
-		math.randomseed(os.time())
-		local x = math.random(width - #piece[1] + 1)
-		local y = 1
-
-		-- descend la pièce sur le plateau de jeu jusqu'à ce qu'elle ne puisse plus être descendue
-		while canPlacePiece(piece, x, y+1) do
-			y = y + 1
-		end
-
-		-- place la pièce sur le plateau de jeu
-		placePiece(piece, x, y)
-
-		-- affiche le plateau de jeu
-		--if resolve() then
-			printBoard()
-		--end
-		
-		-- attend un peu avant de continuer
-		--os.execute("sleep " .. tonumber(0.5))
-	end
-end
-
-
-function matrice7x7()
-	local matriceList = {}
-	for i = 8, 12 do
-		local newMatrice = {}
-		for j = 1, #grid9x9[i] do
-			local newLine = {}
-			for k = 1, #grid9x9[i][j] do
-				local newBlock = {}
-				newBlock[1] = grid9x9[i][j][k]
-				newBlock[2] = region9x9[i][j][k]
-				
-				table.insert(newLine, newBlock)
-				if #grid9x9[i][j] == k then
-					table.insert(newMatrice, newLine)
-				end
-				if #grid9x9[i] == j and #grid9x9[i][j] == k then
-					table.insert(matriceList, newMatrice)
-				end
-			end
-		end
-	end
-	local testJson = json.encode(matriceList)
-	pprint("====> testJson ::: ", testJson)
-end
-
-function print_grid(grid)
-	for i = 1, #grid do
-		for j = 1, #grid[i] do
-			io.write(grid[i][j] .. " ")
-		end
-		io.write("\n")
-	end
-end
 
 function scaleColumnGrid(columnDimension)
 	if columnDimension == 3 then
@@ -701,6 +174,7 @@ function randomBlock(self)
 	math.randomseed(os.time())
 
 	for z = 1, #self.fusionBlock do
+		
 		local hasard = math.random(1, #blockList)
 
 		for b=1, #blockList[hasard] do
@@ -999,6 +473,11 @@ function setStartLatineFont(self)
 	gui.set_font(gui.get_node("start"), hash("PoetsenOne85_border"))
 end
 
+function setStartHindiFont(self)
+	gui.set_font(gui.get_node("number_level"), hash("HI_30_border"))
+	gui.set_font(gui.get_node("start"), hash("HI_85_border"))
+end
+
 function setStartTxtForAll(self)
 	local label_level = languages[config.game_language].label_indicator_level.."#"..config.level
 	gui.set_text(gui.get_node("number_level"), label_level)
@@ -1044,6 +523,13 @@ function randomSudokuNumber(self)
 	end
 end
 
+function useStartAndSound(self)
+	local useStartIsActive = sys.load(ryoku_path)
+	if useStartIsActive.sound then
+		sound.play("/sound#validation_button", {delay = 0, gain = useStartIsActive.gainSelection})
+	end
+end
+
 function init(self)
 	currentLevel.blocks = {}
 	currentLevel.refBlock = {}
@@ -1067,6 +553,10 @@ function init(self)
 		gui.set_font(gui.get_node("number_level"), hash("JA_30_border"))
 		gui.set_font(gui.get_node("start"), hash("JA_80_border"))
 	end
+	if config.game_language  == "zh" then
+		gui.set_font(gui.get_node("number_level"), hash("ZH_30_border"))
+		gui.set_font(gui.get_node("start"), hash("ZH_80_border"))
+	end
 	if config.game_language  == "ko" then
 		gui.set_font(gui.get_node("number_level"), hash("KR_30_border"))
 		gui.set_font(gui.get_node("start"), hash("KR_80_border"))
@@ -1078,6 +568,10 @@ function init(self)
 	msg.post("@render:", "clear_color", { color = vmath.vector4(0.949, 0.952, 0.956, 0) })
 	msg.post(".", "acquire_input_focus")
 	
+	if config.game_language  == "hi" then
+		setStartHindiFont(self)
+	end
+	
 	if config.game_language == "fr" or 
 	config.game_language == "en" or 
 	config.game_language == "es" or 
@@ -1087,6 +581,12 @@ function init(self)
 	config.game_language == "nl" or 
 	config.game_language == "tr" or 
 	config.game_language == "it" or 
+	config.game_language == "da" or
+	config.game_language == "fi" or 
+	config.game_language == "hu" or 
+	config.game_language == "is" or 
+	config.game_language == "no" or 
+	config.game_language == "sv" or
 	config.game_language == "id" then
 		setStartLatineFont(self)
 	end
@@ -1119,88 +619,24 @@ function init(self)
 		currentLevel.platform.stopGame = true
 	end
 	randomSudokuNumber(self)
-	--matrice7x7()
-	--manageBlockRang()
-	--generateListLevel()
-	
--- 	local pentominoes = {
--- 		{{0,0},{0,1},{1,0},{1,1},{2,0}},   -- F
--- 		{{0,0},{1,0},{2,0},{2,1},{2,2}},   -- I
--- 		{{0,0},{1,0},{1,1},{2,1},{2,2}},   -- L
--- 		{{0,0},{0,1},{1,1},{1,2},{2,2}},   -- N
--- 		{{0,0},{0,1},{0,2},{1,1},{2,1}},   -- P
--- 		{{0,0},{0,1},{0,2},{0,3},{1,1}},   -- T
--- 		{{0,0},{0,1},{0,2},{1,0},{2,0}},   -- U
--- 		{{0,0},{0,1},{0,2},{0,3},{0,4}}    -- V
--- 	}
--- 	-- Initialisation de la grille avec des zéros
--- 	local grid = {}
--- 	for i = 1, 8 do
--- 		grid[i] = {}
--- 		for j = 1, 8 do
--- 			grid[i][j] = 0
--- 		end
--- 	end
--- 
--- 	-- Placement des pièces pentomino dans la grille
--- 	for k = 1, #pentominoes do
--- 		local piece = pentominoes[k]
--- 		local num = k % 9   -- Utilisation des chiffres de 1 à 8 pour représenter les pièces
--- 		for i = 1, 8 do
--- 			for j = 1, 8 do
--- 				local fit = true
--- 				for l = 1, 5 do
--- 					local x = i + piece[l][1]
--- 					local y = j + piece[l][2]
--- 					if x < 1 or x > 8 or y < 1 or y > 8 or grid[x][y] ~= 0 then
--- 						fit = false
--- 						break
--- 					end
--- 				end
--- 				if fit then
--- 					for l = 1, 5 do
--- 						local x = i + piece[l][1]
--- 						local y = j + piece[l][2]
--- 						grid[x][y] = num
--- 					end
--- 					break
--- 				end
--- 			end
--- 		end
--- 	end
--- 
--- 	-- Affichage de la grille
--- 	print_grid(grid)
-end
-
-function final(self)
-	-- Add finalization code here
-	-- Learn more: https://defold.com/manuals/script/
-	-- Remove this function if not needed
-end
-
-function update(self, dt)
-	-- Add update code here
-	-- Learn more: https://defold.com/manuals/script/
-	-- Remove this function if not needed
-end
-
-function on_message(self, message_id, message, sender)
-	-- Add message-handling code here
-	-- Learn more: https://defold.com/manuals/message-passing/
-	-- Remove this function if not needed
+	self.initToggleStart = true
 end
 
 function on_input(self, action_id, action)
 	if action_id == hash("touch") and action.pressed then
-		if gui.pick_node(gui.get_node(hash("start_level")), action.x, action.y) then
-			local checkLife = sys.load(ryoku_path)
-			if checkLife.life == 0 then
-				msg.post("/life#life", "manage_getting_life")
-			else
-				msg.post("controller:/loader#controller", "changeScene", { newScene = "playLevel" })
-			end
-			
+		if gui.pick_node(gui.get_node(hash("start_level")), action.x, action.y) and self.initToggleStart then
+			self.initToggleStart = false
+			useStartAndSound(self)
+			gui.animate(gui.get_node("start_level"), gui.PROP_SCALE, vmath.vector3(0.8), gui.EASING_INOUTQUAD, 0.2, 0, function(self, node)
+				timer.delay(0.2, false, function() 
+					local checkLife = sys.load(ryoku_path)
+					if checkLife.life == 0 then
+						msg.post("/life#life", "manage_getting_life")
+					else
+						msg.post("controller:/loader#controller", "changeScene", { newScene = "playLevel" })
+					end
+				end) 
+			end, gui.PLAYBACK_ONCE_PINGPONG)
 		end
 	end
 end

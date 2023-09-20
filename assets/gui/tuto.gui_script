@@ -1,7 +1,5 @@
 local ryoku_path = sys.get_save_file("ryoku", "data_level")
 local config = sys.load(ryoku_path)
---local list = require("ressources.listLevel")
---local currentLevel = list[config.level].path
 local currentLevel = require("levels.template")
 local languages = require("ressources.langages")
 local modifier = require("ressources.modifier")
@@ -217,6 +215,63 @@ function setTutoJaFont(self)
 	gui.set_font(gui.get_node("challenge_life_txt_6"), hash("JA_20"))
 end
 
+function setTutoZhFont(self)
+	-- WELCOME
+	gui.set_font(gui.get_node("welcome_txt_header"), hash("ZH_25"))
+	gui.set_font(gui.get_node("welcome_txt_next"), hash("ZH_25"))
+	gui.set_font(gui.get_node("welcome_txt_1"), hash("ZH_20"))
+	gui.set_font(gui.get_node("welcome_txt_2"), hash("ZH_20"))
+	gui.set_font(gui.get_node("welcome_txt_3"), hash("ZH_20"))
+	gui.set_font(gui.get_node("welcome_txt_5"), hash("ZH_20"))
+
+	-- STORAGE
+	gui.set_font(gui.get_node("storage_txt_header"), hash("ZH_25"))
+	gui.set_font(gui.get_node("storage_txt_next"), hash("ZH_25"))
+	gui.set_font(gui.get_node("storage_txt_1"), hash("ZH_20"))
+	gui.set_font(gui.get_node("storage_txt_2"), hash("ZH_20"))
+	gui.set_font(gui.get_node("storage_txt_5"), hash("ZH_20"))
+
+	-- NUMBER
+	gui.set_font(gui.get_node("numero_txt_header"), hash("ZH_25"))
+	gui.set_font(gui.get_node("numero_txt_next"), hash("ZH_25"))
+	gui.set_font(gui.get_node("numero_txt_1"), hash("ZH_20"))
+	gui.set_font(gui.get_node("numero_txt_2"), hash("ZH_20"))
+
+	-- INDICATEUR GAUCHE
+	gui.set_font(gui.get_node("indicateur_gauche_txt_header"), hash("ZH_25"))
+	gui.set_font(gui.get_node("indicateur_gauche_txt_next"), hash("ZH_25"))
+	gui.set_font(gui.get_node("indicateur_gauche_txt_1"), hash("ZH_20"))
+	gui.set_font(gui.get_node("indicateur_gauche_txt_3"), hash("ZH_20"))
+
+	-- INDICATEUR DROIT
+	gui.set_font(gui.get_node("indicateur_droit_txt_header"), hash("ZH_25"))
+	gui.set_font(gui.get_node("indicateur_droit_txt_next"), hash("ZH_25"))
+	gui.set_font(gui.get_node("indicateur_droit_txt_1"), hash("ZH_20"))
+	gui.set_font(gui.get_node("indicateur_droit_txt_3"), hash("ZH_20"))
+
+	-- PIECES DISPONIBLE
+	gui.set_font(gui.get_node("pieces_disponible_txt_header"), hash("ZH_25"))
+	gui.set_font(gui.get_node("pieces_disponible_txt_next"), hash("ZH_25"))
+	gui.set_font(gui.get_node("pieces_disponible_txt_1"), hash("ZH_20"))
+	gui.set_font(gui.get_node("pieces_disponible_txt_3"), hash("ZH_20"))
+
+	-- PLAY_SUDOKU
+	gui.set_font(gui.get_node("play_sudoku_header"), hash("ZH_25"))
+	gui.set_font(gui.get_node("play_sudoku_txt_next"), hash("ZH_25"))
+	gui.set_font(gui.get_node("play_sudoku_txt_1"), hash("ZH_20"))
+	gui.set_font(gui.get_node("play_sudoku_txt_2"), hash("ZH_20"))
+	gui.set_font(gui.get_node("play_sudoku_txt_3"), hash("ZH_20"))
+
+	-- CHALLENGE_LIFE
+	gui.set_font(gui.get_node("challenge_life_header"), hash("ZH_25"))
+	gui.set_font(gui.get_node("challenge_life_txt_next"), hash("ZH_25"))
+	gui.set_font(gui.get_node("challenge_life_txt_1"), hash("ZH_20"))
+	gui.set_font(gui.get_node("challenge_life_txt_2"), hash("ZH_20"))
+	gui.set_font(gui.get_node("challenge_life_txt_4"), hash("ZH_20"))
+	gui.set_font(gui.get_node("challenge_life_txt_5"), hash("ZH_20"))
+	gui.set_font(gui.get_node("challenge_life_txt_6"), hash("ZH_20"))
+end
+
 function setTutoKrFont(self)
 	-- WELCOME
 	gui.set_font(gui.get_node("welcome_txt_header"), hash("KR_25"))
@@ -388,6 +443,63 @@ function setTutoLatineFont(self)
 	gui.set_font(gui.get_node("challenge_life_txt_6"), hash("PoetsenOne22"))
 end
 
+function setTutoHindiFont(self)
+	-- WELCOME
+	gui.set_font(gui.get_node("welcome_txt_header"), hash("HI_25_border"))
+	gui.set_font(gui.get_node("welcome_txt_next"), hash("HI_40_border"))
+	gui.set_font(gui.get_node("welcome_txt_1"), hash("HI_22"))
+	gui.set_font(gui.get_node("welcome_txt_2"), hash("HI_22"))
+	gui.set_font(gui.get_node("welcome_txt_3"), hash("HI_22"))
+	gui.set_font(gui.get_node("welcome_txt_5"), hash("HI_22"))
+
+	-- STORAGE
+	gui.set_font(gui.get_node("storage_txt_header"), hash("HI_25_border"))
+	gui.set_font(gui.get_node("storage_txt_next"), hash("HI_40_border"))
+	gui.set_font(gui.get_node("storage_txt_1"), hash("HI_22"))
+	gui.set_font(gui.get_node("storage_txt_2"), hash("HI_22"))
+	gui.set_font(gui.get_node("storage_txt_5"), hash("HI_22"))
+
+	-- NUMBER
+	gui.set_font(gui.get_node("numero_txt_header"), hash("HI_25_border"))
+	gui.set_font(gui.get_node("numero_txt_next"), hash("HI_40_border"))
+	gui.set_font(gui.get_node("numero_txt_1"), hash("HI_22"))
+	gui.set_font(gui.get_node("numero_txt_2"), hash("HI_22"))
+
+	-- INDICATEUR GAUCHE
+	gui.set_font(gui.get_node("indicateur_gauche_txt_header"), hash("HI_25_border"))
+	gui.set_font(gui.get_node("indicateur_gauche_txt_next"), hash("HI_40_border"))
+	gui.set_font(gui.get_node("indicateur_gauche_txt_1"), hash("HI_22"))
+	gui.set_font(gui.get_node("indicateur_gauche_txt_3"), hash("HI_22"))
+
+	-- INDICATEUR DROIT
+	gui.set_font(gui.get_node("indicateur_droit_txt_header"), hash("HI_25_border"))
+	gui.set_font(gui.get_node("indicateur_droit_txt_next"), hash("HI_40_border"))
+	gui.set_font(gui.get_node("indicateur_droit_txt_1"), hash("HI_22"))
+	gui.set_font(gui.get_node("indicateur_droit_txt_3"), hash("HI_22"))
+
+	-- PIECES DISPONIBLE
+	gui.set_font(gui.get_node("pieces_disponible_txt_header"), hash("HI_25_border"))
+	gui.set_font(gui.get_node("pieces_disponible_txt_next"), hash("HI_40_border"))
+	gui.set_font(gui.get_node("pieces_disponible_txt_1"), hash("HI_22"))
+	gui.set_font(gui.get_node("pieces_disponible_txt_3"), hash("HI_22"))
+
+	-- PLAY_SUDOKU
+	gui.set_font(gui.get_node("play_sudoku_header"), hash("HI_25_border"))
+	gui.set_font(gui.get_node("play_sudoku_txt_next"), hash("HI_40_border"))
+	gui.set_font(gui.get_node("play_sudoku_txt_1"), hash("HI_22"))
+	gui.set_font(gui.get_node("play_sudoku_txt_2"), hash("HI_22"))
+	gui.set_font(gui.get_node("play_sudoku_txt_3"), hash("HI_22"))
+
+	-- CHALLENGE_LIFE
+	gui.set_font(gui.get_node("challenge_life_header"), hash("HI_25_border"))
+	gui.set_font(gui.get_node("challenge_life_txt_next"), hash("HI_40_border"))
+	gui.set_font(gui.get_node("challenge_life_txt_1"), hash("HI_22"))
+	gui.set_font(gui.get_node("challenge_life_txt_2"), hash("HI_22"))
+	gui.set_font(gui.get_node("challenge_life_txt_4"), hash("HI_22"))
+	gui.set_font(gui.get_node("challenge_life_txt_5"), hash("HI_22"))
+	gui.set_font(gui.get_node("challenge_life_txt_6"), hash("HI_22"))
+end
+
 function setTutoTxtArabic(self)
 	-- WELCOME
 	gui.set_text(gui.get_node("welcome_txt_header"), modifier.modifierToArab(languages[config.game_language].welcome_txt_header))
@@ -533,6 +645,12 @@ function init(self)
 	if config.game_language == "vi" then
 		setTutoViFont(self)
 	end
+	if config.game_language == "zh" then
+		setTutoZhFont(self)
+	end
+	if config.game_language == "hi" then
+		setTutoHindiFont(self)
+	end
 	
 	if config.game_language == "fr" or 
 	config.game_language == "en" or 
@@ -543,6 +661,12 @@ function init(self)
 	config.game_language == "nl" or 
 	config.game_language == "tr" or 
 	config.game_language == "it" or 
+	config.game_language == "da" or
+	config.game_language == "fi" or 
+	config.game_language == "hu" or 
+	config.game_language == "is" or 
+	config.game_language == "no" or 
+	config.game_language == "sv" or
 	config.game_language == "id" then
 		setTutoLatineFont(self)
 	end
@@ -551,21 +675,6 @@ function init(self)
 	else
 		setTutoTxtForAll(self)
 	end
-	-- Add initialization code here
-	-- Learn more: https://defold.com/manuals/script/
-	-- Remove this function if not needed
-end
-
-function final(self)
-	-- Add finalization code here
-	-- Learn more: https://defold.com/manuals/script/
-	-- Remove this function if not needed
-end
-
-function update(self, dt)
-	-- Add update code here
-	-- Learn more: https://defold.com/manuals/script/
-	-- Remove this function if not needed
 end
 
 function on_message(self, message_id, message, sender)
@@ -649,10 +758,4 @@ function on_input(self, action_id, action)
 		
 		
 	end
-end
-
-function on_reload(self)
-	-- Add reload-handling code here
-	-- Learn more: https://defold.com/manuals/hot-reload/
-	-- Remove this function if not needed
 end

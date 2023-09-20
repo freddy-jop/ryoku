@@ -47,6 +47,22 @@ fonts {
   name: "JA_25"
   font: "/assets/fonts/JA_25.font"
 }
+fonts {
+  name: "ZH_20"
+  font: "/assets/fonts/ZH_20.font"
+}
+fonts {
+  name: "ZH_25"
+  font: "/assets/fonts/ZH_25.font"
+}
+fonts {
+  name: "HI_20"
+  font: "/assets/fonts/HI_20.font"
+}
+fonts {
+  name: "HI_40_border"
+  font: "/assets/fonts/HI_40_border.font"
+}
 textures {
   name: "restart"
   texture: "/assets/atlas/restart.atlas"

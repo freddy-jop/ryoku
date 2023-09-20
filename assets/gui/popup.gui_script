@@ -1,7 +1,5 @@
 local ryoku_path = sys.get_save_file("ryoku", "data_level")
 local config = sys.load(ryoku_path)
---local list = require("ressources.listLevel")
---local currentLevel = list[config.level].path
 local currentLevel = require("levels.template")
 local languages = require("ressources.langages")
 local modifier = require("ressources.modifier")
@@ -243,6 +241,85 @@ function setJaFont(self)
 	gui.set_font(gui.get_node("ok_button"), hash("JA_30_border"))
 end
 
+function setZhFont(self)
+	-- ZONE
+	gui.set_font(gui.get_node("header_zone_free"), hash("ZH_30_border"))
+	gui.set_font(gui.get_node("header_zone_pay"), hash("ZH_30_border"))
+
+	gui.set_font(gui.get_node("get_zone_free"), hash("ZH_25"))
+	gui.set_font(gui.get_node("get_zone_pay"), hash("ZH_25"))
+
+	gui.set_font(gui.get_node("offer_zone_free_gratuit"), hash("ZH_25"))
+	gui.set_font(gui.get_node("offer_zone_pay_facile"), hash("ZH_25"))
+
+	gui.set_font(gui.get_node("offer_zone_free_unique"), hash("ZH_25"))
+	gui.set_font(gui.get_node("offer_zone_pay_jouer"), hash("ZH_25"))
+
+	gui.set_font(gui.get_node("txt_recharge_free_zone"), hash("ZH_30_border"))
+	gui.set_font(gui.get_node("txt_recharge_pay_zone"), hash("ZH_30_border"))
+
+	-- GROUP
+	gui.set_font(gui.get_node("header_group_free"), hash("ZH_30_border"))
+	gui.set_font(gui.get_node("header_group_pay"), hash("ZH_30_border"))
+
+	gui.set_font(gui.get_node("get_group_free"), hash("ZH_25"))
+	gui.set_font(gui.get_node("get_group_pay"), hash("ZH_25"))
+
+	gui.set_font(gui.get_node("offer_group_free_gratuit"), hash("ZH_25"))
+	gui.set_font(gui.get_node("offer_group_pay_facile"), hash("ZH_25"))
+
+	gui.set_font(gui.get_node("offer_group_free_unique"), hash("ZH_25"))
+	gui.set_font(gui.get_node("offer_group_pay_jouer"), hash("ZH_25"))
+
+	gui.set_font(gui.get_node("txt_recharge_free_group"), hash("ZH_30_border"))
+	gui.set_font(gui.get_node("txt_recharge_pay_group"), hash("ZH_30_border"))
+
+	-- TARGET
+	gui.set_font(gui.get_node("header_target_free"), hash("ZH_30_border"))
+	gui.set_font(gui.get_node("header_target_pay"), hash("ZH_30_border"))
+
+	gui.set_font(gui.get_node("get_target_free"), hash("ZH_25"))
+	gui.set_font(gui.get_node("get_target_pay"), hash("ZH_25"))
+
+	gui.set_font(gui.get_node("offer_target_free_gratuit"), hash("ZH_25"))
+	gui.set_font(gui.get_node("offer_target_pay_facile"), hash("ZH_25"))
+
+	gui.set_font(gui.get_node("offer_target_free_unique"), hash("ZH_25"))
+	gui.set_font(gui.get_node("offer_target_pay_jouer"), hash("ZH_25"))
+
+	gui.set_font(gui.get_node("txt_recharge_free_target"), hash("ZH_30_border"))
+	gui.set_font(gui.get_node("txt_recharge_pay_target"), hash("ZH_30_border"))
+
+	-- SUDOKU
+	gui.set_font(gui.get_node("header_sudoku_free"), hash("ZH_30_border"))
+	gui.set_font(gui.get_node("header_sudoku_pay"), hash("ZH_30_border"))
+
+	gui.set_font(gui.get_node("get_sudoku_free"), hash("ZH_25"))
+	gui.set_font(gui.get_node("get_sudoku_pay"), hash("ZH_25"))
+
+	gui.set_font(gui.get_node("offer_sudoku_free_gratuit"), hash("ZH_25"))
+	gui.set_font(gui.get_node("offer_sudoku_pay_facile"), hash("ZH_25"))
+
+	gui.set_font(gui.get_node("offer_sudoku_free_unique"), hash("ZH_25"))
+	gui.set_font(gui.get_node("offer_sudoku_pay_jouer"), hash("ZH_25"))
+
+	gui.set_font(gui.get_node("txt_recharge_free_sudoku"), hash("ZH_30_border"))
+	gui.set_font(gui.get_node("txt_recharge_pay_sudoku"), hash("ZH_30_border"))
+
+	--ERROR ADS
+	gui.set_font(gui.get_node("header_error_ads"), hash("ZH_20"))
+	gui.set_font(gui.get_node("txt_error_ads"), hash("ZH_20"))
+	gui.set_font(gui.get_node("txt_error_ads_validation"), hash("ZH_25"))
+
+	--ERROR CHALLENGE
+	gui.set_font(gui.get_node("header_info"), hash("ZH_25"))
+	gui.set_font(gui.get_node("situation_info"), hash("ZH_20"))
+	gui.set_font(gui.get_node("request_info"), hash("ZH_20"))
+	gui.set_font(gui.get_node("warn_info"), hash("ZH_20"))
+	gui.set_font(gui.get_node("help_bonus"), hash("ZH_20"))
+	gui.set_font(gui.get_node("ok_button"), hash("ZH_30_border"))
+end
+
 function setKrFont(self)
 	-- ZONE
 	gui.set_font(gui.get_node("header_zone_free"), hash("KR_30_border"))
@@ -480,6 +557,85 @@ function setLatineFont(self)
 	gui.set_font(gui.get_node("ok_button"), hash("PoetsenOne40_border"))
 end
 
+function setHindiFont(self)
+	-- ZONE
+	gui.set_font(gui.get_node("header_zone_free"), hash("HI_25_border"))
+	gui.set_font(gui.get_node("header_zone_pay"), hash("HI_25_border"))
+
+	gui.set_font(gui.get_node("get_zone_free"), hash("HI_22"))
+	gui.set_font(gui.get_node("get_zone_pay"), hash("HI_22"))
+
+	gui.set_font(gui.get_node("offer_zone_free_gratuit"), hash("HI_22"))
+	gui.set_font(gui.get_node("offer_zone_pay_facile"), hash("HI_22"))
+
+	gui.set_font(gui.get_node("offer_zone_free_unique"), hash("HI_22"))
+	gui.set_font(gui.get_node("offer_zone_pay_jouer"), hash("HI_22"))
+
+	gui.set_font(gui.get_node("txt_recharge_free_zone"), hash("HI_40_border"))
+	gui.set_font(gui.get_node("txt_recharge_pay_zone"), hash("HI_40_border"))
+
+	-- GROUP
+	gui.set_font(gui.get_node("header_group_free"), hash("HI_25_border"))
+	gui.set_font(gui.get_node("header_group_pay"), hash("HI_25_border"))
+
+	gui.set_font(gui.get_node("get_group_free"), hash("HI_22"))
+	gui.set_font(gui.get_node("get_group_pay"), hash("HI_22"))
+
+	gui.set_font(gui.get_node("offer_group_free_gratuit"), hash("HI_22"))
+	gui.set_font(gui.get_node("offer_group_pay_facile"), hash("HI_22"))
+
+	gui.set_font(gui.get_node("offer_group_free_unique"), hash("HI_22"))
+	gui.set_font(gui.get_node("offer_group_pay_jouer"), hash("HI_22"))
+
+	gui.set_font(gui.get_node("txt_recharge_free_group"), hash("HI_40_border"))
+	gui.set_font(gui.get_node("txt_recharge_pay_group"), hash("HI_40_border"))
+
+	-- TARGET
+	gui.set_font(gui.get_node("header_target_free"), hash("HI_25_border"))
+	gui.set_font(gui.get_node("header_target_pay"), hash("HI_25_border"))
+
+	gui.set_font(gui.get_node("get_target_free"), hash("HI_22"))
+	gui.set_font(gui.get_node("get_target_pay"), hash("HI_22"))
+
+	gui.set_font(gui.get_node("offer_target_free_gratuit"), hash("HI_22"))
+	gui.set_font(gui.get_node("offer_target_pay_facile"), hash("HI_22"))
+
+	gui.set_font(gui.get_node("offer_target_free_unique"), hash("HI_22"))
+	gui.set_font(gui.get_node("offer_target_pay_jouer"), hash("HI_22"))
+
+	gui.set_font(gui.get_node("txt_recharge_free_target"), hash("HI_40_border"))
+	gui.set_font(gui.get_node("txt_recharge_pay_target"), hash("HI_40_border"))
+
+	-- SUDOKU
+	gui.set_font(gui.get_node("header_sudoku_free"), hash("HI_25_border"))
+	gui.set_font(gui.get_node("header_sudoku_pay"), hash("HI_25_border"))
+
+	gui.set_font(gui.get_node("get_sudoku_free"), hash("HI_22"))
+	gui.set_font(gui.get_node("get_sudoku_pay"), hash("HI_22"))
+
+	gui.set_font(gui.get_node("offer_sudoku_free_gratuit"), hash("HI_22"))
+	gui.set_font(gui.get_node("offer_sudoku_pay_facile"), hash("HI_22"))
+
+	gui.set_font(gui.get_node("offer_sudoku_free_unique"), hash("HI_22"))
+	gui.set_font(gui.get_node("offer_sudoku_pay_jouer"), hash("HI_22"))
+
+	gui.set_font(gui.get_node("txt_recharge_free_sudoku"), hash("HI_40_border"))
+	gui.set_font(gui.get_node("txt_recharge_pay_sudoku"), hash("HI_40_border"))
+
+	--ERROR ADS
+	gui.set_font(gui.get_node("header_error_ads"), hash("HI_25_border"))
+	gui.set_font(gui.get_node("txt_error_ads"), hash("HI_22"))
+	gui.set_font(gui.get_node("txt_error_ads_validation"), hash("HI_40_border"))
+
+	--ERROR CHALLENGE
+	gui.set_font(gui.get_node("header_info"), hash("HI_25_border"))
+	gui.set_font(gui.get_node("situation_info"), hash("HI_22"))
+	gui.set_font(gui.get_node("request_info"), hash("HI_22"))
+	gui.set_font(gui.get_node("warn_info"), hash("HI_22"))
+	gui.set_font(gui.get_node("help_bonus"), hash("HI_22"))
+	gui.set_font(gui.get_node("ok_button"), hash("HI_40_border"))
+end
+
 function setTxtForAll(self)
 	local lgConfPopupLatin = sys.load(ryoku_path)
 	-- ZONE
@@ -677,6 +833,12 @@ function managePopupLg(self)
 	if manageConfigPopup.game_language == "vi" then
 		setViFont(self)
 	end
+	if manageConfigPopup.game_language == "zh" then
+		setZhFont(self)
+	end
+	if manageConfigPopup.game_language == "hi" then
+		setHindiFont(self)
+	end
 	if manageConfigPopup.game_language == "fr" or 
 	manageConfigPopup.game_language == "en" or 
 	manageConfigPopup.game_language == "es" or 
@@ -686,15 +848,19 @@ function managePopupLg(self)
 	manageConfigPopup.game_language == "nl" or 
 	manageConfigPopup.game_language == "tr" or 
 	manageConfigPopup.game_language == "it" or 
+	manageConfigPopup.game_language == "da" or
+	manageConfigPopup.game_language == "fi" or 
+	manageConfigPopup.game_language == "hu" or 
+	manageConfigPopup.game_language == "is" or 
+	manageConfigPopup.game_language == "no" or 
+	manageConfigPopup.game_language == "sv" or
 	manageConfigPopup.game_language == "id" then
 		setLatineFont(self)
 	end
 	if manageConfigPopup.game_language == "ar" then
 		setTxtArabic(self)
-		--setInformationReperesArabic(self)
 	else
 		setTxtForAll(self)
-		--setInformationReperes(self)
 	end
 end
 
@@ -719,19 +885,10 @@ function init(self)
 	self.initialized = false
 end
 
-function final(self)
-	-- Add finalization code here
-	-- Learn more: https://defold.com/manuals/script/
-	-- Remove this function if not needed
-end
-
-function update(self, dt)
-end
-
 function on_message(self, message_id, message, sender)
-	if message_if == hash("zone_popup_error_ads") then
+	if message_id == hash("player_popup_error_ads") then
 		gui.set_enabled(gui.get_node("overlay"), true)
-		gui.set_enabled(gui.get_node("popup_error_ads"), true)
+		gui.set_enabled(gui.get_node("popup_error_game_ads"), true)
 	end
 	if message_id == hash("zone_popup_pay") then
 		managePopupLg(self)
@@ -1010,17 +1167,11 @@ function on_input(self, action_id, action)
 			gui.set_enabled(gui.get_node("popup_info_powerup"), false)
 			gui.set_enabled(gui.get_node("overlay_info"), false)
 		end
-		if gui.pick_node(gui.get_node("error_ads_validation"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_error_ads")) and currentLevel.platform.stopGame then
+		if gui.pick_node(gui.get_node("error_ads_game_validation"), action.x, action.y) and gui.is_enabled(gui.get_node("popup_error_game_ads")) and currentLevel.platform.stopGame then
 			currentLevel.platform.stopGame = false
 			validationSound(self)
 			gui.set_enabled(gui.get_node("overlay"), false)
-			gui.set_enabled(gui.get_node("popup_error_ads"), false)
+			gui.set_enabled(gui.get_node("popup_error_game_ads"), false)
 		end
 	end
-end
-
-function on_reload(self)
-	-- Add reload-handling code here
-	-- Learn more: https://defold.com/manuals/hot-reload/
-	-- Remove this function if not needed
 end

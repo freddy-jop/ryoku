@@ -8,14 +8,6 @@ fonts {
   font: "/assets/fonts/PoetsenOne40_border.font"
 }
 fonts {
-  name: "PoetsenOne60_border"
-  font: "/assets/fonts/PoetsenOne60_border.font"
-}
-fonts {
-  name: "PoetsenOne25_border"
-  font: "/assets/fonts/PoetsenOne25_border.font"
-}
-fonts {
   name: "VI_25"
   font: "/assets/fonts/VI_25.font"
 }
@@ -54,6 +46,22 @@ fonts {
 fonts {
   name: "ARB_35_border"
   font: "/assets/fonts/ARB_35_border.font"
+}
+fonts {
+  name: "ZH_25"
+  font: "/assets/fonts/ZH_25.font"
+}
+fonts {
+  name: "ZH_30_border"
+  font: "/assets/fonts/ZH_30_border.font"
+}
+fonts {
+  name: "HI_22"
+  font: "/assets/fonts/HI_22.font"
+}
+fonts {
+  name: "HI_40_border"
+  font: "/assets/fonts/HI_40_border.font"
 }
 textures {
   name: "popup"

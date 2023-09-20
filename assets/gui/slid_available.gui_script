@@ -1,7 +1,6 @@
 local ryoku_path = sys.get_save_file("ryoku", "data_level")
 local config = sys.load(ryoku_path)
 local list = require("levels.lists")
---local currentLevel = list[config.level].path
 local currentLevel = require("levels.template")
 function init(self)
 	msg.post(".", "acquire_input_focus")
@@ -15,15 +14,6 @@ function init(self)
 	self.is_not_available_left = false
 	self.is_available_right = false
 	self.is_not_available_right = false
-	-- Add initialization code here
-	-- Learn more: https://defold.com/manuals/script/
-	-- Remove this function if not needed
-end
-
-function final(self)
-	-- Add finalization code here
-	-- Learn more: https://defold.com/manuals/script/
-	-- Remove this function if not needed
 end
 
 function initialLeftAvailable(self, node)
@@ -125,46 +115,17 @@ function update(self, dt)
 		gui.set_color(gui.get_node("right_available"), vmath.vector4(255/255, 220/255, 189/255, 1))
 		gui.set_color(gui.get_node("right_block"), vmath.vector4(131/255, 65/255, 6/255, 1))
 	end
-	--end
-	-- if not currentLevel.platform.slider.whenPoseAndReplacingBlockIsDone then
-	-- 	gui.set_position(gui.get_node("left_available"), currentLevel.platform.positionArrowToLeft)
-	-- 	gui.set_position(gui.get_node("right_available"), currentLevel.platform.positionArrowToRight)
-	-- end
-
--- 	if currentLevel.platform.slider.isSlideLeftRight and
--- 	currentLevel.platform.slider.directionSlider == -1 and
--- 	not currentLevel.platform.slidToLeft and
--- 	not currentLevel.platform.processing then
--- 		local positionLeft = gui.get_position(gui.get_node("left_available"))
--- 		positionLeft.x = positionLeft.x + 50
--- 		gui.animate(gui.get_node("left_available"), gui.PROP_POSITION, positionLeft, gui.EASING_INOUTQUAD, 0.2, 0, initialLeftAvailable, gui.PLAYBACK_ONCE_PINGPONG)
--- 		currentLevel.platform.processing = true
--- 	end
--- 
--- 	if currentLevel.platform.slider.isSlideLeftRight and
--- 	currentLevel.platform.slider.directionSlider == 1 and
--- 	not currentLevel.platform.slidToRight and
--- 	not currentLevel.platform.processing then
--- 		local positionRight = gui.get_position(gui.get_node("right_available"))
--- 		positionRight.x = positionRight.x - 50
--- 		gui.animate(gui.get_node("right_available"), gui.PROP_POSITION, positionRight, gui.EASING_INOUTQUAD, 0.2, 0, initialRightAvailable, gui.PLAYBACK_ONCE_PINGPONG)
--- 		currentLevel.platform.processing = true
--- 	end
-end
-
-function on_message(self, message_id, message, sender)
-	-- Add message-handling code here
-	-- Learn more: https://defold.com/manuals/message-passing/
-	-- Remove this function if not needed
 end
 
 function on_input(self, action_id, action)
 	if action_id == hash("touch") and action.pressed then
-		if gui.pick_node(gui.get_node("left_available"), action.x, action.y) and 
+		if (gui.pick_node(gui.get_node("left_available"), action.x, action.y) or
+		gui.pick_node(gui.get_node("left_touchable"), action.x, action.y)) and 
 		not currentLevel.platform.slider.whenPoseAndReplacingBlockIsDone and
 		not currentLevel.platform.stopGame and
 		not currentLevel.platform.slider.dragBlock and
-		not currentLevel.platform.slider.isSlideLeftRight then
+		not currentLevel.platform.slider.isSlideLeftRight and
+		currentLevel.platform.rightAvailable ~= 0 then
 			gui.set_scale(gui.get_node("left_available"), vmath.vector3(1))
 			gui.animate(gui.get_node("left_available"), gui.PROP_SCALE, vmath.vector3(0.8), gui.EASING_INOUTQUAD, 0.2, 0, nil, gui.PLAYBACK_ONCE_PINGPONG)
 			currentLevel.platform.slider.directionSlider = -1
@@ -193,11 +154,14 @@ function on_input(self, action_id, action)
 			currentLevel.platform.slider.positionTouchSlide = vmath.vector3(0, 0, 0)
 			currentLevel.platform.slider.gapLeftRight = 0
 		end
-		if gui.pick_node(gui.get_node("right_available"), action.x, action.y) and 
+		
+		if (gui.pick_node(gui.get_node("right_available"), action.x, action.y) or
+		gui.pick_node(gui.get_node("right_touchable"), action.x, action.y)) and 
 		not currentLevel.platform.slider.whenPoseAndReplacingBlockIsDone and
 		not currentLevel.platform.stopGame and
 		not currentLevel.platform.slider.dragBlock and
-		not currentLevel.platform.slider.isSlideLeftRight then
+		not currentLevel.platform.slider.isSlideLeftRight and
+		currentLevel.platform.leftAvailable ~= 0 then
 			gui.set_scale(gui.get_node("right_available"), vmath.vector3(1))
 			gui.animate(gui.get_node("right_available"), gui.PROP_SCALE, vmath.vector3(0.8), gui.EASING_INOUTQUAD, 0.2, 0, nil, gui.PLAYBACK_ONCE_PINGPONG)
 			currentLevel.platform.slider.directionSlider = 1
@@ -227,19 +191,4 @@ function on_input(self, action_id, action)
 			currentLevel.platform.slider.gapLeftRight = 0
 		end
 	end
-	-- Add input-handling code here. The game object this script is attached to
-	-- must have acquired input focus:
-	--
-	--    msg.post(".", "acquire_input_focus")
-	--
-	-- All mapped input bindings will be received. Mouse and touch input will
-	-- be received regardless of where on the screen it happened.
-	-- Learn more: https://defold.com/manuals/input/
-	-- Remove this function if not needed
-end
-
-function on_reload(self)
-	-- Add reload-handling code here
-	-- Learn more: https://defold.com/manuals/hot-reload/
-	-- Remove this function if not needed
 end

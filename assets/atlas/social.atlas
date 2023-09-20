@@ -1,28 +1,4 @@
 images {
-  image: "/images/social/facebook.png"
-  sprite_trim_mode: SPRITE_TRIM_MODE_OFF
-}
-images {
-  image: "/images/social/instagram.png"
-  sprite_trim_mode: SPRITE_TRIM_MODE_OFF
-}
-images {
-  image: "/images/social/youtube.png"
-  sprite_trim_mode: SPRITE_TRIM_MODE_OFF
-}
-images {
-  image: "/images/social/snapchat.png"
-  sprite_trim_mode: SPRITE_TRIM_MODE_OFF
-}
-images {
-  image: "/images/social/tiktok.png"
-  sprite_trim_mode: SPRITE_TRIM_MODE_OFF
-}
-images {
-  image: "/images/social/play_store.png"
-  sprite_trim_mode: SPRITE_TRIM_MODE_OFF
-}
-images {
   image: "/images/social/evaluez.png"
   sprite_trim_mode: SPRITE_TRIM_MODE_OFF
 }
@@ -43,14 +19,6 @@ images {
   sprite_trim_mode: SPRITE_TRIM_MODE_OFF
 }
 images {
-  image: "/images/social/patreon.png"
-  sprite_trim_mode: SPRITE_TRIM_MODE_OFF
-}
-images {
-  image: "/images/social/privacy.png"
-  sprite_trim_mode: SPRITE_TRIM_MODE_OFF
-}
-images {
   image: "/images/social/close_param.png"
   sprite_trim_mode: SPRITE_TRIM_MODE_OFF
 }
@@ -60,14 +28,6 @@ images {
 }
 images {
   image: "/images/social/translate.png"
-  sprite_trim_mode: SPRITE_TRIM_MODE_OFF
-}
-images {
-  image: "/images/social/rule_game.png"
-  sprite_trim_mode: SPRITE_TRIM_MODE_OFF
-}
-images {
-  image: "/images/social/credit_game.png"
   sprite_trim_mode: SPRITE_TRIM_MODE_OFF
 }
 images {
