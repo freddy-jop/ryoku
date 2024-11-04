@@ -95,6 +95,7 @@ function initializeGrid(self)
 	currentLevel.platform.startChallenge = {}
 	currentLevel.platform.randomChallenge = 0
 	currentLevel.platform.stopGame = false
+	currentLevel.platform.startWithLife = true
 end
 
 function defineDimensionNumber(currentBlock)

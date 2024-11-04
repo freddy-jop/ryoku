@@ -4,7 +4,7 @@ local list = require("levels.lists")
 
 local ryoku_path = sys.get_save_file("ryoku", "data_level")
 
-function selectLanguageByPrivateList()
+function selectLanguageByPrivateList(self)
 	local privateList = {"fr","en","zh","hi","es","de","ru","pt","pl","nl","tr","it","ja","ko","vi","id","ar","da","fi","hu","is","no","sv"}
 	local listLenght = table.getn(privateList)
 	for i = 1, listLenght do
@@ -25,14 +25,14 @@ function init(self)
 		if success then
 			self.appData = sys.load(ryoku_path)
 			if self.appData.game_language == "" then
-				self.appData.game_language = selectLanguageByPrivateList()
+				self.appData.game_language = selectLanguageByPrivateList(self)
 				sys.save(ryoku_path, self.appData)
 			end
 		end
 	else
 		self.appData.stopGame = false
 		if self.appData.game_language ~= sys.get_sys_info().language then
-			self.appData.game_language = selectLanguageByPrivateList()
+			self.appData.game_language = selectLanguageByPrivateList(self)
 			sys.save(ryoku_path, self.appData)
 		end
 		sys.save(ryoku_path, self.appData)

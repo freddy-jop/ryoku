@@ -492,6 +492,7 @@ function manageAddLife(self)
 		self.ToggleDisplayOptions = false
 	else
 		currentLevel.platform.stopGame = true
+		currentLevel.platform.startWithLife = false
 	end
 	togglePopupAddLife(self)
 end
@@ -705,6 +706,7 @@ function on_message(self, message_id, message, sender)
 			self.ToggleDisplayOptions = true
 		else
 			currentLevel.platform.stopGame = false
+			currentLevel.platform.startWithLife = true
 		end
 		togglePopupAddLife(self)
 	end
@@ -949,6 +951,7 @@ function on_input(self, action_id, action)
 				self.ToggleDisplayOptions = true
 			else
 				currentLevel.platform.stopGame = false
+				currentLevel.platform.startWithLife = true
 			end
 			togglePopupAddLife(self)
 		end

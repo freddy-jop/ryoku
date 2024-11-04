@@ -1,4 +1,5 @@
-local zws = "\xe2\x80\x8b"
+--local zws = "\xe2\x80\x8b"
+local zws = string.char(226, 128, 139)
 local langages = {
 	["fr"] = {
 		lg = "Français",

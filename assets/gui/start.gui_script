@@ -137,6 +137,7 @@ function initializeGrid(self)
 	currentLevel.platform.startChallenge = {}
 	currentLevel.platform.randomChallenge = 0
 	currentLevel.platform.stopGame = false
+	currentLevel.platform.startWithLife = true
 end
 
 function defineDimensionNumber(currentBlock)
@@ -471,23 +472,31 @@ end
 function setStartLatineFont(self)
 	gui.set_font(gui.get_node("number_level"), hash("PoetsenOne30_border"))
 	gui.set_font(gui.get_node("start"), hash("PoetsenOne85_border"))
+	gui.set_font(gui.get_node("suivez_nous"), hash("PoetsenOne20"))
+	gui.set_font(gui.get_node("evaluez_nous"), hash("PoetsenOne20"))
 end
 
 function setStartHindiFont(self)
 	gui.set_font(gui.get_node("number_level"), hash("HI_30_border"))
 	gui.set_font(gui.get_node("start"), hash("HI_85_border"))
+	gui.set_font(gui.get_node("suivez_nous"), hash("HI_20"))
+	gui.set_font(gui.get_node("evaluez_nous"), hash("HI_20"))
 end
 
 function setStartTxtForAll(self)
 	local label_level = languages[config.game_language].label_indicator_level.."#"..config.level
 	gui.set_text(gui.get_node("number_level"), label_level)
 	gui.set_text(gui.get_node("start"), languages[config.game_language].label_start_level)
+	gui.set_text(gui.get_node("suivez_nous"), languages[config.game_language].followus)
+	gui.set_text(gui.get_node("evaluez_nous"), languages[config.game_language].evaluateus)
 end
 
 function setStartTxtArabic(self)
 	local label_level = modifier.modifierToArab(languages[config.game_language].label_indicator_level).."#"..config.level
 	gui.set_text(gui.get_node("number_level"), label_level)
 	gui.set_text(gui.get_node("start"), modifier.modifierToArab(languages[config.game_language].label_start_level))
+	gui.set_text(gui.get_node("suivez_nous"), modifier.modifierToArab(languages[config.game_language].followus))
+	gui.set_text(gui.get_node("evaluez_nous"), modifier.modifierToArab(languages[config.game_language].evaluateus))
 end
 
 function setBlockNumberSudoku(grdY,grdX)
@@ -544,26 +553,38 @@ function init(self)
 	if config.game_language  == "ru" or config.game_language  == "be" then
 		gui.set_font(gui.get_node("number_level"), hash("RU_30_border"))
 		gui.set_font(gui.get_node("start"), hash("RU_85_border"))
+		gui.set_font(gui.get_node("suivez_nous"), hash("RU_20"))
+		gui.set_font(gui.get_node("evaluez_nous"), hash("RU_20"))
 	end
 	if config.game_language  == "ar" then
 		gui.set_font(gui.get_node("number_level"), hash("ARB_35_border"))
 		gui.set_font(gui.get_node("start"), hash("ARB_80_border"))
+		gui.set_font(gui.get_node("suivez_nous"), hash("ARB_25"))
+		gui.set_font(gui.get_node("evaluez_nous"), hash("ARB_25"))
 	end
 	if config.game_language  == "ja" then
 		gui.set_font(gui.get_node("number_level"), hash("JA_30_border"))
 		gui.set_font(gui.get_node("start"), hash("JA_80_border"))
+		gui.set_font(gui.get_node("suivez_nous"), hash("JA_20"))
+		gui.set_font(gui.get_node("evaluez_nous"), hash("JA_20"))
 	end
 	if config.game_language  == "zh" then
 		gui.set_font(gui.get_node("number_level"), hash("ZH_30_border"))
 		gui.set_font(gui.get_node("start"), hash("ZH_80_border"))
+		gui.set_font(gui.get_node("suivez_nous"), hash("ZH_20"))
+		gui.set_font(gui.get_node("evaluez_nous"), hash("ZH_20"))
 	end
 	if config.game_language  == "ko" then
 		gui.set_font(gui.get_node("number_level"), hash("KR_30_border"))
 		gui.set_font(gui.get_node("start"), hash("KR_80_border"))
+		gui.set_font(gui.get_node("suivez_nous"), hash("KR_25"))
+		gui.set_font(gui.get_node("evaluez_nous"), hash("KR_25"))
 	end
 	if config.game_language  == "vi" then
 		gui.set_font(gui.get_node("number_level"), hash("VI_30_border"))
 		gui.set_font(gui.get_node("start"), hash("VI_80_border"))
+		gui.set_font(gui.get_node("suivez_nous"), hash("VI_20"))
+		gui.set_font(gui.get_node("evaluez_nous"), hash("VI_20"))
 	end
 	msg.post("@render:", "clear_color", { color = vmath.vector4(0.949, 0.952, 0.956, 0) })
 	msg.post(".", "acquire_input_focus")
@@ -624,8 +645,7 @@ end
 
 function on_input(self, action_id, action)
 	if action_id == hash("touch") and action.pressed then
-		if gui.pick_node(gui.get_node(hash("start_level")), action.x, action.y) and self.initToggleStart then
-			self.initToggleStart = false
+		if gui.pick_node(gui.get_node(hash("start_level")), action.x, action.y) and currentLevel.platform.startWithLife then
 			useStartAndSound(self)
 			gui.animate(gui.get_node("start_level"), gui.PROP_SCALE, vmath.vector3(0.8), gui.EASING_INOUTQUAD, 0.2, 0, function(self, node)
 				timer.delay(0.2, false, function() 
@@ -636,6 +656,21 @@ function on_input(self, action_id, action)
 						msg.post("controller:/loader#controller", "changeScene", { newScene = "playLevel" })
 					end
 				end) 
+			end, gui.PLAYBACK_ONCE_PINGPONG)
+		end
+		if gui.pick_node(gui.get_node("star"), action.x, action.y) then
+			useStartAndSound(self)
+			gui.set_scale(gui.get_node("star"), vmath.vector3(1))
+			gui.animate(gui.get_node("star"), gui.PROP_SCALE, vmath.vector3(0.8), gui.EASING_INOUTQUAD, 0.2, 0, function(self, node) 
+				sys.open_url("market://details?id=com.unitedsquaresgames.ryoku")
+				--sys.open_url("https://play.google.com/store/apps/details?id=com.unitedsquaresgames.ryoku")
+			end, gui.PLAYBACK_ONCE_PINGPONG)
+		end
+		if gui.pick_node(gui.get_node("instagram"), action.x, action.y) then
+			useStartAndSound(self)
+			gui.set_scale(gui.get_node("instagram"), vmath.vector3(1))
+			gui.animate(gui.get_node("instagram"), gui.PROP_SCALE, vmath.vector3(0.8), gui.EASING_INOUTQUAD, 0.2, 0, function(self, node) 
+				sys.open_url("https://www.instagram.com/unitedsquaresgames/")
 			end, gui.PLAYBACK_ONCE_PINGPONG)
 		end
 	end

@@ -7,4 +7,8 @@ Thumbs.db
 *.pyc
 .project
 .cproject
+manifest.private.der
+manifest.private.der
+log.txt
 builtins
+/.editor_settings

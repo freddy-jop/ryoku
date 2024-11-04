@@ -60,7 +60,7 @@ end
 
 function init(self)
 	if not iap then
-		log("In-App Purchases not supported")
+		--log("In-App Purchases not supported")
 		return
 	end
 	msg.post(".", "acquire_input_focus")
